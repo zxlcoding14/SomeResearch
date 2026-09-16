@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="z0PsFDkMvoTI9TmmLhG7Dj">
+<head data-page-node-id="QZA1tRCRJ2PoepBPdVxNU4">
+<meta charset="UTF-8" data-page-node-id="P8EUFrq8IMViNnESizmbbc">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="r5vJZVP6ZkuGt7hfLfJ1l0">
+<title>开源输入法方案全景与选型指南</title>
+<style>
+  :root{
+    --bg:#FFFFFF; --bg2:#F7F7F5; --bg3:#F1EFE8; --line:#E5E4E0; --line2:#D3D1C7;
+    --t1:#1F1F1E; --t2:#5F5E5A; --t3:#8A8880;
+    --blue:#378ADD; --blue-bg:#E6F1FB; --blue-tx:#0C447C;
+    --coral:#D85A30; --coral-bg:#FAECE7; --coral-tx:#712B13;
+    --teal:#1D9E75; --teal-bg:#E1F5EE; --teal-tx:#085041;
+    --amber:#BA7517; --amber-bg:#FAEEDA; --amber-tx:#633806;
+    --red:#E24B4A; --red-bg:#FCEBEB; --red-tx:#791F1F;
+    --gray:#888780; --gray-bg:#F1EFE8; --gray-tx:#444441;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--t1);
+    font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:48px 32px 80px;}
+  header{border-bottom:1px solid var(--line); padding-bottom:28px; margin-bottom:40px;}
+  .kicker{font-size:13px; color:var(--t3); letter-spacing:.04em; margin:0 0 12px;}
+  h1{font-size:30px; font-weight:500; line-height:1.35; margin:0 0 14px; letter-spacing:-.01em;}
+  .lede{font-size:16px; color:var(--t2); margin:0; line-height:1.75;}
+  .meta{font-size:13px; color:var(--t3); margin-top:18px;}
+  h2{font-size:20px; font-weight:500; margin:52px 0 18px; padding-left:14px; border-left:3px solid var(--blue); line-height:1.4;}
+  h3{font-size:16px; font-weight:500; margin:32px 0 12px;}
+  h4{font-size:14px; font-weight:500; margin:22px 0 8px;}
+  p{margin:0 0 14px;}
+  ul,ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  strong{font-weight:500;}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:13px; background:var(--bg3); padding:1px 5px; border-radius:4px;}
+
+  .callout{background:var(--bg2); border-radius:12px; padding:18px 22px; margin:22px 0;}
+  .callout.blue{background:var(--blue-bg);}
+  .callout.coral{background:var(--coral-bg);}
+  .callout.amber{background:var(--amber-bg);}
+  .callout.teal{background:var(--teal-bg);}
+  .callout p:last-child{margin-bottom:0;}
+  .callout .tag{font-size:12px; font-weight:500; letter-spacing:.04em; display:block; margin-bottom:6px; opacity:.8;}
+
+  table{width:100%; border-collapse:collapse; margin:20px 0; font-size:13.5px;}
+  th{text-align:left; font-weight:500; font-size:13px; color:var(--t2); padding:10px 8px; border-bottom:1px solid var(--line2); vertical-align:bottom;}
+  td{padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.6;}
+  td:first-child{font-weight:500;}
+  tr:last-child td{border-bottom:none;}
+  .grp td{background:var(--bg2); font-weight:500; font-size:12.5px; color:var(--t2); padding:7px 8px;}
+
+  .rate{display:inline-block; font-size:12px; padding:2px 7px; border-radius:99px; white-space:nowrap; line-height:1.6;}
+  .r-lead{background:var(--teal-bg); color:var(--teal-tx);}
+  .r-ok{background:var(--blue-bg); color:var(--blue-tx);}
+  .r-mid{background:var(--amber-bg); color:var(--amber-tx);}
+  .r-weak{background:var(--red-bg); color:var(--red-tx);}
+  .r-none{background:var(--gray-bg); color:var(--gray-tx);}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:22px 0;}
+  .card{background:var(--bg2); border-radius:12px; padding:18px 20px;}
+  .card h4{margin:0 0 8px; font-size:14px;}
+  .card p{font-size:13.5px; color:var(--t2); margin:0; line-height:1.65;}
+
+  .layer{border:1px solid var(--line); border-radius:12px; padding:20px 22px; margin:16px 0;}
+  .layer .lhead{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:4px;}
+  .layer .lhead h3{margin:0; font-size:16px;}
+  .layer .lq{font-size:12.5px; color:var(--t3); margin:0 0 12px;}
+  .layer .who{font-size:13.5px; color:var(--t2); margin:0 0 8px;}
+  .layer .who b{font-weight:500; color:var(--t1);}
+  .layer .insight{font-size:13.5px; margin:12px 0 0; padding-top:12px; border-top:1px dashed var(--line2);}
+  .layer .insight span{color:var(--coral-tx); font-weight:500;}
+
+  .pick{border-left:3px solid var(--coral); padding:2px 0 2px 18px; margin:24px 0;}
+  .pick h3{margin:0 0 6px; font-size:16px;}
+  .pick .who{font-size:13px; color:var(--t3); margin:0 0 8px;}
+  .pick p{font-size:13.5px; color:var(--t2); margin:0 0 6px; line-height:1.65;}
+  .pick p b{font-weight:500; color:var(--t1);}
+
+  footer{margin-top:64px; padding-top:24px; border-top:1px solid var(--line); font-size:13px; color:var(--t3);}
+  @media (max-width:680px){
+    .wrap{padding:32px 18px 60px;}
+    h1{font-size:23px;}
+    table{font-size:12px;}
+    th,td{padding:8px 4px;}
+    .rate{font-size:11px; padding:2px 5px;}
+  }
+</style>
+</head>
+<body data-page-node-id="nDWaXVM8BLVoBkyFjtE5a0">
+<div class="wrap" data-page-node-id="TM82DBSU5ta9Oi6gBM1oa7">
+
+<header data-page-node-id="by323a64cZ2tPuki1zucTF">
+  <p class="kicker" data-page-node-id="1rjmCe0HPSDhWbwXwM88jc">开源方案全景 · 产品经理视角</p>
+  <h1 data-page-node-id="HiQ4544BvyNIRs64cc0gfO">开源输入法方案全景与选型指南</h1>
+  <p class="lede" data-page-node-id="ceuRblUAEAdsi7cOxf1UsT">开源输入法不是一个产品，而是一条完整的分层生态：引擎、客户端、方案词库、本地语音、工具链。它的能力边界非常清晰——在隐私与可控上全面领先，在词库时效、生成改写、跨端同步上系统性缺位。这份文档按层拆解代表项目、给出选型建议，并指出三个最容易踩的坑。它是《输入法：从打字工具到 AI 意图入口》与《各家输入法差在哪》两份报告的对照篇——开源生态正好把商业输入法最少人选的那两个架构位置全部占满了。</p>
+  <p class="meta" data-page-node-id="1wwKhFLC8mSvs3NCFuHo6F">整理时间：2026 年 9 月 · 基于项目仓库、官方文档与第三方评测综合整理</p>
+</header>
+
+<h2 data-page-node-id="hLJMX2pRBCqmE8BPHX7rFH">摘要：五个判断</h2>
+<ol data-page-node-id="QOWFQ9GLoqDSUfaAyuzWC3">
+  <li data-page-node-id="GLkp3NVee3nMFHgSCiBsVy"><strong data-page-node-id="1ksnXYqV0ltkCeGd6ZUjda">RIME（中州韵）是引擎层的事实标准，但真正的活跃战场在方案层。</strong>librime 核心多年稳定（MIT 协议），社区竞争基本发生在雾凇、白霜、万象这些词库配置方案之间。<strong data-page-node-id="We2Ken5dfRhuY9U4ZH3MEV">选 Rime 实际上是选方案，不是选输入法。</strong></li>
+  <li data-page-node-id="xt207omY3YYXyNqQFQgKAV"><strong data-page-node-id="8UmcD4zYfFcyfEb5b4xl16">开源方案全部站在"端侧优先 + 拒绝上传"这一侧。</strong>对照商业侧四个分水岭，开源生态几乎一致地选了商业输入法里最少人选的两个位置——这不是巧合，而是它的存在理由。</li>
+  <li data-page-node-id="0C73T2ow9hL2YMS0lm9FL5"><strong data-page-node-id="4f1jUl4QgMraMU7Xqbf8hq">生成改写层在开源世界里也是空白。</strong>此前分析指出商业侧只有搜狗、讯飞、微信做了语言后处理层，而开源侧连一层都没人做——唯一触及上下文联想的是万象附带的开源语法模型。<strong data-page-node-id="jaQyLpwT5nwRQ1DVRJbSk9">这是两套生态共同留下的同一个缺口。</strong></li>
+  <li data-page-node-id="McysswINGI38VBYHoDjixz"><strong data-page-node-id="PrgB8SN3OAVGmo8amn6Uiw">"开源"这个词有三种不同含义，混用会导致选型错误：</strong>可审计（源码公开）、可修改（自行编译）、可协作（接受外部贡献）。VoiceInk 是典型——GPL v3 源码公开可审计，但明确不接受 Pull Request。</li>
+  <li data-page-node-id="Pel5M8NXzyccKQI2Zd54jl"><strong data-page-node-id="TeM027oMSO4Pno9xJ4Zt0a">开源不等于本地隐私。</strong>已有开源听写客户端默认把音频发往云端转录 API（FreeFlow 默认走 Groq），仅保留可改指向自建端点的配置项。<strong data-page-node-id="cnt3cYxw3xfhCbzYitM12i">判断隐私要看默认配置，不看许可证。</strong></li>
+</ol>
+
+<h2 data-page-node-id="j5Kt9fktFYPobXEkdpW6gH">一、五层生态结构</h2>
+
+<div class="layer" data-page-node-id="VXIAeujt4j1tdykMla7hti">
+  <div class="lhead" data-page-node-id="JvGXpJ1YsrAfhYutpdRYF2"><h3 data-page-node-id="LTRfI6f8FEDA0xdttI0N2M">1 · 引擎层</h3></div>
+  <p class="lq" data-page-node-id="p2Z2z05I002QwbOdBUMVli">决定"能不能把字打对"，一次写好可四端复用</p>
+  <p class="who" data-page-node-id="2EbmAlvNn9DoUBjnWwDzin"><b data-page-node-id="SiB5mrE9FlbhuLpH4WedpW">RIME（中州韵）是这个位置的事实标准。</b>由开发者佛振主导，核心是 C++ 编写的 librime 库，采用 MIT 协议（对商用最友好的选择之一）。它的定位是"算法框架"而非输入法本身——通过抽象输入法框架接口兼容不同协议，因此才有了后面一整套平台客户端。方案配置用 YAML 定义，核心文件是 <code data-page-node-id="kEKtquszYbnqB0zm1FmRJO">default.yaml</code>（方案列表）、<code data-page-node-id="bvEdRCyU1kxiEuYi2zNuAR">XXX.schema.yaml</code>（方案配置）、<code data-page-node-id="2uCNB21OAsVZFERj02dVW4">XXX.dict.yaml</code>（码表），支持热加载修改。</p>
+  <p class="who" data-page-node-id="zAK1NmVmCDmRwaUo7t52X7">同层还有 Fcitx5（Linux 主流框架，已被移植到 Android 与 macOS）、IBus（GNOME 系，ibus-rime 走极简前端路线，UI 全盘交给框架）、libpinyin（独立开源拼音引擎，配 ibus-libpinyin 使用）。</p>
+  <p class="insight" data-page-node-id="2wFJGDGzRETYwmLcZ2oQg8"><span data-page-node-id="Kx97dLQZ8WTlwzeFIenole">对 PM 的意义：</span>引擎层的选择空间其实很小——Rime 之外的选项要么绑定 Linux 生态，要么能力明显更弱。<strong data-page-node-id="VFuTa8Q4yIERWHoY2icXUl">真正要做决策的是客户端和方案两层。</strong></p>
+</div>
+
+<div class="layer" data-page-node-id="48GXF7YuGnGBbJj7zMi6rc">
+  <div class="lhead" data-page-node-id="tNMheHYZCTweYbyNAU4dp8"><h3 data-page-node-id="oJuoKuXYbK3XJjGyJ3kDCQ">2 · 客户端层</h3></div>
+  <p class="lq" data-page-node-id="lKSR3rdnYhsNiWCFBZRs9N">每个平台一个壳，决定安装与使用体验</p>
+  <p class="who" data-page-node-id="pS3BXQ3Ao1VVs9VG65BuV9">详见下方速查表。需要特别注意的是 <b data-page-node-id="CWrSD1qPsQjfKVCzIcPRV9">iOS 是结构性瓶颈</b>：App Extension 双进程模型对内存、联网、UI 全面设限，GPL 协议与 App Store 的兼容性也有争议，因此 iOS 端实现要么需自行编译（iRime，官方标注为不稳定），要么在方案导入上妥协（仓输入法需通过 Wi-Fi 上传导入配置）。</p>
+  <p class="insight" data-page-node-id="j2boAT1Bs3HGBYDD7KLjbZ"><span data-page-node-id="qDCIx2ly8olIzC6Gxnbxux">对 PM 的意义：</span>如果产品目标是移动端，<strong data-page-node-id="uB3r28eEDQIV8ZBnhS1i6S">开源路线的成本会显著高于桌面端</strong>；反之若目标是 Windows 或 macOS 的非沙盒场景，开源是自由度最高的选择。</p>
+</div>
+
+<div class="layer" data-page-node-id="hAbVZnQJdN4wjCbGIZaUeD">
+  <div class="lhead" data-page-node-id="Bn0vY3d11mVJ8hqz8nc3vk"><h3 data-page-node-id="nNAD8eJnlaAIzNZyNxpydP">3 · 方案与词库层</h3></div>
+  <p class="lq" data-page-node-id="VU2vSBoAG14pxiDx5Im2Cq">决定"打字爽不爽"，也是社区最活跃的地方</p>
+  <p class="who" data-page-node-id="Hq9ec8efaX6IIS8SwBog3Z"><b data-page-node-id="FHzD5v4HIrxJoJ2OPs0gkA">这是开源生态真正在卷的一层。</b>主流方案见下方对比表，分为三类打法：一是维护周期长、功能覆盖全的配置集（雾凇拼音）；二是重统词频、追求"接近商业输入法体验"的词库（白霜拼音）；三是靠开源语法模型提升长句联想的（万象拼音）。此外还有大量面向形码、音形码、方言、专业词库、非汉语文字的方案，awesome-rime 是收录这些方案的社区清单。</p>
+  <p class="insight" data-page-node-id="J0X4AWxBuP1kDNc7sGS2ee"><span data-page-node-id="sbApp1zgljlzsv5aElQB1Z">对 PM 的意义：</span>方案层的丰富度说明一件事——<strong data-page-node-id="sfT6xFI18i9C57GtnNpxm8">用户对"输入方案"的需求是被商业输入法系统性压平了的</strong>。五笔、双拼、音形码、方言拼音这些真实存在的需求，商业侧只覆盖头部几种，长尾需求只能由开源承接。</p>
+</div>
+
+<div class="layer" data-page-node-id="mOqVOJYVgwIhERGP2CBNCF">
+  <div class="lhead" data-page-node-id="RNZtYBpuNcVJtGvpJ2XuuD"><h3 data-page-node-id="uThZjWfIHtQC2lKsgUxcTt">4 · 语音与本地 AI 层</h3></div>
+  <p class="lq" data-page-node-id="YmEOveJdGBEfSS4rIPVOgh">离线说，不上传——开源相对于云端服务的核心优势</p>
+  <p class="who" data-page-node-id="EpMwsDgV7CA9Zx8TusMeEs">分为引擎与成品应用两档。<b data-page-node-id="aBEBV6vMRS2uEVjRw2JY7d">引擎档</b>包括 openai/whisper（MIT，约 10 万 star 量级的参考实现）、whisper.cpp（C/C++ 高性能移植，支持 Metal、CUDA、AVX，甚至可编译到 WebAssembly，已是绝大多数开源听写应用的地基）、faster-whisper（基于 CTranslate2 的重实现，项目自述同精度下快约 4 倍且内存更低）、以及 sherpa-onnx、Vosk、FunASR 等。<b data-page-node-id="zFudyzuMASxszD3Z3ofIAX">成品档</b>包括跨平台的 Handy、macOS 的 VoiceInk、Android 的 Private Dictation / OpenWhispr 等。</p>
+  <p class="insight" data-page-node-id="2hpXHqUhR760XxiCo9lIvk"><span data-page-node-id="B6Cyf0kUaQBUlHmYIZaasy">对 PM 的意义：</span>这一层是开源生态里唯一具备"完整可用产品形态"的 AI 能力。若产品需要语音输入且不能承受云端成本或合规风险，<strong data-page-node-id="p3n33gbJdWhoJZ1cjGQ5r1">这条路已经走通了，不必自研。</strong></p>
+</div>
+
+<div class="layer" data-page-node-id="WtSmNEOUZ9IG4hSBpQjXZc">
+  <div class="lhead" data-page-node-id="N2HxtZiBRKEKBYGOGwdU0H"><h3 data-page-node-id="9lW8nUwVNQK2BM6jk9w3E3">5 · 工具与数据层</h3></div>
+  <p class="lq" data-page-node-id="pKGG63jjBCA7l8xKjYqagF">决定迁移成本与长期维护成本</p>
+  <p class="who" data-page-node-id="EVLlESFH5So1tzCuPSuhs1">东风破 Plum（Rime 的方案与配置管理脚本，跨平台安装更新方案）、深蓝词库转换（把搜狗等商业输入法的词库转成 Rime 格式，是从商业侧迁移的关键工具）、OpenCC（繁简与字形转换）、SCU（鼠须管图形化配置工具）、鼠须管绘板（基于 SwiftUI 重做的外观配置工具，v2.0 于 2025 年 10 月发布）。另外还有把 Rime 词库导出到 Gboard 方向的社区小工具。</p>
+  <p class="insight" data-page-node-id="0ym2p19IrMKyLto89nZ78y"><span data-page-node-id="tjsJSY3Jlxvrh46RKn1A2I">对 PM 的意义：</span>工具链的完整程度决定了一个生态能不能承接"从商业品迁移过来的用户"。<strong data-page-node-id="wNT8FnqKddFjZpmDpjzBTb">开源生态在这点上意外地健全——用户词和习惯可以带走。</strong></p>
+</div>
+
+<h2 data-page-node-id="OGlInCLEF2RVYLw08CkzRc">二、客户端层速查表</h2>
+
+<table data-page-node-id="QmsIz3CqPFYpQQKPDkR8n3">
+  <colgroup data-page-node-id="1jFhbHsdZIWntQBGpeQVPM"><col style="width:14%" data-page-node-id="pL2YrTSXnC6EKG8l4SDXTv"><col style="width:30%" data-page-node-id="A05Bqq3sz3JnOb43gPuJCq"><col style="width:56%" data-page-node-id="UAadZP2ItVtaVHTcED5D7e"></colgroup>
+  <thead data-page-node-id="j904X3IlhVZouST81EMPmJ">
+    <tr data-page-node-id="4QFn4vg2f7UsifkLNpYq8K"><th data-page-node-id="fpK74UGF2NhhoScHqqQoAZ">平台</th><th data-page-node-id="hC5ufSzBKvFLZ1gQ3bqKa2">推荐客户端</th><th data-page-node-id="FUwrbDRavc3KlVHAWRzyYu">说明</th></tr>
+  </thead>
+  <tbody data-page-node-id="DEqrTjNZNbW2Sgb3Yiim8t">
+    <tr data-page-node-id="JLvmXKXdhsalVANpkZTXjv"><td data-page-node-id="KO2RfHTo6W8MtsjLOCsRTA">Windows</td><td data-page-node-id="THJzyJk1jv9ce1D7FQZOph">小狼毫 Weasel</td><td data-page-node-id="SRMm1yNc1VL6SLNGA7bpqh">RIME 官方 Windows 客户端。安装包体积很小（历史版本约 6MB 量级），另有启程输入法（开源、主打形码，支持五笔／郑码／仓颉等）以及多款近年出现的纯净型五笔实现可作备选。</td></tr>
+    <tr data-page-node-id="4oIq4fjXcBvOmQGtfVFfmd"><td data-page-node-id="NwisHLTtpAdednsyVDoph1">macOS</td><td data-page-node-id="zI2GZMxPnQ0jVcIJjE13Uc">鼠须管 Squirrel</td><td data-page-node-id="qstDmIGJ3P4FjRDpIic5Gr">RIME 官方 macOS 客户端。2025 年 10 月配套图形配置工具"鼠须管绘板"发布 v2.0，基于 SwiftUI 从底层重做。另有 XIME、fcitx5-macos 等第三方实现。</td></tr>
+    <tr data-page-node-id="la0ZM1bCgSWdXcJXCFdfkh"><td data-page-node-id="rvae8QdLmVnO1TcdJs713t">Linux</td><td data-page-node-id="Pbn0ALyQJ3KHgjrQELvN7c">fcitx5-rime / ibus-rime</td><td data-page-node-id="VpRK33qjVnjyc4tcnuqjK3">RIME 官方 Linux 集成。选 Fcitx5 还是 IBus 取决于桌面环境——Fcitx5 对 Wayland 支持更好、更现代；ibus-rime 走极简路线，候选 UI 全盘交给 IBus。</td></tr>
+    <tr data-page-node-id="WQepsDQSX5KkvP9qGRwkLD"><td data-page-node-id="Z5GGQf3Ty4FYHICZ78rzbP">Android</td><td data-page-node-id="Q1YawtCpWZFtZFaUbdS2AC">同文输入法 Trime</td><td data-page-node-id="MkLCCKiEZ4HhWmxKhSdce0">RIME 最完整的 Android 实现，内置 librime，支持完整 Rime 配置与词库。另有 fcitx5-android（需同时装基础应用与 RIME 插件两个组件）、语燕／雨燕输入法（基于 Rime 但做了小白化封装，内置方案与词库，只申请剪贴板、传感器、音量、振动等必要权限，完全离线）。</td></tr>
+    <tr data-page-node-id="rAr9wWxUI90N59XBCUaKvO"><td data-page-node-id="mIzVDzwkaQHUgh7Gu0fda5">iOS</td><td data-page-node-id="kbd1u9lEyu5zATvI6CPonW">仓输入法</td><td data-page-node-id="uZX23sju7wCxfskSQQGfSH">RIME 生态推荐的 iOS 实现，开源免费。方案导入需借助 Wi-Fi 上传方式。另有 iRime（付费，GPL，需手动编译安装，官方标注状态为不稳定／实验性）。</td></tr>
+    <tr data-page-node-id="pbOlpoQLfNw9Cfd1divs7n"><td data-page-node-id="KcoDen1EDbWP3IRxTwFsn2">Web</td><td data-page-node-id="AtykAUJQ6gJB0t4dDvEsqK">My RIME</td><td data-page-node-id="4vSXcdw0c37NuIwkMGvAOK">把 librime 编译到 WebAssembly／JavaScript，在浏览器里实现开源中文输入，无需安装本地软件。</td></tr>
+  </tbody>
+</table>
+
+<div class="callout blue" data-page-node-id="JgAwhQ8Jif8N3MHmL2aJKc">
+  <span class="tag" data-page-node-id="7GhjF2qdA23YigOVDvlUAE">一个容易被忽略的架构点</span>
+  <p data-page-node-id="SE5WrU31Te5fCpPIlISjqj">Rime 生态的跨平台一致性来自"引擎一次写好、四端复用"这个设计。商业输入法也是同样思路（一套引擎核心 + 四端平台壳），区别只在开源侧的引擎与壳分别由社区维护。<strong data-page-node-id="u3g6EpliYxmxtGzSct4Ie3">这解释了为什么 Rime 用户的配置可以跨平台带走——配置属于引擎层，不属于客户端。</strong></p>
+</div>
+
+<h2 data-page-node-id="u9UchE6I9v2meGBYiChuuP">三、主流 Rime 拼音方案对比</h2>
+
+<p data-page-node-id="nfAVtvbJEO9bcMfGeHYAyV">这是选型时最需要做决策的一张表。社区评测的共识是：<strong data-page-node-id="tRbomGkMLu1PUNRJ0oWaA3">白霜的词频统计质量最好、最接近商业输入法体验；雾凇的配置完整度与人气最高、开箱即用；万象胜在语法模型带来的长句联想；薄荷胜在简单。</strong></p>
+
+<table data-page-node-id="GqP7HD1mvVi9oALLnAgVCp">
+  <colgroup data-page-node-id="9denfmC6VCsTTFxx4uNPcz"><col style="width:16%" data-page-node-id="0Nu5S0VJvUqCuVR6otIQiU"><col style="width:26%" data-page-node-id="lEkTP3u8bJjQG0ANCrmXb3"><col style="width:29%" data-page-node-id="NZqbIj97RphLbGyWOiakpp"><col style="width:29%" data-page-node-id="PcG0UcW7pfwbNIEto9XYKq"></colgroup>
+  <thead data-page-node-id="i6DRFMqLEuzo2S2tJTbbDP">
+    <tr data-page-node-id="A8hoTIQ3kiwkrbDTpfePw2"><th data-page-node-id="Np6hVWwReIpY6JuDVohg0U">方案</th><th data-page-node-id="zXtpilSSWtX4ZAc4dbzpwx">定位</th><th data-page-node-id="yoGzyjeDCc4qa0F8MddX7k">优势</th><th data-page-node-id="RA8iDdPs4DjCWXoWwoB0H7">代价</th></tr>
+  </thead>
+  <tbody data-page-node-id="OAEUKphIPyAphkqJ8CWRUR">
+    <tr data-page-node-id="1crzHI6sT81GeIAXDWwi2E">
+      <td data-page-node-id="Hms8Rwd3fVscLsuFLKAs2O">雾凇拼音<br data-page-node-id="39i1TxAlsHq5ypHf2Z2DNq"><code data-page-node-id="ZllhXZAGU1jWyf2cabSNWT">rime-ice</code></td>
+      <td data-page-node-id="SXhhFh7iraSMVFcAcdbvFO">长期维护的简体配置集，社区人气最高</td>
+      <td data-page-node-id="H55j6v1dqTBHRLwrzTGBiz">配置齐全、功能全面，自带日期／时间、拆字、Emoji 等；文档完善、上手门槛最低，已进入部分发行版的软件仓库</td>
+      <td data-page-node-id="WBMIZgTVGxezf8695oBBJt">词库偏旧、词频不如白霜新；功能多导致配置项较杂</td>
+    </tr>
+    <tr data-page-node-id="vXSezb8VGsf1hGsm5UA426">
+      <td data-page-node-id="HJvHOkCxlFEhfi4E4oCFjC">白霜拼音<br data-page-node-id="bvmCBFVLX05dw2y9IqWoST"><code data-page-node-id="qGsHZ7sHOQcWDhkUMMspiT">rime-frost</code></td>
+      <td data-page-node-id="1Iu682Ze1LHhPadkqxpFfv">基于高质量语料重统词频</td>
+      <td data-page-node-id="ZTg0UajcR6YUrrmeJ212pu">词频准确、长词精准度好，被普遍认为最接近商业输入法的候选体验</td>
+      <td data-page-node-id="hOjppIQO8LhOSDV5DAY3Y0">需手动安装，新手配置有一定门槛；本质是本地词频统计，不会实时学习网络热词</td>
+    </tr>
+    <tr data-page-node-id="chctSC4be5v36zOZN7lveO">
+      <td data-page-node-id="XlCjfuFcGpdHYpyjl1vsjW">万象拼音<br data-page-node-id="Ld5lq4PA2RyfO5QzDVc2nE"><code data-page-node-id="tGVwpQeHfH8LACBUbygxUM">rime_wanxiang</code></td>
+      <td data-page-node-id="4AQW4N7jPjAmnE5onfw3Vj">自带开源语法模型（rime-lmdg）</td>
+      <td data-page-node-id="J6LqGcLJwGzEGyYBKYKFPx">长句联想与上下文建议明显更强，可在雾凇基础上叠加使用</td>
+      <td data-page-node-id="Yqr0X1LibxQCwXw2jcGJev">拼音模式容易误触——有用户实测后因此回到雾凇；语法模型文件需单独下载</td>
+    </tr>
+    <tr data-page-node-id="JvCDVgT6RZlXGRwXxJlpM6">
+      <td data-page-node-id="p04vkwFxSmHZAYzFr6fvsg">薄荷拼音<br data-page-node-id="sg6eoMuKbP28NVzsZlP7LG"><code data-page-node-id="HkXUydABH3E3a1Gc687HY2">oh-my-rime</code></td>
+      <td data-page-node-id="g46xc4IeZyE4v3M6w8vDAi">配置简洁、易上手</td>
+      <td data-page-node-id="tK4ToZ7JF3ClO4MK4O8uY8">结构清楚，适合只想安静打字、不想深究 Rime 结构的用户</td>
+      <td data-page-node-id="o82F9psduAOhyp9tc2CGr8">词库覆盖不如白霜与雾凇</td>
+    </tr>
+    <tr data-page-node-id="CURrufdwWICj1y8iwoaG72">
+      <td data-page-node-id="UWTfM4utF19ExAOyCsLBls">音形与形码方案</td>
+      <td data-page-node-id="mYgZVNvApJDDw8te4Nmi2Q">墨奇音形、自然码辅助、各式五笔／郑码／仓颉</td>
+      <td data-page-node-id="XaWdjuWeoBB5rEuPClIofe">重码率低、适合高频输入者；长尾需求只有开源能覆盖</td>
+      <td data-page-node-id="tUbgZczEe6P4goh6EmhCiA">学习成本高，受众窄，部分方案维护者活跃度参差</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout amber" data-page-node-id="XmKiUV46RcLJaTB504uYnt">
+  <span class="tag" data-page-node-id="xai934DH2p2VN0cVLxijpU">选型提醒</span>
+  <p data-page-node-id="0I9htT7SSqXNPkOOHjKP0E">方案可以在部署后用 <code data-page-node-id="nYkCLPrlKzgXzgM2Jy0VCk">patch</code> 方式切换或叠加（例如把万象的语法模型挂到雾凇上），不必二选一。但如果目标是"装完就不折腾"，<strong data-page-node-id="pQEDqZNYdLPFq3TjStkzWj">直接选人气最高、文档最全的那个，而不是参数最好的那个</strong>——开源方案的实际体验差距，远小于维护活跃度的差距。</p>
+</div>
+
+<h2 data-page-node-id="pFujZ5nI19Z7p9QsiM5AEB">四、开源本地语音输入方案</h2>
+
+<table data-page-node-id="T96NdaB5iuEEvSHA8wN4pK">
+  <colgroup data-page-node-id="2uAXMHZ8K1DTytYfHgKAKx"><col style="width:20%" data-page-node-id="JZWtc48H0DLc4tbmnv52ml"><col style="width:12%" data-page-node-id="bbOW26xCGeMJs65cXGFbQK"><col style="width:20%" data-page-node-id="MkEXRbp4F6zkNNluff6Bu9"><col style="width:48%" data-page-node-id="txnBQKgQijYYw8DrnlInHo"></colgroup>
+  <thead data-page-node-id="7Dl2lkPFdEsj6BUFswULC2">
+    <tr data-page-node-id="J0VY8m6Oc5vjTSTdVMGtu1"><th data-page-node-id="Q9392UF1LO1lA8FLo9CNgq">项目</th><th data-page-node-id="b4oGgYGW6vFnMJgSDA27io">类型</th><th data-page-node-id="BtHEMODTqLNpHYfnhyBhxq">平台</th><th data-page-node-id="RiFiFSaBL5DiHQesY0N0tp">说明</th></tr>
+  </thead>
+  <tbody data-page-node-id="RLcIOCEHQPpT2dGlU7iUtR">
+    <tr class="grp" data-page-node-id="PfV183FpwohHJidusem8Ns"><td colspan="4" data-page-node-id="qzrprJtRxZRW6c8XPEGaAh">引擎（需自行接线，不是成品）</td></tr>
+    <tr data-page-node-id="3T37pYZUYyxgzl7nWfC5cQ"><td data-page-node-id="mlZnj1N46lVsw0wBbQukBc">whisper</td><td data-page-node-id="Nz4LfnQlTPDFhPAObP5fDx">引擎</td><td data-page-node-id="IxPYWeD6tuSI32MK9DGG0u">全平台（Python）</td><td data-page-node-id="yh6OJ8C7HH2doaLYg0EOwt">参考实现，只有模型和推理，无界面、无快捷键、无文本注入。</td></tr>
+    <tr data-page-node-id="hk7Yn9PDOtHpENpRLaQljX"><td data-page-node-id="TD2JFz5eDacmIA4PPo8xPF">whisper.cpp</td><td data-page-node-id="QrzVe1XC689aq6LCLUDrFe">引擎</td><td data-page-node-id="RYiqvbYTIQk5kxV5NTZlo9">macOS／Linux／Windows／iOS／Android／WASM</td><td data-page-node-id="39ser8FWayrVfs4EtkDBeH">C/C++ 高性能移植，绝大多数开源听写应用的实际地基。支持 Metal、CUDA、AVX 加速；缺点是只有命令行，无 GUI、无全局热键。</td></tr>
+    <tr data-page-node-id="yDrdNJSmTnGVzcXIaewiJc"><td data-page-node-id="kipsCoBEgNRt6M7I2HFeu4">faster-whisper</td><td data-page-node-id="NPEX4EkzcG7Pvk1E8sHmw7">引擎</td><td data-page-node-id="xV8mgdydRDQGEfPVyYvc5y">Python（CTranslate2）</td><td data-page-node-id="m8Mpc9utqeQHT7KASuwj7w">项目自述同精度下快约 4 倍、内存占用更低。</td></tr>
+    <tr data-page-node-id="UJOHns4sgUu7kdZBtSiM2w"><td data-page-node-id="GIpJXZWkopu5lgoqnlQndb">sherpa-onnx ／ Vosk ／ FunASR</td><td data-page-node-id="lbswjM5E43mhcBucCThTN5">引擎</td><td data-page-node-id="ifrJe8rGuyCOeRcWC3vJtA">多平台</td><td data-page-node-id="C6ubgvdFj2RW9iXYg3embi">另外几个可选的本地语音识别栈，常被用于嵌入式与端侧场景。</td></tr>
+    <tr class="grp" data-page-node-id="SXkzLIhkydNoCrZV2WYVBZ"><td colspan="4" data-page-node-id="8SQ045lnjxhAnjDREIumOF">成品应用（装完即用）</td></tr>
+    <tr data-page-node-id="qaJo92iZWS2y6ujrTnPawl"><td data-page-node-id="bppK8S3On6VSD8Io2rcfqG">Handy</td><td data-page-node-id="R9n5fXegAkTGPs99NzcSsV">成品</td><td data-page-node-id="OeMvSoKKVJfcToWittDA6y">Windows／macOS／Linux</td><td data-page-node-id="gvR6qFBDRfjL9jJpMjZMFW">MIT 协议，Rust + Tauri 构建，完全本地无云端调用。支持 Whisper 系列 GGML/GGUF 模型与 NVIDIA Parakeet V3，并用 Silero 做静音裁剪。接受社区贡献，是跨平台首选。</td></tr>
+    <tr data-page-node-id="65DGK8C7VOOASnpCXUSQrL"><td data-page-node-id="uWyvZpyQkVRh8d3lPXDALq">VoiceInk</td><td data-page-node-id="yhhzhwet9c8jHeJCfV9cl1">成品</td><td data-page-node-id="wUY4QQZcATBPTXCKzvL9zZ">macOS（Apple Silicon）</td><td data-page-node-id="jQDxtSfq99T1FkBIOqluVy">GPL v3，Swift + whisper.cpp，本地转录可离线验证。<b data-page-node-id="UFYhPxGALUCIFwX2e0QPum">注意其许可模式：源码免费但要自行编译，预编译版本一次性收费（$29 起）；且明确不接受 Pull Request</b>——可审计、可自用修改，但不是协作项目。</td></tr>
+    <tr data-page-node-id="2GimooMRbuGGFLXWu1HeDJ"><td data-page-node-id="7e7rLuyPXhAftAaGoiSRX2">Private Dictation</td><td data-page-node-id="cEp4scsIHoerNhF6BE37xb">成品</td><td data-page-node-id="4lduDUZ4GcfUZYpH2PM5kP">Android</td><td data-page-node-id="SfUUhe16CC70jAmn9HbypO">用 TensorFlow Lite 在设备端跑量化 Whisper，支持 25 种以上语言，无需联网与账号，适合移动端隐私需求。</td></tr>
+    <tr data-page-node-id="6uk4a2ObN0SdpNXaDNsQtP"><td data-page-node-id="zTyHiJ1YCEdUUbHerZmEs8">FreeFlow</td><td data-page-node-id="yJ7pR2qsapzUYONIZEySB4">成品</td><td data-page-node-id="EHA07vF08baLZ6fJ7ZFrrY">macOS</td><td data-page-node-id="0q6WoasHy6eTwPySKfXCFm"><b data-page-node-id="NzYcaiSuXp9sji7pxgEC12">开源但默认走云端</b>：默认路径调用 Groq 的转录 API，需要自备 API Key；可改为指向自建端点，但那是主动改配置、不是默认行为。它是"开源 ≠ 本地"最清楚的样本。</td></tr>
+  </tbody>
+</table>
+
+<h2 data-page-node-id="cD5BDHXcMKoZuP2oGRltu0">五、六项能力边界：开源 vs 商业</h2>
+
+<table data-page-node-id="ZnlW4soDsX1czNwipTGj2F">
+  <colgroup data-page-node-id="dmjJNEvRPO7sOsWhPN6kfj"><col style="width:15%" data-page-node-id="WM6mGRiM4eQFjDyd5SJ1iB"><col style="width:42%" data-page-node-id="H1PaKaAlXKnazDC2awJOfA"><col style="width:43%" data-page-node-id="EDEhdCZt0ioffdI0QYH2es"></colgroup>
+  <thead data-page-node-id="uc78bQeHaZ2DEqzCjChH3V">
+    <tr data-page-node-id="gW1F2kGSEjUuU9H9VutFA7"><th data-page-node-id="fa4PyA3YD47RrxiSCQ4lhB">能力维度</th><th data-page-node-id="DcgoJfHHBuzd0xSIWHDsE1">商业输入法</th><th data-page-node-id="H3NlG4vzl6s5eLYnsUrymJ">开源方案</th></tr>
+  </thead>
+  <tbody data-page-node-id="5uILbB4gpsxsGCUtsCxEz5">
+    <tr data-page-node-id="NJ0dGyfCasee2zmNF0D2Dt"><td data-page-node-id="OuHikX9oYr8M4WFDzATwe9">热词时效</td><td data-page-node-id="sepiKZgvEWGmNOMrHZgtSl">云端词库天级更新，新剧名、新梗第二天能打出来</td><td data-page-node-id="FBqCtaojs6CCANmzhAvOA7">依赖方案维护者手工重统，节奏按周至按月，滞后明显</td></tr>
+    <tr data-page-node-id="EjeEUGECSgoLE8FyX0AtDO"><td data-page-node-id="hDHaiAbRj8psfVyGuGPtTy">生成改写</td><td data-page-node-id="WCt3FDwAtjWTLUoho8cFZZ">帮写、润色、翻译、问答已是标配</td><td data-page-node-id="HGzaP9eB3Rk8a92BaZrezs">整体空白，仅万象语法模型触及上下文联想</td></tr>
+    <tr data-page-node-id="tBrf6sjhKvSjqvqIIR9TCP"><td data-page-node-id="7sBtCnL0HqGvJB7XWxmFSv">跨端同步</td><td data-page-node-id="9dT110WQpIETA2PniOVfF2">登录账号即同步</td><td data-page-node-id="qB4pXZaDejPNRqJyMmBraX">无账号体系，需自建同步方案或手动导入</td></tr>
+    <tr data-page-node-id="o1LtayaTZg1EFwmko1nZNO"><td data-page-node-id="g4x5yRwgDlXCnDMgM1GftG">iOS 体验</td><td data-page-node-id="jaXGzul8BtwPmrLJgAHn2O">原生适配、功能完整</td><td data-page-node-id="KPCSkIZp88JyUS6tWBekWo">结构性受限，方案导入依赖 Wi-Fi，iRime 需自行编译</td></tr>
+    <tr data-page-node-id="KipKCz4aTcSFLJsnG65XmQ"><td data-page-node-id="fgcBqK3U4hdiq2G1wJt1KE">上手成本</td><td data-page-node-id="duLaNHkhJIHPmqxI2RqKi4">装完即用</td><td data-page-node-id="Wln7yV3iLfXDAqfxb9LE3d">YAML 配置门槛；系统大版本每次改动都可能需重新适配</td></tr>
+    <tr data-page-node-id="q7bgxyW10HqVBdO3fiM0Jo"><td data-page-node-id="EG3SLodWedttXBTWBlParz">隐私可控</td><td data-page-node-id="1tD2tRlTxKcMW2VIUrxBSc">云优先为主</td><td data-page-node-id="yHHo3qc2kfSxguULDcErY1"><strong data-page-node-id="v0SPOArrUOmaoyT90iPJKx">本地处理、不上传、代码可审计——唯一全面领先的一项</strong></td></tr>
+  </tbody>
+</table>
+
+<div class="callout coral" data-page-node-id="a8pUYEAkQVe0At3A180qPt">
+  <span class="tag" data-page-node-id="Uih2ANibqfaUBaSZ2lXbZX">两个生态共同留下的同一个缺口</span>
+  <p data-page-node-id="bfhqKUBVc1dz5cTmGvYocv">此前分析商业侧时指出：语言后处理层（把口语变成能直接发出去的书面语）是全行业投入最少的环节，只有搜狗、讯飞、微信输入法做了。而在开源侧，<strong data-page-node-id="Ib0TGPyCPTVd6U9SKQ7EMX">这一层连一个实现都没有</strong>——所有开源方案都停在"把字打对"，没有任何方案内置口语转书面语、自动标点断句或冗余表达清除。</p>
+  <p data-page-node-id="lpPH24jldxoEi11HlMqGKA">这构成一个有意思的结论：<strong data-page-node-id="tHaUyum4O8o6KTZdo1MEWR">两套生态在完全不同的约束下，走到了同一个空缺位置。</strong>商业侧的缺位来自变现压力（生成类功能更利于讲故事），开源侧的缺位来自无人维护（这类能力需要持续投入语料与调优，不适合志愿协作模式）。<strong data-page-node-id="17wzUge4ro8PWUeFgrgh4h">这恰好是"离线可用 + 语言后处理"组合值得被认真立项的又一重证据。</strong></p>
+</div>
+
+<h2 data-page-node-id="RMTED1ziXGfTZZhNOYfshA">六、选型建议</h2>
+
+<div class="pick" data-page-node-id="1ctw2h9N2cx4VlwgitXKhL">
+  <h3 data-page-node-id="8ls0Y06b9JWQjyBdpOXF0a">只想安静打字、不想折腾</h3>
+  <p class="who" data-page-node-id="RySFkDSLZiaeqkScJC4I5r">关键词：低维护成本</p>
+  <p data-page-node-id="aCO5DF0eBWn35slJofqPvq"><b data-page-node-id="hh3SQDOzsB8C76HD5fCYuw">推荐：</b>桌面端装小狼毫／鼠须管 + 雾凇拼音；Android 用同文输入法或语燕输入法；iOS 用仓输入法。</p>
+  <p data-page-node-id="fIHAHSQHBPjRZ2vdsHCnrJ"><b data-page-node-id="RYaiB9DjDjiV0JDzAY5nys">理由：</b>雾凇人气与文档最全，出问题的概率最低；语燕已经把 Rime 的小白化封装做完了，适合不想碰 YAML 的人。</p>
+</div>
+
+<div class="pick" data-page-node-id="zGcw891QJBR3unpPDjsEij">
+  <h3 data-page-node-id="w0Ad03lhniEo1bbNjEnC7y">对候选质量要求高、愿意花一小时配置</h3>
+  <p class="who" data-page-node-id="o9OKJUxtU15L6jPotJGfqO">关键词：体验优先</p>
+  <p data-page-node-id="cYkD3qp8woOxfmQVqAIU4M"><b data-page-node-id="MgIBnGGUFbvjGj94mXMBpy">推荐：</b>白霜拼音打底，若需要更强的长句联想，再叠加万象的语法模型。</p>
+  <p data-page-node-id="1FOAwD4qHoQ68JvV2yiEbn"><b data-page-node-id="ZL9vkf8WvDnKJNU2cunumM">理由：</b>词频是决定"打得爽不爽"的第一变量，白霜在这一项上被普遍认为最接近商业输入法；语法模型只补联想、不动词库，叠加风险可控。</p>
+</div>
+
+<div class="pick" data-page-node-id="YiBfA9aqyPyRewWwi42SQX">
+  <h3 data-page-node-id="o3Rb1CquhTSHL8969vNuw1">企业或团队内需要隐私合规的可控输入方案</h3>
+  <p class="who" data-page-node-id="gBrBUDJOOX3n2LCFukYpwb">关键词：可审计、可自建</p>
+  <p data-page-node-id="CGmmFBBkPkrUkFMNc52nja"><b data-page-node-id="gwNhXl0KQ8Mqgo0uJofLBi">推荐：</b>Rime（librime，MIT）自建方案 + 自建词库同步；语音侧用 Handy 或直接接 whisper.cpp。</p>
+  <p data-page-node-id="9WntN0d4fxauZR27a9RW04"><b data-page-node-id="fnrCs5QdPjcfIMKBklDpqw">理由：</b>MIT 协议对商用最友好，且引擎可完全离线；语音侧是开源生态里唯一具备完整产品形态的 AI 能力，不必自研。但要接受两个前提：没有云端热词，跨端同步需自己搭。</p>
+</div>
+
+<div class="pick" data-page-node-id="lfhqo2fpiAcPFokXpFFSLZ">
+  <h3 data-page-node-id="09GzHmWh3juavRHTBC9tYH">想验证"语言后处理层"这个产品假设</h3>
+  <p class="who" data-page-node-id="aZUDHug3E2HOykkbHcCrFm">关键词：这正是缺口所在</p>
+  <p data-page-node-id="k6Pvb2oDmbOGU13OYOUGGn"><b data-page-node-id="NwgtshsmAn4QGnQLjiC2dQ">推荐：</b>以 whisper.cpp 或 FunASR 为识别底座，在其后串一个本地小模型做口语转书面语——开源生态目前没有任何现成实现，做出来就是这一层的第一个方案。</p>
+  <p data-page-node-id="XSQ9e4yvX2SX4sSxsuS5wD"><b data-page-node-id="jfJGe1PyV52KrLSNlVQSJt">理由：</b>这是在两套生态里都空缺、且用户感知极强的位置。技术路径清晰（识别与后处理解耦），验证成本低于重做输入法引擎。</p>
+</div>
+
+<h2 data-page-node-id="2PCOC8gF1vfz6q7QFcd04c">七、三个必须避开的坑</h2>
+
+<h3 data-page-node-id="ncgwVYkQuqFgErVVXUGvTu">坑一 · 把"开源"等同于"本地隐私"</h3>
+<p data-page-node-id="HbTyMHLHqakdg2905IIsmB">许可证不告诉你数据去了哪里。已有的对照很清楚：Handy 与 VoiceInk 是完全本地运行、离线可验证的；而 FreeFlow 同为开源，默认路径却把音频发往第三方转录 API，只是保留了改指向自建端点的配置项。<strong data-page-node-id="a8Fho2i2lA30D8eWIdBRk6">采用任何开源听写工具前，请从一手文档回答三个问题：首次运行时音频去哪里？要做什么改动才能留在设备内？如果涉及云端，密钥在谁手里？</strong></p>
+
+<h3 data-page-node-id="UkddWEdOPGKh3YL0YDfG8s">坑二 · 把"开源"当成一个统一概念</h3>
+<p data-page-node-id="BRI6kpbFVgcMIeD4AfBOHb">"开源"至少包含三种不同的能力，选型时混用会直接导致预期落空：</p>
+<ul data-page-node-id="FrZI5UhODKrmHuJYHAgNot">
+  <li data-page-node-id="OiQUqoIAUdoGH0OikHKAVU"><strong data-page-node-id="FUUP7aq8G81N5XsNGTyyBQ">可审计</strong>——源码公开，隐私承诺可被验证。这是多数人对开源的真实需求。</li>
+  <li data-page-node-id="rbK6QUuzFcHFbhp2UfEoif"><strong data-page-node-id="RjCWtJS5nDpr1uQlns4Cwa">可修改</strong>——可以自行编译、私有化改造。VoiceInk 与 Handy 都属于这一档（Handy 还额外提供免费预编译包）。</li>
+  <li data-page-node-id="cseV25Xg7FSBWCQbxtpRuG"><strong data-page-node-id="vrtUoC52LL2Yg7Umqy99YJ">可协作</strong>——接受外部贡献、由社区共同演进。这一档才是真正意义上的社区项目；VoiceInk 明确"不接受 Pull Request"，即属可审计可修改但不能协作。</li>
+</ul>
+<p data-page-node-id="EVXSF2GTjS7UqRvuctGxah"><strong data-page-node-id="L0L08DmbHp4PWcQguGZeIg">如果一个项目需要长期依赖，第三项才是最关键的——因为它决定了系统升级时有没有人帮你修。</strong></p>
+
+<h3 data-page-node-id="GQfoCADRMcpso59UMVvCjA">坑三 · 低估长期维护税</h3>
+<p data-page-node-id="DeWLRaS3AkKOPQG9a1DrTT">开源听写与输入方案的安装是"一个下午"的事，维持是"永久"的事。三类具体的税：编译与模型权重（本地语音模型需另行下载，从几十 MB 到数 GB 不等）；系统权限层（macOS 的麦克风与辅助功能授权绑定应用代码签名，改了签名就失效；Linux Wayland 下没有统一的文本注入路径，需要额外安装专用工具）；平台行为变更（每年系统大版本都会调整输入法与权限相关行为，需要持续跟进）。<strong data-page-node-id="TNCDDIRtZ7xDej5pn61BjJ">这也是为什么"人气高、更新活跃"应该优先于"参数最好"。</strong></p>
+
+<h2 data-page-node-id="0OJeYDRCsv5hLJf0gOQ09x">八、许可与维护状态说明</h2>
+
+<ul data-page-node-id="WvGs3nKNgEzzAHfMnMuCmF">
+  <li data-page-node-id="PPa20fdC6ahGytw11mED6s"><strong data-page-node-id="AMoeHMHvKTXeZNHDUJn7eK">RIME 生态</strong>：librime 核心采用 MIT 协议，由开发者佛振主导，各平台客户端由社区分别维护、版本号独立演进。核心库已迭代至 1.5.x 版本。</li>
+  <li data-page-node-id="f9MjFSqjb3QuJZU4e0hlG0"><strong data-page-node-id="vZOrpTYhXmnrgR5mGplgmD">星标数量仅作维护活跃度的参考，不作人气排名</strong>。同一项目在不同来源的星标数存在差异（读数时间不同），本报告均以量级方式表述。whisper.cpp 在 2026 年中的公开读数约在 5 万量级区间波动。</li>
+  <li data-page-node-id="maZeLE4giYBsldmwQLwP4V"><strong data-page-node-id="58pvL2BZNSLjv7CwyfoFtR">VoiceInk 的商业模式值得一提</strong>：GPL v3 源码免费、预编译版一次性收费。它的公开表述是"一次性授权买的是可直接运行的签名版本加更新与支持，而非使用权"——这是一种在开源与商业之间找到平衡的做法。</li>
+  <li data-page-node-id="cOr7ORlNIjiLv2n7g0RKKZ"><strong data-page-node-id="LEvWWIFs2xQY0udoFCAFTy">国产开源五笔／形码输入法（如启程输入法等）</strong>多以"纯净、免费、无广告"为共同主张，但"免费"与"开源"并不等价，个别项目的实际代码开放程度需逐个核实后再采信。</li>
+  <li data-page-node-id="8VU2tcgbrFK2XW5H4wOFZA"><strong data-page-node-id="7zABZF6qHSqwcpiwhmWxCF">本报告的方案对比结论综合了多份社区评测</strong>，评价维度（词频质量、长句联想、误触率）带有主观性，且各方案迭代较快，建议部署前先以实际打字样本自行验证。</li>
+</ul>
+
+<footer data-page-node-id="rTsVfuJGSQqfT4HkfqpjrV">
+  <p data-page-node-id="EXZLJwyAFEu3fLATOTfROE">配套阅读：《输入法：从打字工具到 AI 意图入口》（主报告）、《各家输入法到底差在哪：七个差异维度与六个 AI 落点层面》（深潜报告）。本文档聚焦开源生态，其中的分层模型与能力边界判断为分析框架，供内部评审使用。</p>
+  <p data-page-node-id="nJGXp7ahixCXDN4QRA6VHv">整理时间：2026 年 9 月 · 基于公开信息综合整理，未含非公开数据。</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="edQzD7oadHCN4jCirKrcw7">
+<head data-page-node-id="aOzMqT63bp6izCeNyVkT21">
+<meta charset="utf-8" data-page-node-id="OApBiE1Gx1FzQxphIbUQDH">
+<meta name="viewport" content="width=device-width, initial-scale=1" data-page-node-id="CTxbVSmA76uEtojPo8ZX3O">
+<title>AI 文件／图片改名赛道 · 竞品数据全景</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --panel:#ffffff; --ink:#111827; --ink2:#4b5563; --ink3:#8b93a1;
+    --line:#e5e7eb; --accent:#6d28d9; --accent2:#0ea5e9;
+    --red:#dc2626; --green:#059669; --amber:#d97706;
+    --shadow:0 1px 2px rgba(16,24,40,.05),0 8px 24px -12px rgba(16,24,40,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.72 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px}
+  header.hero{background:linear-gradient(135deg,#0f172a 0%,#4c1d95 55%,#0ea5e9 100%);color:#fff;border-radius:18px;padding:34px 34px 30px;box-shadow:var(--shadow)}
+  header.hero .kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.82;font-weight:600}
+  header.hero h1{margin:10px 0 8px;font-size:29px;line-height:1.32;font-weight:700}
+  header.hero .sub{opacity:.9;font-size:14.5px;max-width:820px}
+  header.hero .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:4px 12px;font-size:12.5px}
+  h2{font-size:21px;margin:46px 0 6px;padding-bottom:10px;border-bottom:2px solid var(--line)}
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:8px}
+  h3{font-size:16px;margin:28px 0 8px;color:#1f2937}
+  p{margin:10px 0;color:var(--ink2)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  @media(max-width:880px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+  .kpi .lbl{font-size:12px;color:var(--ink3);font-weight:600}
+  .kpi .val{font-size:24px;font-weight:700;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .kpi .foot{font-size:12.5px;color:var(--ink3)}
+  .val.red{color:var(--red)} .val.green{color:var(--green)} .val.amber{color:var(--amber)} .val.purple{color:var(--accent)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+  th,td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:#f9fafb;font-size:12px;letter-spacing:.02em;color:#374151;font-weight:700;text-transform:uppercase}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  tbody tr:hover{background:#fbfaff}
+  tr.hl{background:#faf5ff} tr.hl:hover{background:#f5f0ff}
+  tr.sub{background:#f8fafc} tr.sub td:first-child{font-style:italic;color:#64748b}
+  .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .t-red{background:#fee2e2;color:#991b1b}
+  .t-amber{background:#fef3c7;color:#92400e}
+  .t-green{background:#d1fae5;color:#065f46}
+  .t-gray{background:#f1f5f9;color:#475569}
+  .t-purple{background:#ede9fe;color:#5b21b6}
+  .t-blue{background:#e0f2fe;color:#075985}
+  .callout{border-left:4px solid var(--accent);background:#faf5ff;border-radius:0 12px 12px 0;padding:14px 18px;margin:16px 0}
+  .callout.warn{border-color:var(--red);background:#fef2f2}
+  .callout.ok{border-color:var(--green);background:#ecfdf5}
+  .callout.amber{border-color:var(--amber);background:#fffbeb}
+  .callout .t{font-weight:700;margin-bottom:4px;font-size:14.5px}
+  .callout p{margin:6px 0 0;color:#374151}
+  .bar-row{display:grid;grid-template-columns:250px 1fr 96px;gap:12px;align-items:center;margin:7px 0;font-size:13.5px}
+  .bar-track{background:#f1f5f9;border-radius:6px;height:20px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#a78bfa,#6d28d9)}
+  .bar-fill.us{background:linear-gradient(90deg,#fca5a5,#dc2626)}
+  .bar-fill.free{background:linear-gradient(90deg,#cbd5e1,#94a3b8)}
+  .bar-fill.down{background:linear-gradient(90deg,#fca5a5,#b91c1c)}
+  .bar-row .bval{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2);font-weight:600}
+  .layer{border-radius:14px;padding:16px 20px;margin:12px 0;border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow)}
+  .layer .lt{font-weight:700;font-size:15px;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .layer .lb{display:inline-flex;width:26px;height:26px;border-radius:8px;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+  .l1 .lb{background:#fee2e2;color:#991b1b}
+  .l2 .lb{background:#fef3c7;color:#92400e}
+  .l3 .lb{background:#e0f2fe;color:#075985}
+  .l4 .lb{background:#ede9fe;color:#5b21b6}
+  .layer ul{margin:6px 0 0;padding-left:20px}
+  .layer li{font-size:13.5px;color:var(--ink2);margin:5px 0}
+  .src{font-size:12.5px;color:var(--ink3);margin-top:8px}
+  footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  .matrix{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+  .quad{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .quad .qh{font-size:13px;font-weight:700;color:#374151;margin-bottom:8px}
+  .quad .qi{font-size:13px;color:var(--ink2);padding:4px 0;border-bottom:1px dashed #eef0f3}
+  .quad .qi:last-child{border-bottom:none}
+  .quad.risk{background:#fff7f7;border-color:#fecaca}
+  .quad.win{background:#f0fdf4;border-color:#bbf7d0}
+  ul.n{padding-left:22px}
+  ul.n li{margin:6px 0;color:var(--ink2)}
+</style>
+</head>
+<body data-page-node-id="EWR9cMmXLa8RTxsiraRvch">
+<div class="wrap" data-page-node-id="Ysn2OesVMHKSXOFAQPjI8v">
+
+<header class="hero" data-page-node-id="QWpCj8pBtTNYPwVtWxXPAR">
+  <div class="kicker" data-page-node-id="yxqDACJGDXKabWzVQX8kJ0">Competitive Landscape Data</div>
+  <h1 data-page-node-id="tMRqoEalbCcuewDhd5tAIm">AI 文件／图片改名赛道 · 竞品数据全景</h1>
+  <div class="sub" data-page-node-id="HiuuGoCATFekaiMWOC8lNE">以 RenameAI（renameai.online）为基准，横向拉取 13 个直接竞品 + 8 类替代方案的定价、额度、流量与规模证据，回答一个核心问题：这个赛道到底有多大、钱在哪里、谁在收得到钱。</div>
+  <div class="meta" data-page-node-id="YnERsijFinCW8k1GYgFyYx">
+    <span class="chip" data-page-node-id="KsDzVK6geG3YnLZDfa0zd6">数据截至 2026-09-15</span>
+    <span class="chip" data-page-node-id="hzKwDbQ5SV2HR6sN2BQ3Wz">流量：Similarweb 免费视图估算</span>
+    <span class="chip" data-page-node-id="9wgrvRZ3jtZd3BwwkJZObz">定价：竞品官网逐项核对</span>
+    <span class="chip" data-page-node-id="J3JpQUpBCkNBZPAJPWcB60">核心结论：品类需求在收缩</span>
+  </div>
+</header>
+
+<!-- 1 -->
+<h2 data-page-node-id="goapa6ljH16kh3oFCCx3he"><span class="num" data-page-node-id="HeCMVs8NLgd0oJphdBHhGd">01</span>先说结论：这是个小到需要重新评估的赛道</h2>
+
+<div class="grid g4" data-page-node-id="xUO2JaVQ9mxs8pZBLcfjMj">
+  <div class="kpi" data-page-node-id="Np8N1qrFEN7VyTqTH4u1rR"><div class="lbl" data-page-node-id="WBFsSCrpGLLwMmXqZnCYPS">品类头部用户数</div><div class="val amber" data-page-node-id="x2gJYHT9KcYGfZbSZRWPU0">6,100</div><div class="foot" data-page-node-id="Nw7SroUjBAHwIU0zDTHdJO">renamer.ai 官方宣称（全品类最高）</div></div>
+  <div class="kpi" data-page-node-id="AjywzZKMC2w8irVjOgsKjq"><div class="lbl" data-page-node-id="Nio2ToWCixU4JapUwMTq1r">「AI 改名」核心词搜索量</div><div class="val red" data-page-node-id="UctMVxlSwTlCM8VHNCKMgn">≈440 / 月</div><div class="foot" data-page-node-id="3YadOp9KIFs6jH6BTrIMiM">全球，ai file renamer 240 + renamer ai 200</div></div>
+  <div class="kpi" data-page-node-id="VCdVUnYo5HLsDfpZwORiGA"><div class="lbl" data-page-node-id="JC80Y0MW7Hr1wsJ3GRur9G">可比产品实测月收入</div><div class="val red" data-page-node-id="7d54St33hdu0VLHMfJUaj8">$91</div><div class="foot" data-page-node-id="dvPkqT6B6OoU8cjgzCU0ey">airenamer.app 近 30 天</div></div>
+  <div class="kpi" data-page-node-id="6bhQvKSaeD6VV961vPMJYP"><div class="lbl" data-page-node-id="QpSw0FkycUqFQ1A4zjaK6U">已测竞品流量环比</div><div class="val red" data-page-node-id="lLCgn424MZmeq6SExiaPoq">全部为负</div><div class="foot" data-page-node-id="0Ri2vVILoLOtMKdZAjv5QD">-6.25% / -14.42% / -75.33%</div></div>
+</div>
+
+<div class="callout warn" data-page-node-id="A3HTIYZC2z9Ub6ATEE2Cwg">
+  <div class="t" data-page-node-id="5fBaiOw0haPKPG56AamucC">最重要的一条：不是 RenameAI 在衰退，是整个品类在同步收缩</div>
+  <p data-page-node-id="YTci07UN1B0vauIuV9W21J">我测了四个站的流量趋势，<strong data-page-node-id="2im2M7FkcRje8wz2grgjwa">没有一个是增长的</strong>：renamed.to <strong data-page-node-id="CRM8hFRsSc2HOsDqnxlN6s">-6.25%</strong>、airenamer.app <strong data-page-node-id="DXfv5msaDoQIPVyo4XkX34">-14.42%</strong>、renameai.online <strong data-page-node-id="EQuwdcAaHeLNxpUEGwzBjV">-75.33%</strong>；而品类头部的 renamer.ai 全球排名在三个月内从 <strong data-page-node-id="xht82zdLpYGiwTQ63Qh97T">#680,411 掉到 #884,879</strong>（名次恶化约 30%）。<br data-page-node-id="t2IImjVF4FIA726J0hqAQF">
+  更值得警惕的是需求侧数据：全球每月搜「ai file renamer」的只有 <strong data-page-node-id="i2WmOtRUo4d0mrG2ilZEaj">240 次</strong>，搜「renamer ai」200 次——<strong data-page-node-id="UNhGRMz7Y0XLnIegChaMxz">整个「AI 改名」细分的关键词需求合计约 440 次/月</strong>。相比之下泛词「renamer」有 8,560 次，但那个词被免费工具吃掉了。<br data-page-node-id="RfI3Y8krXeSBiEQHVoi28x">
+  这说明一件事：<strong data-page-node-id="Siez6zKlUqJwDjfR6arwlK">通用大模型正在把这件事变成「顺手就能做」的动作</strong>。用户拍张图丢进 ChatGPT / Gemini 就能拿到描述性文件名，不需要为它多订阅一个工具。品类被上游吸收，是比内部竞争更致命的威胁。</p>
+</div>
+
+<div class="callout" data-page-node-id="nwhtRvCw5lrMn3v3DqrkIB">
+  <div class="t" data-page-node-id="WmQarTJXChqfvrnEXIiOaq">收入天花板推算：品类头部大概率在「低四位美元/月」量级</div>
+  <p data-page-node-id="W1JTgJhYWe0WI9TXDaByTv">以 renamer.ai 官方宣称的 6,100 用户为基数，按 SaaS 常见 2% 付费率、$15 综合 ARPU 估算 → <strong data-page-node-id="oG28me3bIpydBDMtFqeHWm">约 $1,800/月</strong>。而另一个有实测数据的产品 airenamer.app 是 <strong data-page-node-id="iYkLWmdw0YGVZgBvgJEUsW">$91/月</strong>、累计 $7.1K、月访问 ~1.1K。<br data-page-node-id="bubII3MZVUa0eg1LpxP8bM">
+  renamer.ai 真正的收入来源可能不在订阅，而在它明码标价卖<strong data-page-node-id="k76XDX6FVsArAIZjnJ5MbA">人工服务</strong>（50,000+ 文档级别的定制整理、API 集成、工作流咨询）。这个信号很重要：<strong data-page-node-id="QBAa43GlAli4lOQIgUBtJi">这个品类里，做服务的比做软件的好赚。</strong></p>
+</div>
+
+<!-- 2 -->
+<h2 data-page-node-id="keapCS38GzkCbLgTyQzfSt"><span class="num" data-page-node-id="1V6FlSL1x7Flamf6CPKr1d">02</span>竞争层级：真正的对手不是同类产品</h2>
+
+<div class="layer l1" data-page-node-id="2xW5ZheCklpM5okQ4B4imN">
+  <div class="lt" data-page-node-id="Hbw5yWb5ys66ItmKczhfdu"><span class="lb" data-page-node-id="wnnVOvmxlV9p3ecvVymtmH">1</span>直接竞品 · AI 内容理解型改名工具（同一件事、同一类用户）</div>
+  <ul data-page-node-id="7DV5REW5QjiRl6GPsFTy3C">
+    <li data-page-node-id="5UzEZznSQYH4yabXXgm7Tz"><strong data-page-node-id="EBh7yWZ9jxJicXZEwlS3lG">renamer.ai</strong>（斯洛文尼亚 Futuristica）— 品类头部，25+ 格式含 PDF/发票，Magic Folder 自动重命名，Web + Win/Mac 桌面端</li>
+    <li data-page-node-id="CgFc5Y6RpctdVooufpViHH"><strong data-page-node-id="FrZIOPztYT9VYNMWJfFLCQ">renamed.to</strong> — 文档为主 + Google Drive / Dropbox / OneDrive 集成 + 置信度评分，明确打「团队协作」</li>
+    <li data-page-node-id="CqKKUej14agolxFF8FUFjn"><strong data-page-node-id="Cpj2Yqb2SacGvJ3jSBK8FU">airenamer.app</strong> — 唯一有公开收入数据的样本，本地模型 BYOK + $19 买断</li>
+    <li data-page-node-id="0PIAU08ivCHY3d8FGdr311"><strong data-page-node-id="J7Zq10GzbEA1YDsHEtG8bb">filerenamerai.com</strong> — 与 RenameAI 结构几乎同构的 Web 克隆，但用「一次性积分包」而非订阅</li>
+    <li data-page-node-id="KLzjPtiOP7Tr9T64N5dH3T"><strong data-page-node-id="FbdXnwZIltb0TiyT0oHlVq">renomeeai.com · filename.bot · filently · zushapp.com · wisfile.ai · riffo · rename.click · FilesDesk · NameQuick</strong> — 十余个 2025–2026 年新入场的小玩家，规模均在千次月访问以下</li>
+  </ul>
+</div>
+
+<div class="layer l2" data-page-node-id="yIXKsjLdXEfx5h1y0YOars">
+  <div class="lt" data-page-node-id="9jCNLPfhEI7qr9JeRtksr4"><span class="lb" data-page-node-id="newbENyB1gf0FortdfJO8P">2</span>间接竞品 · 免费／系统内置的重命名工具（不花钱就能解决 80% 的需求）</div>
+  <ul data-page-node-id="0G9g8JOVTgkKtwP79KegHC">
+    <li data-page-node-id="TLBFHSW7XnExO2zOKdCUN6"><strong data-page-node-id="iPYzFq9tO2hSG5Tj0w3JYz">PowerRename（Microsoft PowerToys）</strong> — 微软官方、免费、内置于 Windows 右键菜单，覆盖绝大多数正则批量改名需求</li>
+    <li data-page-node-id="39InBrwBr0rWz0tj5GaOE3"><strong data-page-node-id="V1i3EsD8SNm3CCdA8yorCo">Bulk Rename Utility</strong> — 免费，Windows 平台功能最全，可处理百万级文件</li>
+    <li data-page-node-id="kI0qr4JFoCbaZriKcrzZXC"><strong data-page-node-id="zWDxFHgcttnBaXXWvzE06z">Advanced Renamer</strong> — 免费/捐赠，Win+Mac，支持 EXIF / ID3 / JavaScript 脚本</li>
+    <li data-page-node-id="5NnZC57c1Pnxo0K6SNJAeA"><strong data-page-node-id="CQ4KV1qMtZWGVuBSxmifOv">ReNamer · XnView MP · NameChanger（Mac）</strong> — 全部免费</li>
+    <li data-page-node-id="epDpO4BjysXvifGDudmKFh"><strong data-page-node-id="yjfW2yE3X3vXMJ5tP8jIG9">macOS Finder / Windows 资源管理器 / Automator</strong> — 系统自带，零安装零成本</li>
+    <li data-page-node-id="OS9MFGObGgTo27IY8WeQB2"><strong data-page-node-id="Eq5GwYGvHu8N33xR8K7yuB">Adobe Bridge / Lightroom</strong> — 已含在用户已购的 Adobe 订阅内，边际成本为零</li>
+  </ul>
+</div>
+
+<div class="layer l3" data-page-node-id="zjRUIiHJrjwr6lDWDyjGL4">
+  <div class="lt" data-page-node-id="RjOQCttoiqYpUtqi6Y7Vy4"><span class="lb" data-page-node-id="JsLWzsx6mS9lFfUOHK6tJr">3</span>替代方案 · 用别的方式把同一件事做掉（最容易被忽略、杀伤力最大）</div>
+  <ul data-page-node-id="nT9mGowqMgMcxTG8tH3p8A">
+    <li data-page-node-id="9HjoRPMtkFN06TM4HoFK0w"><strong data-page-node-id="j8PoBwbHB2k5j9LAohQOjg">通用大模型</strong>：ChatGPT / Gemini / Copilot 直接传图或传 PDF 要文件名 —— 这是把整个品类「吸收掉」的力量</li>
+    <li data-page-node-id="r1gzBm60jJSO8RdEosaGXb"><strong data-page-node-id="E52u8xm9gTTWrDkOItLePi">人工 / 外包服务</strong>：renamer.ai 自己在卖 50,000+ 文档的定制整理服务，等于用服务抢自己软件的生意</li>
+    <li data-page-node-id="3nQUp0DT96fRztsQu4xUfn"><strong data-page-node-id="d61t2ZhnZYyXHji4vt71Dh">Excel / 表格 + 脚本</strong>：关键词「rename files in bulk using a spreadsheet」有 190 次/月搜索，说明用户在用表格自己拼方案</li>
+    <li data-page-node-id="j18hzsgr9PofTXc82PNcNn"><strong data-page-node-id="B7aGaDfFLwVl4PiAVgDtQd">什么都不做</strong>：文件名乱但能忍 —— 这是绝大多数用户的实际选择</li>
+  </ul>
+</div>
+
+<div class="layer l4" data-page-node-id="XctzD3pkIvCnEHci6c8gm6">
+  <div class="lt" data-page-node-id="WPRimlyD9aTEEoHib1Ya6Y"><span class="lb" data-page-node-id="HNyTllzrKSVC43TRv891X9">4</span>潜在进入者 · 有能力顺手把这个功能做掉的人</div>
+  <ul data-page-node-id="CraXPAoN2wXRTOHyGTe7mh">
+    <li data-page-node-id="BnXW1pXBxTbU9N8USGa1K7">云盘（Google Drive / Dropbox / OneDrive）—— renamed.to 已经在靠集成它们活着，反过来它们自己加个自动命名功能毫无门槛</li>
+    <li data-page-node-id="OBKDtOfECwU7DfIL6VA2GK">DAM / 数字资产管理系统（品牌方、媒体公司已在采购的品类）—— 改名只是它们的一个字段</li>
+    <li data-page-node-id="kwcbDh8adjEDMaChED2ks6">相机 / 手机厂商与相册应用 —— 拍摄端直接生成语义文件名</li>
+  </ul>
+</div>
+
+<div class="callout amber" data-page-node-id="0djPoRSrNGEuGqm0olIPkL">
+  <div class="t" data-page-node-id="AhOL0NTFyYPlCEHufkYF32">PM 判断：竞争格局对 RenameAI 极度不利</div>
+  <p data-page-node-id="qlgDDOIVxQo6hhLNo6teke">它被夹在两层挤压之间：<strong data-page-node-id="MnB7Ow5ZpAmogkRmnmZPfJ">向上</strong>打不过 renamer.ai 的格式广度与桌面端，<strong data-page-node-id="EC6hzvWrl39SyWwhevLCjR">向下</strong>打不过 PowerRename / Bulk Rename Utility 的「免费且够用」，<strong data-page-node-id="VRDVTgzFeE5sK0NzyZBEFE">旁边</strong>还有通用大模型在把需求吸走。它选择的唯一差异化是「更便宜」——而「便宜」在这个品类里已经被「免费」定义过了。</p>
+</div>
+
+<!-- 3 -->
+<h2 data-page-node-id="Xg5UR3V1ZGuoFzIVDJPWFG"><span class="num" data-page-node-id="rF3VTPePKJJCe4cxGBaC7l">03</span>竞品定价与额度总表（逐项核对官网）</h2>
+
+<table data-page-node-id="VVci7fPGkvdWuof8AEnyoe">
+  <thead data-page-node-id="qCMHpaOI7e5GZxuqqarPc8"><tr data-page-node-id="4opKGtGAdVZWbFa3zvujvV">
+    <th data-page-node-id="N1cVA6FtjiEzMECjSDV30n">产品</th><th data-page-node-id="oYhJWTJKRhqwyg9nnOUD0y">核心场景</th><th class="num" data-page-node-id="V8Hqs7q92uxagKSltVuXIs">免费额度</th><th class="num" data-page-node-id="WnqILzUnXunDrTRf1thxMC">起步付费</th><th data-page-node-id="1F1my3LA87RmnlchyaY40B">买断/一次性</th><th class="num" data-page-node-id="c9bs0ON42OWTRet3rfQPkv">单位价格</th><th data-page-node-id="n1G0j3p8jHC0vWtBWuqmPM">平台</th>
+  </tr></thead>
+  <tbody data-page-node-id="3deojyze00elARAIsPdR67">
+    <tr class="hl" data-page-node-id="b9F5sMGggKBkRMYiPUDOD1">
+      <td data-page-node-id="AcTYEo4P7QTDbm4haNULYa"><strong data-page-node-id="UG1mth4LzNtmYjb8H7AZEc">RenameAI</strong><br data-page-node-id="ekqdWpSFReEM5yewCdj7pK"><span class="src" data-page-node-id="DW9V40kopSYgTaNj4IIFas">renameai.online</span></td>
+      <td data-page-node-id="dzc5XeOzvJhPbja6XAr1nq">仅图片改名（6 种格式）</td><td class="num" data-page-node-id="npFEnBo3DOgULAiF6KkbPA">100 / 月</td><td class="num" data-page-node-id="iMMDO0H0U0BmM8w8qtE1oi">$9 / mo<br data-page-node-id="Aw8RPPEupkXD3JYDViw92r"><span class="src" data-page-node-id="GGlCddsqTQLSlEuV16kwho">2,000 张</span></td><td data-page-node-id="IGfqy9dUt8jUJg5pUlkJE6"><span class="tag t-red" data-page-node-id="8tOmWy7jlEbxlpwSUZTqbl">无</span></td><td class="num" data-page-node-id="vTtAbZnUiJTCuNHq5pMwn0">$0.00078–0.0045</td><td data-page-node-id="sXN9H1AmNLDvdzPsbjTtcw">仅 Web</td>
+    </tr>
+    <tr data-page-node-id="GkMn8utErgi5bSkEKa0Yr7">
+      <td data-page-node-id="UypfYk3VI3Xf6nV9iNlwZN"><strong data-page-node-id="hAQ2plQ2LCl4SHKuk2WNDG">renamer.ai</strong><br data-page-node-id="SVzRfV9O2qH4xtY9QrdLya"><span class="src" data-page-node-id="fvfQaG0UNfdkIkJnBQ7s8O">品类头部</span></td>
+      <td data-page-node-id="ac9TB7H7khkEFcB6h5qegB">文档 + 图片（发票/合同/表格 OCR）</td><td class="num" data-page-node-id="Chw1OJAYC4WgVdmeUNoTPW">25 / 月</td><td class="num" data-page-node-id="BnFuUa4DP18KQcCGoxaO9P">$9.95 / mo<br data-page-node-id="IMu2owXSrjhq8CnYnmeXN5"><span class="src" data-page-node-id="SNCuIgCuxY4yifPxN9Gkop">200 文件</span></td><td data-page-node-id="AKnGyOqxLdoTpXPJV1yUoE"><span class="tag t-red" data-page-node-id="oWdxREZ2Gqy7SljTPJv5FZ">无</span></td><td class="num" data-page-node-id="CJNwNxOhhxrWYUYMu5UvLE">$0.02–0.0498</td><td data-page-node-id="MKVLIA2Zmfhjrp4kVTEL6s">Web + Win/Mac</td>
+    </tr>
+    <tr data-page-node-id="zm1NGZzVzphHHQqIjnjhhv">
+      <td data-page-node-id="UOXjtQ5SXrBZcUuP2CtTtW"><strong data-page-node-id="mWGdttYZaFnkr1hInE4sEI">File Renamer AI</strong><br data-page-node-id="4VcYSJHxEMP1fHzEoenjb9"><span class="src" data-page-node-id="GopoCdezEN6LD6qSNeEDzR">filerenamerai.com</span></td>
+      <td data-page-node-id="T6DUOqijZuE36qNTOYQnVM">图片为主，批 100 张</td><td class="num" data-page-node-id="2vVKiO10wGwUcsugyIk2Nk">100 / 月</td><td class="num" data-page-node-id="AArcDzj3H6Ok0BvC63eVTO">$10 一次性<br data-page-node-id="CKfGAfBquWERBSS3iiOaHz"><span class="src" data-page-node-id="nTeXmW93NEm3P7gCDr5ZFI">1,000 张</span></td><td data-page-node-id="VRCEsysUP9LNe6qoVAVmuY"><span class="tag t-green" data-page-node-id="xZ3HeLhxbxWCPGfoD1lhNw">$10 / $100 积分包</span></td><td class="num" data-page-node-id="px8IyZAyMH72NjetpYCHKZ">$0.01</td><td data-page-node-id="fqVXMzvJDoBpNxyWUEDiPA">仅 Web</td>
+    </tr>
+    <tr data-page-node-id="1VxiImujU3t2xpcfwpFQPE">
+      <td data-page-node-id="skeof7cTYRG0Uu2AJLRjV0"><strong data-page-node-id="3Tqe4zCDhs0ZngkPoYSkdb">AI Renamer</strong><br data-page-node-id="vISBsHZuLCr1FJ8hbWgun0"><span class="src" data-page-node-id="YzuWADYai4kHVn0z3d1gUF">airenamer.app</span></td>
+      <td data-page-node-id="OOE16qqGSgkKcCwLM4liWG">图片 + PDF/文本，可本地跑</td><td class="num" data-page-node-id="AX8rnxMaCD9G41sg9qhAYF">10 credits</td><td class="num" data-page-node-id="0wDIzKxKgDdCB0DF2B9995">$19 一次性<br data-page-node-id="r321tsrGJHf9RnGs4JKH5F"><span class="src" data-page-node-id="aTWc01SH3R4CcbEdwCBv8e">本地模式</span></td><td data-page-node-id="WKy0n09uRsFnttx0GeGEEZ"><span class="tag t-green" data-page-node-id="DgirNEzKjt2Oe2OBcR9ivd">$19 买断<br data-page-node-id="pibwfl4L5emnI4QgW8BrSq">或 $10/200 云</span></td><td class="num" data-page-node-id="DyRs3UP7Cekg81jXbqHYhc">$0.05</td><td data-page-node-id="FIauvAa9HJDNlQWEXk8wVI">Win/Mac + 本地</td>
+    </tr>
+    <tr data-page-node-id="e4lMgG5Djhx2BpljPl4Lbv">
+      <td data-page-node-id="LcjCbWiOyyf7jdKp2hhJ99"><strong data-page-node-id="2506LLYFCIjTAINgl5kvXC">Renamed.to</strong></td>
+      <td data-page-node-id="ZGWMcL7FT72jDIGbRtpq62">文档 + 云盘集成 / 团队</td><td class="num" data-page-node-id="k7gE23jHflBQ1UCyol5C9F">50 文档 / 月</td><td class="num" data-page-node-id="VESmDCJN30pcepJMPEllHn">$9 / 1,000 文档</td><td data-page-node-id="zBXLp0LHqAWukUdpbGNH4W"><span class="tag t-amber" data-page-node-id="KmbtcsalGBV7jODhCLvdwn">按量付费</span></td><td class="num" data-page-node-id="QEqaPjiL7qw2m1sjlcohkg">$0.009</td><td data-page-node-id="RkawoRLmZJEWxR0HUmJCd2">Web + Drive/Dropbox/OneDrive</td>
+    </tr>
+    <tr data-page-node-id="2PYNuCOhXLhxqSHcNFhsmP">
+      <td data-page-node-id="i0ZzDJEb2yxEuFEjFoGA23"><strong data-page-node-id="sTRXZB0aGntG9HI4F2YpED">Zush</strong><br data-page-node-id="zv8RVA5WhQySUIOzXvZZNx"><span class="src" data-page-node-id="Q1mVvKSVMG3A0mYKqD3s05">zushapp.com</span></td>
+      <td data-page-node-id="0y82GqTYt9Dn3fxIJVJCRd">RAW / 设计 / 音视频 / 文档 全混合</td><td class="num" data-page-node-id="YSe7e85qWb24yC9yhQ1lu7">50 次</td><td class="num" data-page-node-id="TFgaNMWj2nB6bHGlzH7vZ0">$8 / mo</td><td data-page-node-id="U0AvNtvAj4Z4ojqPrmxOLN"><span class="tag t-green" data-page-node-id="rVv5heQwybdg7NOoGvH8hD">$48 买断</span></td><td class="num" data-page-node-id="CZEiuKnQDhfQwR9wAx8mTo">不限量（PRO）</td><td data-page-node-id="yS2BuBmPH8V7gSRkoOsnSM">Win/Mac + BYOK</td>
+    </tr>
+    <tr data-page-node-id="7j8bML2c9Yi2cZodKW01ps">
+      <td data-page-node-id="dc57FODozIaS34ob0K7owH"><strong data-page-node-id="rD9mrv1BlanrgPIOQbyAq3">Renomee</strong></td>
+      <td data-page-node-id="jgb3pNVN7hyqqX59RErAF3">自然语言规则 + 文档/图片</td><td class="num" data-page-node-id="c7FDwztNkPZNc9HtGJvbe1">60 文件 / 天</td><td class="num" data-page-node-id="Hr4YYpTPppqtFW1aBvnx5b">$9.99 / mo</td><td data-page-node-id="JtLdm2dMWhTbd8gqfCbMxl"><span class="tag t-red" data-page-node-id="T4kuAYAyRgngRKuorcYYiI">无</span></td><td class="num" data-page-node-id="nB2lBNSGqgozVdCyFBylVJ">—</td><td data-page-node-id="LudScgBHGhcUkuBRalAYic">Web</td>
+    </tr>
+    <tr data-page-node-id="85DZkBeMwtR5mROkOvrWKr">
+      <td data-page-node-id="ACsagXCfrKxmTWbaOiDmUM"><strong data-page-node-id="9mWSD9Fet2swBcIrd6qkWI">RenameClick</strong></td>
+      <td data-page-node-id="DCKUx2Aj0JWQKCSKL447h5">文档 + 图片 + 文件夹路由</td><td class="num" data-page-node-id="IoFAfrWyJje5mvQ12qtfL6">30 / 月</td><td class="num" data-page-node-id="F64foCE918rynRdsh0scdP">$8 / mo</td><td data-page-node-id="ofpEGwrXGDBaYSagS5Dzr1"><span class="tag t-green" data-page-node-id="PjOtHKizRJegFKbaeGb7Bd">$48 买断</span></td><td class="num" data-page-node-id="jfYCXHSd3ZOzDL2WgxRnXq">—</td><td data-page-node-id="rxfPiwjYMAsVAanhIvTuAi">Win/Mac</td>
+    </tr>
+    <tr data-page-node-id="FvKjXwjdjgfKwDt7AUKUHB">
+      <td data-page-node-id="ccNdKIiQIifwhpKHFMHdsK"><strong data-page-node-id="SB5htnEHyyKhb0NiotHPUR">FilesDesk</strong></td><td data-page-node-id="5ETSoiJAe5Dx3C57hED9GE">文档 + 图片</td><td class="num" data-page-node-id="qAFvrQ3mr9nuA9sV3a5mbC">注册 15 credits</td><td class="num" data-page-node-id="pR6pkkbhfwGmxyVxyFsk4M">$5 / mo</td><td data-page-node-id="xWXFygx2eJ3luDmHfGfPzv"><span class="tag t-green" data-page-node-id="9Fnel2dfwHFwguQP5eX1nQ">$20 买断</span></td><td class="num" data-page-node-id="7BjAICCEbG9iRGgAIhWXKP">—</td><td data-page-node-id="WPXNv4JBD0JQBAhgmuaF2h">Win/Mac</td>
+    </tr>
+    <tr data-page-node-id="WoNWN2sepHE041Ep7nOKxk">
+      <td data-page-node-id="GZvekqdXZTa16BejkYXXcx"><strong data-page-node-id="1ktWxQ95D9WGYGG6TxBQG3">NameQuick</strong></td><td data-page-node-id="DzTd5lan4GjKC1EkBK2MQh">文档 + 图片，macOS 优先</td><td class="num" data-page-node-id="YNjL64MEK21ZvZAfIKxvsT">50 次试用</td><td class="num" data-page-node-id="2Xm7EGBJqNAx0OBsZ0yJAB">~$12 / mo</td><td data-page-node-id="VaJiV67TmSLh760fpYWewl"><span class="tag t-green" data-page-node-id="KjNVcwhE4FpJYncovveCD1">$69 买断</span></td><td class="num" data-page-node-id="4MgF1FEMQgcI7092HjYczF">—</td><td data-page-node-id="TRtYpyXOHjzyH1f78EgGai">macOS 15.4+</td>
+    </tr>
+    <tr data-page-node-id="Rp9FVTXTD0U2HpKs4Y35Eo">
+      <td data-page-node-id="OGRhUMDH1KWDVKvrhlHuyc"><strong data-page-node-id="91CiiDyk4Ci9UHChr6EFkC">fileName.bot</strong></td><td data-page-node-id="JZ1aM8p2cCBVcpXsPLUnDD">批量文件/目录，70+ 语言</td><td class="num" data-page-node-id="6Lw515HIEOxyOYcPJvPIep">60 文件一次性<br data-page-node-id="O93labCIKe96BB3fmu5EIY"><span class="src" data-page-node-id="9TwVeEtHG3X2YTYgHMwxNU">6MB 上限</span></td><td class="num" data-page-node-id="cNjoANUtszlazCw7NKSZef">按次付费</td><td data-page-node-id="wdajllu3QQFMPRJv1ZS1Ft"><span class="tag t-amber" data-page-node-id="hvADdEzyrFEowqckH0gfFx">按量</span></td><td class="num" data-page-node-id="k0oyCrAJ9hHrdHsjIY6dii">—</td><td data-page-node-id="pEFVsweJ5MScbwUWvrBAT4">Web</td>
+    </tr>
+    <tr data-page-node-id="PhbADsgo7rm3FvBOj0Zbj5">
+      <td data-page-node-id="lEcpf5xUHwu6cDVFDrGUZb"><strong data-page-node-id="oJJPGbDl23fXWYi3ZQEUnw">Filently</strong></td><td data-page-node-id="lpwtwkPzLeFaFQgIhWHw5a">Google Drive 场景</td><td class="num" data-page-node-id="H7CJWol3F2PmCkSbHbUkcx">前 25 文档</td><td class="num" data-page-node-id="G6IIGN16fT7DpKQsBrSeY4">—</td><td data-page-node-id="BvHVWA89RUErIodDZPP4CC"><span class="tag t-red" data-page-node-id="L0AeN1LkkxnmtRYMhSn5nh">未披露</span></td><td class="num" data-page-node-id="UlfyfOFLVl91MwyuGrSN6B">—</td><td data-page-node-id="wKWUSIxf6HOKmwqQYrrKMZ">Web + Drive</td>
+    </tr>
+    <tr data-page-node-id="AosUsuBNkKAbKK3kFIptXt">
+      <td data-page-node-id="s08yvU0c8GQZNFpyObvNMT"><strong data-page-node-id="giFVNCj3DKH63sX5pDALEc">Wisfile</strong></td><td data-page-node-id="AzezkPB0SfA4kARLZJaPuy">PDF 元数据（标题/作者/日期）</td><td class="num" data-page-node-id="UUgQCNuO3iktIRESClaMJU"><span class="tag t-green" data-page-node-id="mjxp3kVFMs66Jbj42s9x2A">免费不限量</span></td><td class="num" data-page-node-id="4XKGBY1OjjyC8wht6GXhcY">$0</td><td data-page-node-id="LGl4To9jgPirNXKGqloueC">—</td><td class="num" data-page-node-id="z0wdU1qZY3w5igKrbFAQ4H">$0</td><td data-page-node-id="vAMoCrF7AjkVNgGcwtNSDA">Win/Mac</td>
+    </tr>
+    <tr data-page-node-id="CDKdL1o8si7xCFQWrNmqFX">
+      <td data-page-node-id="dIHrbDY3AWj0XcIU0nbpLZ"><strong data-page-node-id="ccxTuOKQGInFTe2QWIkfCB">Riffo</strong></td><td data-page-node-id="0yDONPr9ON6ywHZ7N5npiD">文件夹整体整理</td><td class="num" data-page-node-id="QfsLngvFsmysmngHM1Hmwh"><span class="tag t-green" data-page-node-id="ggDQyZADg3jVs1L54PVx9q">免费</span></td><td class="num" data-page-node-id="0bcQm1h6egspwAGFzIeLuy">$0</td><td data-page-node-id="HBcnNwWNgbQECwz4gQnPUZ">—</td><td class="num" data-page-node-id="SPEphzdI77juXkWexRIBjQ">$0</td><td data-page-node-id="muF59pzm3onq6NVBv0HxjY">仅 macOS</td>
+    </tr>
+    <tr class="sub" data-page-node-id="0iWXMARFcUsmiVnKBhZea6"><td data-page-node-id="JOV4NqZW8xzCA6tsKV4MYN">免费替代方案</td><td data-page-node-id="wtXa9aDzLcv2IYy01s1FM1">PowerRename / Bulk Rename Utility / Advanced Renamer / ReNamer / Finder / 资源管理器 / Adobe Bridge</td><td class="num" data-page-node-id="lwBbDrmq8sYt67RvYBbmQ7">不限量</td><td class="num" data-page-node-id="NH98EgFz46BBbrfkVRaKKa">$0</td><td data-page-node-id="T44g2xYQBKc1DhRd0QMOSC">—</td><td class="num" data-page-node-id="nO2LtawEsJ7hUlxT9eLaeQ">$0</td><td data-page-node-id="6z70AkM9DfaCedt342PAmr">系统内置</td></tr>
+  </tbody>
+</table>
+
+<div class="callout" data-page-node-id="Rv1hFrJoaIlOnkJR3j7HYq">
+  <div class="t" data-page-node-id="JptHF41HL3baxmUBmdF3be">从这张表能读出三件事</div>
+  <p data-page-node-id="wd2i0zAYIQgORgiK6bBxuB"><strong data-page-node-id="QRVVwHQyuhDv63T3jI1GbK">① RenameAI 的定价脱离了品类的价值锚。</strong>它的免费额度（100/月）是全品类最高的，付费单价却是全品类最低的——在两端同时让利，中间没有留下任何付费理由。<br data-page-node-id="tYCT0R9VjRiSJ1CyQImpQC">
+  <strong data-page-node-id="IH4C6aDYvdodxsz9xMEs6Q">② 「买断 / 一次性积分包」是主流，不是例外。</strong>13 个直接竞品里有 <strong data-page-node-id="FWHwA8Kt6j994oniSHPNlp">6 个提供买断（$19–$69）或一次性积分包</strong>，唯一明确不做买断的只有 renamer.ai 和 RenameAI。<br data-page-node-id="sbkp258ceLhr7z2VdkNEyf">
+  <strong data-page-node-id="MoIc7lzMFGxcfOMUwov5Ua">③ 品类里存在「免费碾压带」。</strong>Wisfile、Riffo 免费不限量，加上系统内置工具全免费——任何单价高于 $0 的产品都必须证明「AI 内容理解」值这个钱，而这一点对图片改名尤其难证明（用户看一眼就知道对不对，不需要 AI 帮忙「理解」）。</p>
+</div>
+
+<!-- 4 -->
+<h2 data-page-node-id="edPkHFujQHfe5Mdtt0fBRs"><span class="num" data-page-node-id="GBtTEZe15ahfsoPEHcAiAY">04</span>商业模式拆解：四种活法，RenameAI 选了最难的一种</h2>
+
+<div class="grid g2" data-page-node-id="PDuFBX6SqT59fzSNULPgUU">
+  <div class="card" data-page-node-id="dmRTZ2EnFCQhxeAOkOhxYR">
+    <h3 style="margin-top:0" data-page-node-id="n7S4cgCIHrmroaYoITspq9">模式 A · 订阅制（renamer.ai、Renomee）</h3>
+    <p data-page-node-id="AdfmLEHZ3RFfCC7t0wSjSN">代表：renamer.ai 四档 $0 / $9.95 / $29.95 / $99.95，额度按月发放、<strong data-page-node-id="BRNMvzUrAcSVTz5dMDe9zF">不结转</strong>，14 天未使用可退款。</p>
+    <p data-page-node-id="1ytabMRG4RteAdKFvqKyOO"><strong data-page-node-id="jog7e52bqisWAf4AzVAVkc">成立前提：</strong>用户每月都有稳定文件流量（会计、法务、DAM）。这类用户确实存在，但数量极少——renamer.ai 全部用户才 6,100。</p>
+    <p data-page-node-id="XdfX3kIiXyZZNzwwFxsk5u"><strong data-page-node-id="TbUwFDywXj9eLl8BXtsmH4">副作用：</strong>该品类用户对订阅明显反感。某聚合站收录的 4 条评价中，<strong data-page-node-id="mMMx47ou29XLjRhZDHCAvp">2 条明确写「不值这个价」</strong>，另一份基于 HN/YouTube 的研究样本给出 <strong data-page-node-id="G0G1t25VZL9g1i1lUnctZ3">35% 正面 / 65% 批评</strong>。</p>
+  </div>
+  <div class="card" data-page-node-id="t3EbbeY5ItemdbFidAfzn6">
+    <h3 style="margin-top:0" data-page-node-id="EBCRGwFSZx1Ys9RdOMqCB3">模式 B · 买断制（Zush、AI Renamer、NameQuick、RenameClick、FilesDesk）</h3>
+    <p data-page-node-id="Y8TeiaqgwNWYR1sSNNZAoB">价格带高度集中在 <strong data-page-node-id="WwmhpBYEPBCLCB3kTxeU3v">$19 – $69 一次性</strong>（Zush $48、RenameClick $48、FilesDesk $20、NameQuick $69、AI Renamer 本地版 $19）。</p>
+    <p data-page-node-id="fspKg2NfklAFWKG9PV1nCy"><strong data-page-node-id="uxRE9UAAp3kGMBvI9Bv1AV">为什么买断在这个品类更有效：</strong>改名是「一次性清理存量 + 低频率增量」的任务，用户的真实心理是「我有一堆积压文件要处理」，而不是「我每个月都要处理一批」。订阅模型与用户心智不匹配。</p>
+    <p data-page-node-id="bPmnuOKOmEOFjCUDNfflWB"><strong data-page-node-id="ZrJjtBA9re0aCb1V4WPPA9">代价：</strong>没有经常性收入，必须持续获客——这对没有内容矩阵的小团队是致命的。</p>
+  </div>
+  <div class="card" data-page-node-id="twWIEMS4mv1UU9S72e5oly">
+    <h3 style="margin-top:0" data-page-node-id="rnBXl1ururDdd20BN5ZgX2">模式 C · 一次性积分包 / 按量付费（File Renamer AI、Renamed.to、fileName.bot）</h3>
+    <p data-page-node-id="ExHKi3SA2tfiLDrFA9PLnV">代表：File Renamer AI 明码标价 <strong data-page-node-id="DoTjtXWbPF9u7X6OlKcb7P">$10 / 1,000 张、$100 / 10,000 张，一次性、无订阅</strong>；Renamed.to $9 / 1,000 文档；fileName.bot 按次计费。</p>
+    <p data-page-node-id="tFNCcEd1r5o7lvNAZkDyc6"><strong data-page-node-id="f3KapcG1DKg7gYBGGW6ylb">优势：</strong>定价与 COGS 线性挂钩，毛利可控；用户无「订阅疲劳」；对 AI 类产品尤其合适，因为成本本身就是按调用量发生的。</p>
+    <p data-page-node-id="8r0qJx81DfKA0t8XJJnAO2"><strong data-page-node-id="khQTQRuSYm4MPsV3n6jOVC">这正是 RenameAI 最应该学的一档</strong>——它既有按量成本，又必须靠订阅收款，两头都别扭。</p>
+  </div>
+  <div class="card" data-page-node-id="eXOoh1iF7E9wcTxODuhPl4">
+    <h3 style="margin-top:0" data-page-node-id="plO2gLNn0eBU0ImiEowrs8">模式 D · 免费 + 服务／企业定制（Wisfile、Riffo、renamer.ai 的服务线）</h3>
+    <p data-page-node-id="a7Qh5yWGoxvBNzBdxbybX1">Wisfile、Riffo 直接免费（降低获客成本，靠其他方式变现或纯兴趣项目）。</p>
+    <p data-page-node-id="YUmDMB2gKGGVswpB19UW0i">而 renamer.ai 一边卖 $9.95 订阅，一边<strong data-page-node-id="rBQmVdnyMVAaAuOQWcUNse">公开承接 50,000+ 文档级别的定制整理项目</strong>，并明确写「已为数百个行业整理过数百万个文件」。</p>
+    <p data-page-node-id="JVKum49izRK8nEhL6Ww4h1"><strong data-page-node-id="wtmvvco0dsiQdbxsJaUV4Z">信号：</strong>在这个品类，<strong data-page-node-id="cOzg6iXakRDDA8JxZwFUPj">人工服务／定制交付的客单价远高于软件订阅</strong>。软件是获客漏斗，服务才是收钱的口子。</p>
+  </div>
+</div>
+
+<div class="callout amber" data-page-node-id="i3uBh7JUzaHJCp1NaxdIZo">
+  <div class="t" data-page-node-id="M8unEcS85SyZaijir2CMQ4">RenameAI 的模型组合是四种里最差的一种</div>
+  <p data-page-node-id="YNzBYJSN1zkEACx1sYGkO6">它选了<strong data-page-node-id="LKzxZH8ZagzQRFAqMMVvEC">「纯订阅 + 无买断 + 无服务线 + 单价全品类最低」</strong>——同时继承了订阅制的转化阻力、成本波动风险，又主动放弃了买断客群和服务收入，还把单价压到无法覆盖贵模型调用。<br data-page-node-id="hMAw5HqUSKXEgVWotOBAbL">
+  唯一有潜力的口子是它 Agency 档里的 <strong data-page-node-id="nMUapG1t3k2HO3LXuc91SU">White-label / Unlimited API</strong>——「卖给别的工具」而不是「卖给终端用户」，这条路的客单价和留存都远好过 C 端订阅，但当前 API 还没上线。</p>
+</div>
+
+<!-- 5 -->
+<h2 data-page-node-id="E55ApMZ0BXaUeUeyKA6ggQ"><span class="num" data-page-node-id="FdSbCHMLE7hHrRk5DdhEC1">05</span>流量与规模证据</h2>
+
+<h3 data-page-node-id="QYJf6jbByKyw7T7JKd6Aq9">5.1 已测竞品流量对比</h3>
+<table data-page-node-id="EYk8TewrXOlqLfo1tQNm9s">
+  <thead data-page-node-id="OAeHJ0u0FAJTuHI8DpU9T7"><tr data-page-node-id="kmMBFBePaQqHc6JldaHHJb"><th data-page-node-id="8jIvzyfZVtGjrazFxCjtjx">站点</th><th class="num" data-page-node-id="NrPG0lcarDeKec3TqBdj2e">全球排名</th><th class="num" data-page-node-id="SBEH240G4FOrzhrTsR8SeK">环比变化</th><th class="num" data-page-node-id="EiVY1r99evgxfgUFhnfAHq">跳出率</th><th class="num" data-page-node-id="dMYvVHE4YBiEeo1yie9NCf">页/访问</th><th data-page-node-id="kkUoT7hJO1Onmi548RkrAb">Top 地区</th><th class="num" data-page-node-id="DxncBBw3IGEmunDQeORw4A">关键词数</th></tr></thead>
+  <tbody data-page-node-id="E476E4P9tFBIKAs13rE8BA">
+    <tr data-page-node-id="Ptxk1bKDRsdnAsQg5VRyQq"><td data-page-node-id="aAob56lC8XY5VT6u62Gbid"><strong data-page-node-id="H3WEKpsA6UPrj1pm1UCBcc">renamer.ai</strong>（品类头部）</td><td class="num" data-page-node-id="oB7aVgyiDmxgWwMgHmfeNN">#884,879</td><td class="num" data-page-node-id="zVb1wYagKBa7c2ZwmHRMYp"><span class="tag t-red" data-page-node-id="gcUs1MehdUMz9GJu4Si336">排名恶化</span></td><td class="num" data-page-node-id="riqHnqcUxLwi8HoVOLxIlN">35.73%</td><td class="num" data-page-node-id="7n5KiPTHSUlVHsdSYdvW76">2.04</td><td data-page-node-id="CEcxaAgcd8wuEFZonS9DXH">美国（地区排名 #1,046,764）</td><td class="num" data-page-node-id="MFJvEAC7Sg7UIagKCIduBy">—</td></tr>
+    <tr data-page-node-id="DuMITgccLbrUCyqe8IjJtx"><td data-page-node-id="uL45s1fNalf6IkpVbLRuiz"><strong data-page-node-id="m9mXcxJucAbv9tGsBBhTAX">renamed.to</strong></td><td class="num" data-page-node-id="DyMjkkBit43znPmEOsPD1p">#3,178,507</td><td class="num" data-page-node-id="nt4pEtmVls8ClPqHm0Y8PB"><span class="tag t-red" data-page-node-id="2CwWjWAG75cXFEgTdNmxCc">-6.25%</span></td><td class="num" data-page-node-id="spZWWdpdqX7YTiPQ11ko3y">42.23%</td><td class="num" data-page-node-id="DnpsdIa2FhGEhJwKrLu8Qj">1.64</td><td data-page-node-id="H3PAc4TA9uU9PWG6ItG5Ro">巴西 31.58% / 印度 25.1% / 美国 22.53% / 马来 19.05%</td><td class="num" data-page-node-id="FbKdFAcZQIBFvMXyoFILfA">77</td></tr>
+    <tr data-page-node-id="B4jp90twhFYAR5iJ5lwlX3"><td data-page-node-id="RpVAXikQw3SFnhjgfM0cCw"><strong data-page-node-id="4yOnlotC3UfWfLgXxHCYNp">airenamer.app</strong></td><td class="num" data-page-node-id="klABqssmJ8BL6Qz4uyJrQX">#12,345,674</td><td class="num" data-page-node-id="UH0jnwDBDjuCFEDhTdtySe"><span class="tag t-red" data-page-node-id="MH88ruttGQgH7Kxam8Hpap">-14.42%</span></td><td class="num" data-page-node-id="JAdBigHcVPg8ICG2OTLZTV">37.5%</td><td class="num" data-page-node-id="Kfyt0S0JWDHAWaj267s0a1">1.09</td><td data-page-node-id="qsqDBfxWf0ip4EeF9pN7Ky">美国 73.92% / 印度 26.08%</td><td class="num" data-page-node-id="j1MSjBY4VqeRpsSLYT3jK3">12</td></tr>
+    <tr class="hl" data-page-node-id="OnFp0ZzfqodPBL5oRuC3gg"><td data-page-node-id="txFKrwQEw0rUTNLVE1fhNZ"><strong data-page-node-id="A5zDG50ZyRMe7oJ8rw5d6i">renameai.online</strong></td><td class="num" data-page-node-id="FgVBlDFvBvT4r72tQ4JfSq">无排名数据</td><td class="num" data-page-node-id="S2bL3etgzvqeOpAnEIM9Sl"><span class="tag t-red" data-page-node-id="LUpB9ePJ3S0ryIcKfTVX5u">-75.33%</span></td><td class="num" data-page-node-id="eUM7jWtUg2C8AKeUKVtDwJ">—</td><td class="num" data-page-node-id="YsZaI2islfEYiBNkDWiJIE">—</td><td data-page-node-id="oH7EIbQ2NEHnPRvr5Hh6J9">越南 72.17% / 土耳其 27.83%</td><td class="num" data-page-node-id="Wr4rFDkBJZvq7vPAIsvmkC">2</td></tr>
+  </tbody>
+</table>
+<p class="src" data-page-node-id="nzMPBdj0vBj6dKjgPc7EQQ">注：renamer.ai 的月访问量第三方引用值为约 <strong data-page-node-id="YMKhiHbA5DkB2nYG2yxGHI">40.32K</strong>（SimilarWeb，2025-11 至 2026-01 口径）；本次抓取的 SimilarWeb 免费视图未显示具体访问量数值，但给出了排名从 #680,411 → #884,879 的三个月变化。<strong data-page-node-id="cVaXtByM7H91a8WlOLRJzD">「关键词数」这一列在各站之间存在串号现象</strong>（多个站点都出现了 <code data-page-node-id="xvlvX2eDB2AmujsJs9kHA8">renameai leak</code> 这个关键词），说明 SimilarWeb 免费视图的相关词模块混入了同类站点数据，<strong data-page-node-id="4c9uDHLo7oZLuhfL66hyJy">关键词数据仅作参考，不作论据</strong>。</p>
+
+<div class="card" data-page-node-id="4bd0ZdqoZl0H25mtqfXhLP">
+  <h3 style="margin-top:0" data-page-node-id="s5gOZRvzpqrPFil7ZiFrdq">流量环比变化（已测站点）</h3>
+  <div class="bar-row" data-page-node-id="TmqGKAFC6EQChRjvhXwmPH"><span data-page-node-id="M5LA8dXpCpEgCGxuiWYUXy">renamed.to</span><div class="bar-track" data-page-node-id="fGOkyb0JSCabBcDh1pyiR9"><div class="bar-fill down" style="width:8%" data-page-node-id="Hd19xC9v9oorDEcOo8oh5K"></div></div><span class="bval" data-page-node-id="evhPZGVwXx8UW7e4MXPZRf">-6.25%</span></div>
+  <div class="bar-row" data-page-node-id="Uv66zQcn2q8Qd5LYWpEJ80"><span data-page-node-id="9XHGSQbZkUDYHtUEymyDAI">airenamer.app</span><div class="bar-track" data-page-node-id="qAZpcVph8X0lpmeIoAMTsT"><div class="bar-fill down" style="width:19%" data-page-node-id="HmF5bJinxaJOh7JrktdRYE"></div></div><span class="bval" data-page-node-id="Mc4HC6shLyGRdMsHXX3Oxk">-14.42%</span></div>
+  <div class="bar-row" data-page-node-id="XQvPDAkPDaq1AmW4OzcIsT"><span data-page-node-id="Z18J4OFdXDJa611Y3ANOSP">renameai.online</span><div class="bar-track" data-page-node-id="dERjGrqllAPAd5ikiuHxe0"><div class="bar-fill down" style="width:100%" data-page-node-id="vzo9411owRclE2ZvS3qSkk"></div></div><span class="bval" data-page-node-id="liWEQs94ZMQpp7PriRmJt5">-75.33%</span></div>
+  <div class="src" data-page-node-id="rWwVkIrtcdwqNo4wwNQq1z">长度按 -75.33% 满格线性映射。四个已测站点中无一个正增长。</div>
+</div>
+
+<h3 data-page-node-id="6aDF9bIN2AjUS4cbWUJ2pl">5.2 规模证据矩阵：谁真的有用户</h3>
+<table data-page-node-id="d50KPcNPqnFzpxbDc3nQQ9">
+  <thead data-page-node-id="FsmejlV8nv5su5kphB9ow0"><tr data-page-node-id="Gzc4GqAN4L3hVBfR1u4ScT"><th data-page-node-id="bgjMGG3geV3WbyV83TMWvH">产品</th><th data-page-node-id="SEjmxOccIfCmcoJKneDYGU">可验证的规模证据</th><th data-page-node-id="wIOUDVjGPBMYXbdIwQVsg7">证据强度</th></tr></thead>
+  <tbody data-page-node-id="RneFagc6M5qeQdevh5wqGg">
+    <tr data-page-node-id="97cHqErkx8dLSI9vgguWty"><td data-page-node-id="NLyDGVF5xEdqRZuEMkrXwZ"><strong data-page-node-id="WU9AcG0CKAdmLtKFX0QmIE">renamer.ai</strong></td>
+      <td data-page-node-id="nXPb7fFkXDasp5wk21nGYj">官方宣称 6,100+ 用户、4.9/5 评分（127 条评价，均出自其自营页面）。<strong data-page-node-id="qC1OmY4DH1RglCUD0HRAs3">但第三方评价极少</strong>：topai.tools 仅 4 条评价（50% 推荐）、AlternativeTo 仅 1 条评论。<br data-page-node-id="vHwDwRb5irzxzDTjpHxlqw">另注：该产品 2026-02-16 才被加入 AlternativeTo，说明其公开曝光历史很短。</td>
+      <td data-page-node-id="dqDyvyFWZldtANuaP61YgT"><span class="tag t-amber" data-page-node-id="TYbFF35klwK0G98AwIovI2">中（自报为主）</span></td></tr>
+    <tr data-page-node-id="MwQIwGDTXMqDFGC6YIlGX7"><td data-page-node-id="MAacZOImsQhK9vj17SEKBB"><strong data-page-node-id="jodw5Wz0HKHE3fGDlQNdtR">airenamer.app</strong></td>
+      <td data-page-node-id="nNUzRQrDlkV8PpH3gJGE2j"><strong data-page-node-id="mJVWTgnzFGTahFs5goVGHK">唯一有第三方可信财务数据的样本</strong>：近 30 天收入 $91（环比 +27%）、生命周期总收入 $7.1K、利润率 95%、月访问 ~1.1K、挂售价 $18K。披露方为第三方并购信息站，来源标注含 Microsoft Store / GitHub / Product Hunt。</td>
+      <td data-page-node-id="HwvfXurBWaPcrk74XCL31a"><span class="tag t-green" data-page-node-id="rHkwG1OcX4MX5S47bQxABi">较高（第三方口径）</span></td></tr>
+    <tr data-page-node-id="2It7dpFMzWpqzdz6rdRG6g"><td data-page-node-id="Y6iPXoIc3AvKkTZjy13684"><strong data-page-node-id="1NQGgKN8jaw4Tto0i3LXPd">renamed.to</strong></td><td data-page-node-id="LxcJiZNdPhYr74lA8337Sk">77 个自然关键词，自然搜索占 93.05% / 付费 6.95%（品类内唯一有可见付费投放的）；国家分布最分散（巴西/印度/美国/马来西亚四国均 ≥19%），说明没有单点市场依赖。</td><td data-page-node-id="0FVY6eXmELliIwjCQf43CE"><span class="tag t-amber" data-page-node-id="gSjmFoR6vbcgiQnLrdAp5g">中</span></td></tr>
+    <tr class="hl" data-page-node-id="jF6DzGMw7L3urOi73lMpOY"><td data-page-node-id="2NkAkOaFKAxoozbB2KjYQJ"><strong data-page-node-id="VQq1zMIYVDFujNRUHHBbLH">RenameAI</strong></td><td data-page-node-id="RzNQekG4OpFMAXgcfmqyl5">自然关键词仅 2 个，付费搜索 0%，流量 72% 来自越南单一市场，全球排名无数据（未进入任何榜单）。</td><td data-page-node-id="9XtQPfbn8nVF79GdsnsoCr"><span class="tag t-red" data-page-node-id="SRZXWDW1fMtv6FQbG8qhzU">极弱</span></td></tr>
+    <tr data-page-node-id="InVNhDxtrvRYPRvf0DkoV6"><td data-page-node-id="lLfuVPIteFoVESv3CVHNva"><strong data-page-node-id="dUdbE1VraewjJHHpxkTw58">其余 10 个小玩家</strong></td><td data-page-node-id="NFBKFw7dqnrJqShj4JDrs9">多为 2025–2026 年新上线（AlternativeTo 收录时间普遍在 2026 年上半年），公开评价普遍为 0–4 条，无任何流量或收入披露。</td><td data-page-node-id="fxZXhbUBMVzkZH8oky7F3k"><span class="tag t-gray" data-page-node-id="N3gXcLQkAc9ZyBc9PArv9Y">无</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout warn" data-page-node-id="9dicNqukLDqhGth4NFCoC3">
+  <div class="t" data-page-node-id="4SwHBO0OVd8hVao5ViSQqB">一个反直觉但重要的判断：这个品类「看起来很卷，其实没人在赚钱」</div>
+  <p data-page-node-id="jSlFEQaCLuiQORyw3Skknf">表面上 2025–2026 年涌入了十几个 AI 改名产品，但把数据摊开看：<strong data-page-node-id="G3QSlwetuJaiinUobGw4uf">头部 6,100 用户、次头部月收入 $91、第三名之后的玩家连公开评价都没有。</strong>这不是「红海厮杀」，而是「十几个小团队在争一个很小的池子，同时被免费工具和通用大模型从两侧挤压」。<br data-page-node-id="L8XeT0qiU8aYYHB7Ov4EBO">
+  对 RenameAI 而言，这意味着「做得比对手好一点」不足以赢——必须换一个池子。</p>
+</div>
+
+<!-- 6 -->
+<h2 data-page-node-id="Z8Bl1EpFpN3IVKYpAG8n65"><span class="num" data-page-node-id="BsCJJfXT1pD68Jn0sRCEfw">06</span>需求侧数据：品类的真实搜索需求量</h2>
+
+<table data-page-node-id="vAXdTWHE3ORRfqzZMm9NCq">
+  <thead data-page-node-id="DTVaFEkj4JJDZ7qIOcGiH7"><tr data-page-node-id="RTLuOD51gQuy6q9aLU0RKB"><th data-page-node-id="svxEuFgeiidFrVrIzREykW">关键词</th><th class="num" data-page-node-id="bF03ZbFbRIGljsckoCjBSj">全球月搜索量</th><th class="num" data-page-node-id="NiRyXRfLryx24O9AoHnMdU">CPC 参考</th><th data-page-node-id="Oah6s9DNccO8DJVqXCOqjC">解读</th></tr></thead>
+  <tbody data-page-node-id="nwkB9wKtj8DwNo6Up1IBD8">
+    <tr data-page-node-id="ZSikU1yVPCCCjXGHD75LKu"><td data-page-node-id="GW69ZblsbfWag6gA5xfu1N"><code data-page-node-id="bshI54bmQl2veVw1Rm3aV0">renamer</code></td><td class="num" data-page-node-id="39pcRgFx8kaYNSWNNHFao0">8,560</td><td class="num" data-page-node-id="WS2SaWVyGVBIev6vXKEpWj">$0.59</td><td data-page-node-id="BYmZL13g3MDI7tLi3WAUik">泛词，但搜索意图被<strong data-page-node-id="szZGZGalSDJWKY0MzlD16y">免费工具</strong>占据（Bulk Rename Utility 等）</td></tr>
+    <tr data-page-node-id="22XtOAyTGqLXZAy4kP8pF5"><td data-page-node-id="QKpBIwTaHW45HZN3PsAjGA"><code data-page-node-id="2qRmirU4yeltvLK904MvnU">file renamer</code></td><td class="num" data-page-node-id="zTUFwGQQaNUtyDYLEDPSCB">2,540</td><td class="num" data-page-node-id="CgYJAR2gOBrdM6ql13SNzh">$2.00</td><td data-page-node-id="Gx7bZrpXcC1AVh2T5FY4Qf">同上，付费意愿低</td></tr>
+    <tr data-page-node-id="4oRjRRSLlhpYlSaTUGXApN"><td data-page-node-id="VkAuOUd8ZnYiWjCGLaQ5fI"><code data-page-node-id="UaKrWj7CwPfQhAAs7c6kAZ">ai file renamer</code></td><td class="num" data-page-node-id="QPvc6VagqoKZEwWj8BS8VA">240</td><td class="num" data-page-node-id="TYFpLkuvgn6IDHHNFt0pY2">$0.00</td><td data-page-node-id="IhkowAjY9Cb5LyKwNXRiey"><span class="tag t-red" data-page-node-id="6rWLghHl985FWFe1G2fBNr">AI 细分词</span>几乎无人搜</td></tr>
+    <tr data-page-node-id="UHtjCGx10TLAUUWHFzLO5Z"><td data-page-node-id="HewXVEJBSpqx3t3OO1YGHg"><code data-page-node-id="813xdJr2AOthQVNXOeKrJD">renamer ai</code></td><td class="num" data-page-node-id="R6AZexX105Yd24VfzMWfcN">200</td><td class="num" data-page-node-id="TMrrfe9fJPSF5lYZ9YvCJU">$0.00</td><td data-page-node-id="HN4c43wsN4bWLZ6O4fdebF"><span class="tag t-red" data-page-node-id="xUQyX6I9hsd6R8zxBX3iFG">AI 细分词</span>几乎无人搜</td></tr>
+    <tr data-page-node-id="hBHw2uaokNpnF5dLyi0pM5"><td data-page-node-id="Z68dbzMiDQMZiXh9RFTJf5"><code data-page-node-id="APye3VYDmwZuojbzqZoPHE">rename files in bulk using a spreadsheet</code></td><td class="num" data-page-node-id="zkTpPMwwupxVHB3RjmVqPP">190</td><td class="num" data-page-node-id="s2eKHdgUDa25EGDqs5Vr9l">$0.00</td><td data-page-node-id="DinE4q95J466l8BOGldkHF">用户在用表格自行拼方案，进一步说明付费意愿弱</td></tr>
+  </tbody>
+</table>
+
+<div class="callout warn" data-page-node-id="vHgi0rfbIyJokzXBSeilRy">
+  <div class="t" data-page-node-id="N45rwH4rybVZJ9yRkyAGxw">440 次/月 —— 这就是「AI 改名」这个细分在全球的全部搜索需求</div>
+  <p data-page-node-id="AUyiFJ3xOBqyCn7VCxvYJv">把上表中带「AI」意图的核心词相加：<strong data-page-node-id="GAIyuVwSCCiFRyaCmb4nJr">240 + 200 ≈ 440 次/月</strong>（全球）。即使按 3% 的「搜索→付费」极乐观转化率估算，这个细分每月能贡献的新增付费用户也只有个位数。<br data-page-node-id="tChFEYPLHcmnRcFV0kr2Fm">
+  这就是为什么这个赛道的玩家都在写 SEO 对比页抢泛词（renamer / file renamer）——因为 AI 细分词根本没有流量。这也解释了 renamer.ai 为什么要同时做<strong data-page-node-id="ajm440Xo5pQopb1hHl3Vdd">人工服务</strong>：软件侧的流量池实在太小。</p>
+</div>
+
+<!-- 7 -->
+<h2 data-page-node-id="pfJHzv5QfiIcHLOWvxj3h6"><span class="num" data-page-node-id="F3014AIbQNEg17BB3Lf0l2">07</span>竞争定位：RenameAI 该往哪挪</h2>
+
+<div class="matrix" data-page-node-id="PT6Z71bA07v8HfE3LzyjkY">
+  <div class="quad risk" data-page-node-id="xcLjTx6CAQHYlDJBtUO5Am">
+    <div class="qh" data-page-node-id="4pHzbEV6RDKtP6bHEmFAuz">象限一 · 窄场景 + 低价 ← RenameAI 当前所在位置</div>
+    <div class="qi" data-page-node-id="o2GMlqsJH4AGE3Z2xbnzR0">renameai.online（仅图片 / 单价最低 / 无买断）</div>
+    <div class="qi" data-page-node-id="FBDvu52StQUkgekhFVceWi">问题：同时承受免费工具与低价克隆的双重挤压，没有定价权</div>
+  </div>
+  <div class="quad" data-page-node-id="GVg6ljF1aeBCS1KUaZlwWd">
+    <div class="qh" data-page-node-id="1sxDkDZTDnlJcbHseVl3qo">象限二 · 宽场景 + 中价（竞争最激烈）</div>
+    <div class="qi" data-page-node-id="s8L7z62cbdZcMMhbJHbITj">renamer.ai（文档+图片+桌面端）</div>
+    <div class="qi" data-page-node-id="D6I0GWG86cK6bsG1c5Xb01">renamed.to（文档+云盘+团队）</div>
+    <div class="qi" data-page-node-id="X6UzgdD0R8q0LBRYGOwdFe">Zush（全媒体格式 + 买断）</div>
+    <div class="qi" data-page-node-id="00n1CxsXgLqnuYdexNBxPE">特征：已有强者占位，但需求也集中在这里</div>
+  </div>
+  <div class="quad win" data-page-node-id="Wi6P2L6II6DflNwZdLDVfW">
+    <div class="qh" data-page-node-id="c2oSkf2CpAdkpmoANN5DZm">象限三 · 窄场景 + 高客单 ← 建议转向</div>
+    <div class="qi" data-page-node-id="BFZpD5MH1BgEbuT68CwKjj">电商商品图 SEO 批量改名（平台规则敏感、批量、与流量直接挂钩）</div>
+    <div class="qi" data-page-node-id="oFVR09iMF2bQVbAe9UHY0n">摄影工作室／婚礼交付命名（一次性大批量、与客户交付绑定）</div>
+    <div class="qi" data-page-node-id="bvwb658TJ1WuGcTjSizN7w">房地产 / 车辆 / 医疗影像等强命名规范行业</div>
+    <div class="qi" data-page-node-id="G4GwMK83kmOFjVPq7v4ZBw">特征：无人深耕，用户愿为「合规 + 省人工」付高客单</div>
+  </div>
+  <div class="quad" data-page-node-id="pEYKECSXrYXGLKPYDvzkXi">
+    <div class="qh" data-page-node-id="qybuz8v1BwECUkg0nN0Phe">象限四 · 免费碾压带（不要进）</div>
+    <div class="qi" data-page-node-id="AViPwRXAvxGyACNab6FLPX">通用批量改名、正则替换、编号、EXIF 命名</div>
+    <div class="qi" data-page-node-id="o06scQzydpZvjrKuQTEXxM">已被 PowerRename / Bulk Rename Utility / Finder 覆盖，单价为 $0</div>
+  </div>
+</div>
+
+<div class="callout ok" data-page-node-id="Omy0GdGWLGINxxf5JdbVLE">
+  <div class="t" data-page-node-id="onNBEh2w6Ykf2Cgi3CqPKw">给 RenameAI 的竞品结论（按优先级）</div>
+  <p data-page-node-id="FUzrJjNRSCKi6tzyoUwCM9"><strong data-page-node-id="FL4sWhR58RNL55YDgsTl2y">① 别再降价竞争。</strong>它已经是全品类单价最低（Agency 档 $0.00078/张，比 renamer.ai 便宜 64 倍），继续压价只会更快地把毛利交给模型厂商。<br data-page-node-id="sIvpRba1aJsCXZB0sfPB11">
+  <strong data-page-node-id="xAnsi0nwfG6SOK0aAivgF0">② 补买断／积分包 SKU。</strong>品类内 6/13 的产品有买断（$19–$69），这是被验证过的转化器，也是它当前唯一的价格阶梯缺口。<br data-page-node-id="JDS5GJTU6SuuyvU4WsERTJ">
+  <strong data-page-node-id="uQ5qluM5cqaPpQkfoFv3TV">③ 把 Agency 档的 White-label + API 变成主线而非附件。</strong>这是唯一能跳出「440 次/月搜索池」的路径——卖给别的工具，而不是卖给终端用户。后端已有 <code data-page-node-id="CmOHFSu18YxeshTnuBrf5h">/api/auth/api-key</code> 端点，差的只是把它打开并定价。<br data-page-node-id="NVTHQdwX7siP77Za1rnQRy">
+  <strong data-page-node-id="eUPihD9EzZ7obrF9olfLuK">④ 若坚持 C 端，横向换场景而不是纵向加功能。</strong>从「帮所有人改图片名」转向「帮电商卖家把商品图改成平台友好的 SEO 文件名」——同样一个技术能力，但目标用户的付费意愿和客单价完全不同，且与它们的流量／销量直接挂钩。<br data-page-node-id="1y6pH0Gdh5O8i8Fn6vAcll">
+  <strong data-page-node-id="73XCnOuuhtC6cBEVkDg5mG">⑤ 长期风险要正视：</strong>通用大模型（ChatGPT / Gemini）随时可以把这件事变成一句话的免费功能。这个品类的独立产品需要建立「批量 + 规则 + 系统集成」的护城河（桌面端文件夹监控、云盘集成、DAM 对接），而不是「单次改名」的能力。</p>
+</div>
+
+<!-- 8 -->
+<h2 data-page-node-id="Wnc7CVhvzXGQaellRRoDq6"><span class="num" data-page-node-id="vBlB8iveObWU8lPYz2aEzm">08</span>数据来源与可信度</h2>
+<table data-page-node-id="irrF2Hu8w4jgK2nHpiHAnQ">
+  <thead data-page-node-id="7eB02a2uHYASI98r7Fo5jw"><tr data-page-node-id="oFvodNoFBGVE2SGvbEKKTh"><th data-page-node-id="J628BYNHol083SFjSmz6PK">数据</th><th data-page-node-id="ziVcpug8CVyuNqyoZQt4fD">来源</th><th data-page-node-id="CZ3TBF7oX0Y9dCAP8QCtkY">可信度</th></tr></thead>
+  <tbody data-page-node-id="M7CdKjBwDBYREaPYwxiqxw">
+    <tr data-page-node-id="EZ1SOIEpaNrcOIxUqhV3Z6"><td data-page-node-id="4GJejo9DcFvNuGldKRdYs1">13 个竞品的定价与免费额度</td><td data-page-node-id="GgjkQnP5ZcuJI20gYNJSAp">各竞品官网定价页逐项核对（renamer.ai / filerenamerai.com / zushapp 等）</td><td data-page-node-id="RbeVtRdEKqn24Nbc7mOPo5"><span class="tag t-green" data-page-node-id="o7qn3EMZnf8vvQneSiRZsT">高</span></td></tr>
+    <tr data-page-node-id="6mD3rbGjR2j8W9QWHZZhdG"><td data-page-node-id="Kc1kUYvvgAn6ESDcxMzMde">RenameAI 自身定价与支付链路</td><td data-page-node-id="cJ5HsYwIQNH1XaFHgdjwSl">生产环境前端 bundle 提取 + 实测接口</td><td data-page-node-id="8SzjlWZMaTvltF7xT61zzG"><span class="tag t-green" data-page-node-id="uv9CQrQypVSqBNbjFlIIbX">高</span></td></tr>
+    <tr data-page-node-id="xh8NEXtJXsZRBVpGgo0Bmt"><td data-page-node-id="Vd7L1WUT70KiRXD4RV3L4B">renamer.ai 用户数（6,100）、评分（4.9/5）、准确率（95%+）</td><td data-page-node-id="4JnPJQwbj3keo5HOcmjrEj"><strong data-page-node-id="6asD7ufhRmu96lgkx9AxZL">厂商自报</strong>，未获第三方独立验证</td><td data-page-node-id="7Ei9LusVyhep9RdzO8HfFE"><span class="tag t-red" data-page-node-id="gRrjCurTKrUyvHhJyMgLkF">低（厂商口径）</span></td></tr>
+    <tr data-page-node-id="GR8sYiQWxCTT0A66ZK901s"><td data-page-node-id="7X3ysvEKYEm6pYUscl8o0l">airenamer.app 收入 $91/月、累计 $7.1K、利润率 95%</td><td data-page-node-id="uXm5b5zioGph5GH2qx56b4">第三方并购信息站公开挂牌数据</td><td data-page-node-id="OyIBdkkhL2SKkDpW5MC29A"><span class="tag t-amber" data-page-node-id="iHv3Z9nBbCDbXBvEHtvfH4">中（第三方口径）</span></td></tr>
+    <tr data-page-node-id="DAxdZ3BCDsqVhaLX8KkYYp"><td data-page-node-id="jD2oEsBw74VkAosVC17Vxd">全球排名、跳出率、页/访问、地区分布、环比变化</td><td data-page-node-id="L7UDOxmDz9pDjzmJ6PZgbz">Similarweb 免费视图估算（2026-08 口径）</td><td data-page-node-id="2m3SgMb3jPcBtd8EQaorEb"><span class="tag t-amber" data-page-node-id="DHRZUBMgdum9WSDSiatQ5a">中（估算模型）</span></td></tr>
+    <tr data-page-node-id="htVhLHHiDj1I5iolyUTrrt"><td data-page-node-id="OVBhR8Q6HwCeYmq6GDrJzY">renamer.ai 月访问约 40.32K</td><td data-page-node-id="5r6KNmbCL3FwW1ecefiPlp">第三方工具目录站引用 SimilarWeb（2025-11 至 2026-01 口径）</td><td data-page-node-id="YYShLPStathqHxslsFxEWL"><span class="tag t-amber" data-page-node-id="lXOl8WSJ0jBguqeTY6LQnM">中（且时间口径较早）</span></td></tr>
+    <tr data-page-node-id="yo0JKmr5FOi5zU2P6NbzAA"><td data-page-node-id="LK7fUYHsar1Mu7gxibN627">关键词月搜索量与 CPC</td><td data-page-node-id="NwP5DFyGuSGml47FtXwWgQ">第三方 SEO 聚合站引用的 SimilarWeb 关键词数据</td><td data-page-node-id="FlnMIeKsn7j7aeYUSbFWeW"><span class="tag t-amber" data-page-node-id="F7pek8aHSEbWqfKaKgYk1s">中（样本小，存在串号）</span></td></tr>
+    <tr data-page-node-id="vzvJHBraBrfCLXn07D3wB3"><td data-page-node-id="taj9MaFNzoW03CdqGWmduF">用户评价分布（2/4 推荐、35% 正面 / 65% 批评）</td><td data-page-node-id="CQ9SKQfYhc1bMoFn4iMxrK">聚合站收录样本，<strong data-page-node-id="6kz6asDwn3D0stbWXT7gmb">样本量极小（4 条 / 16 条提及）</strong></td><td data-page-node-id="ikDCfkFo4vEWyQCrweG4Gt"><span class="tag t-red" data-page-node-id="WHnJF50kNc7V6b0YoSrbFc">低（样本过小，仅作方向参考）</span></td></tr>
+    <tr data-page-node-id="QvC2pYUQtz01Dee8lsbQUU"><td data-page-node-id="IBnzjTaQ7FRBW0dsS9QcZK">已测 4 个站点的环比变化方向一致性</td><td data-page-node-id="qrnTyfFbjoaDDeuOL9bb9t">本次独立抓取，四项均为负</td><td data-page-node-id="l5qSNNFu588Dsa6Dvzkicz"><span class="tag t-green" data-page-node-id="jBUekowgFDstTPkN6zU5el">高（趋势方向可信）</span></td></tr>
+    <tr data-page-node-id="5RlB00ms1K1aQQ2ac2axZC"><td data-page-node-id="YGACnbK2SSSArBaN8EpDJF">品类整体市场规模 / 各竞品真实 MRR</td><td data-page-node-id="L1nHsLMJ6HWExY9HWBHNUO"><strong data-page-node-id="jvkvJwRQF6ytZovklvEFD9">无法获取</strong>——除 airenamer.app 外无人披露，报告中的推算已标注为估算</td><td data-page-node-id="kSRxZ7SGgrB5dLS0d3CcxD"><span class="tag t-gray" data-page-node-id="vQBu956McghMyFDD2Fnyw2">不可验证</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout" data-page-node-id="hnxD8lB9MFfxHfywAWApsk">
+  <div class="t" data-page-node-id="d9msu95kPGjzwA2iiYotMO">给决策者的诚实提醒</div>
+  <p data-page-node-id="O9gWwM9w81Pz7u8Pqw0gAA">本报告里最硬的数据是<strong data-page-node-id="yBFcWHCoRVnvboknhrS8uf">定价结构</strong>（官网逐项核对）和<strong data-page-node-id="tNwQ3reCb2qMFvzS4yyT8A">流量变化方向</strong>（独立抓取，四项一致为负）；最软的是<strong data-page-node-id="Y1AcDLfhcii7ptBX1FVJAz">用户评价分布</strong>（样本仅个位数）和<strong data-page-node-id="VsKx1W0ApwpQg4nlDZagqR">关键词搜索量</strong>（存在串号）。<br data-page-node-id="BuLlg1KzmqYWs9HoAvE8iI">
+  要做出「这个赛道值不值得继续投」的决定，还缺三样东西，且只能通过一手调研获得：<strong data-page-node-id="D6C6irbY68SkmAE1wsfn5b">① 目标用户访谈</strong>（问他们上一次改文件名是什么时候、为什么、花了多少钱或多少时间）；<strong data-page-node-id="xV8Ipee4sHz8Ofy8sI5CpV">② 真实付费意愿测试</strong>（落地页 + 预付定金，看转化而不是看搜索量）；<strong data-page-node-id="LFEjrCZykoC4voWug9AdBJ">③ 现有客服／代做服务渠道的报价</strong>（服务端客单价往往比软件端高一个量级，是最被低估的商业化入口）。</p>
+</div>
+
+<footer data-page-node-id="yqBZRDe9n2U8IE9EsYgG85">
+  报告生成时间：2026-09-15 · 分析对象：renameai.online 及其 13 个直接竞品 + 8 类替代方案<br data-page-node-id="IdAi03Y10jh77aGHC47oWa">
+  说明：标注为估算的数值已在「数据来源与可信度」中说明口径；厂商自报数据（用户数、评分、准确率）未经独立验证。
+</footer>
+
+</div>
+</body>
+</html>

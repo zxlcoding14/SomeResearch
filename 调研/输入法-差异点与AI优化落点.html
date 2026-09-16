@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>各家输入法差在哪：七个差异维度与六个 AI 落点层面</title>
+<style>
+  :root{
+    --bg:#FFFFFF; --bg2:#F7F7F5; --bg3:#F1EFE8; --line:#E5E4E0; --line2:#D3D1C7;
+    --t1:#1F1F1E; --t2:#5F5E5A; --t3:#8A8880;
+    --blue:#378ADD; --blue-bg:#E6F1FB; --blue-tx:#0C447C;
+    --coral:#D85A30; --coral-bg:#FAECE7; --coral-tx:#712B13;
+    --teal:#1D9E75; --teal-bg:#E1F5EE; --teal-tx:#085041;
+    --amber:#BA7517; --amber-bg:#FAEEDA; --amber-tx:#633806;
+    --red:#E24B4A; --red-bg:#FCEBEB; --red-tx:#791F1F;
+    --gray:#888780; --gray-bg:#F1EFE8; --gray-tx:#444441;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--t1);
+    font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:48px 32px 80px;}
+  header{border-bottom:1px solid var(--line); padding-bottom:28px; margin-bottom:40px;}
+  .kicker{font-size:13px; color:var(--t3); letter-spacing:.04em; margin:0 0 12px;}
+  h1{font-size:30px; font-weight:500; line-height:1.35; margin:0 0 14px; letter-spacing:-.01em;}
+  .lede{font-size:16px; color:var(--t2); margin:0; line-height:1.75;}
+  .meta{font-size:13px; color:var(--t3); margin-top:18px;}
+  h2{font-size:20px; font-weight:500; margin:52px 0 18px; padding-left:14px; border-left:3px solid var(--blue); line-height:1.4;}
+  h3{font-size:16px; font-weight:500; margin:32px 0 12px;}
+  h4{font-size:14px; font-weight:500; margin:22px 0 8px;}
+  p{margin:0 0 14px;}
+  ul,ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  strong{font-weight:500;}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:13px; background:var(--bg3); padding:1px 5px; border-radius:4px;}
+
+  .callout{background:var(--bg2); border-radius:12px; padding:18px 22px; margin:22px 0;}
+  .callout.blue{background:var(--blue-bg);}
+  .callout.coral{background:var(--coral-bg);}
+  .callout.amber{background:var(--amber-bg);}
+  .callout.teal{background:var(--teal-bg);}
+  .callout p:last-child{margin-bottom:0;}
+  .callout .tag{font-size:12px; font-weight:500; letter-spacing:.04em; display:block; margin-bottom:6px; opacity:.8;}
+
+  table{width:100%; border-collapse:collapse; margin:20px 0; font-size:13.5px;}
+  th{text-align:left; font-weight:500; font-size:13px; color:var(--t2); padding:10px 8px; border-bottom:1px solid var(--line2); vertical-align:bottom;}
+  td{padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.6;}
+  td:first-child{font-weight:500;}
+  tr:last-child td{border-bottom:none;}
+  .grp td{background:var(--bg2); font-weight:500; font-size:12.5px; color:var(--t2); padding:7px 8px;}
+
+  .rate{display:inline-block; font-size:12px; padding:2px 7px; border-radius:99px; white-space:nowrap; line-height:1.6;}
+  .r-lead{background:var(--teal-bg); color:var(--teal-tx);}
+  .r-ok{background:var(--blue-bg); color:var(--blue-tx);}
+  .r-mid{background:var(--amber-bg); color:var(--amber-tx);}
+  .r-weak{background:var(--red-bg); color:var(--red-tx);}
+  .r-none{background:var(--gray-bg); color:var(--gray-tx);}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:22px 0;}
+  .card{background:var(--bg2); border-radius:12px; padding:18px 20px;}
+  .card h4{margin:0 0 8px; font-size:14px;}
+  .card p{font-size:13.5px; color:var(--t2); margin:0; line-height:1.65;}
+
+  .layer{border:1px solid var(--line); border-radius:12px; padding:20px 22px; margin:16px 0;}
+  .layer .lhead{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:4px;}
+  .layer .lhead h3{margin:0; font-size:16px;}
+  .layer .lq{font-size:12.5px; color:var(--t3); margin:0 0 12px;}
+  .layer .who{font-size:13.5px; color:var(--t2); margin:0 0 8px;}
+  .layer .who b{font-weight:500; color:var(--t1);}
+  .layer .insight{font-size:13.5px; margin:12px 0 0; padding-top:12px; border-top:1px dashed var(--line2);}
+  .layer .insight span{color:var(--coral-tx); font-weight:500;}
+
+  .player{border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin:18px 0;}
+  .player.focus{border:1px solid var(--amber); background:#FFFDF8;}
+  .player .top{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:8px;}
+  .player .top h3{margin:0; font-size:17px;}
+  .player .badge{font-size:12px; color:var(--t2); background:var(--bg3); padding:2px 9px; border-radius:99px;}
+  .player dl{margin:14px 0 0; font-size:13.5px;}
+  .player dt{font-weight:500; color:var(--t1); margin-top:12px;}
+  .player dd{margin:3px 0 0; color:var(--t2); line-height:1.65;}
+  .player dd ul{margin:4px 0 0; padding-left:18px;}
+  .player dd li{margin-bottom:3px;}
+  .verdict{margin-top:16px; padding-top:14px; border-top:1px dashed var(--line2); font-size:14px;}
+  .verdict strong{color:var(--coral-tx);}
+
+  .fork{border-left:3px solid var(--coral); padding:2px 0 2px 18px; margin:24px 0;}
+  .fork h3{margin:0 0 6px; font-size:16px;}
+  .fork .q{font-size:13px; color:var(--t3); margin:0 0 10px;}
+  .fork .sides{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px;}
+  .fork .side{background:var(--bg2); border-radius:10px; padding:14px 16px; font-size:13.5px;}
+  .fork .side b{display:block; font-weight:500; margin-bottom:4px; font-size:13.5px;}
+  .fork .side span{color:var(--t2); line-height:1.65;}
+
+  footer{margin-top:64px; padding-top:24px; border-top:1px solid var(--line); font-size:13px; color:var(--t3);}
+  @media (max-width:680px){
+    .wrap{padding:32px 18px 60px;}
+    h1{font-size:23px;}
+    table{font-size:12px;}
+    th,td{padding:8px 4px;}
+    .rate{font-size:11px; padding:2px 5px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">差异点与 AI 优化落点 · 产品经理视角</p>
+  <h1>各家输入法到底差在哪：七个差异维度与六个 AI 落点层面</h1>
+  <p class="lede">六家主力输入法的 AI 功能清单重叠度已经接近 100%——都在做语音、都在做帮写、都在接大模型。但仍然有真实差异。这份文档把"差异"拆到可判断的粒度：先建立输入链路六层框架看 AI 插在哪，再用七个维度横向对照，最后指出真正决定走向的四个架构分岔。它是《输入法：从打字工具到 AI 意图入口》主报告的配套深潜。</p>
+  <p class="meta">整理时间：2026 年 9 月 · 基于公开报道、官方功能页与第三方评测综合整理</p>
+</header>
+
+<h2>摘要：五个判断</h2>
+<ol>
+  <li><strong>差异不在"有没有做 AI"，而在 AI 插在链路的哪一层、插了多深。</strong>全行业 AI 落点都集中在前段（语音识别）和后段（生成改写），中间最考验工程能力的"语言后处理层"反而只有少数几家在做。</li>
+  <li><strong>越靠近识别层，差异越真实；越靠近生成层，差异越是包装。</strong>语音识别能力可以被客观测量（方言覆盖、噪声鲁棒性、离线可用性），而生成改写层各家接的都是自家通用大模型，功能命名五花八门（AI 帮写／超会写／灵动表达／AI 键），底层能力差距远小于营销差距。</li>
+  <li><strong>搜狗是唯一在六个层面全部有落点的玩家，但也是基础打字维度唯一明确失分的玩家。</strong>这是"AI 加法挤压基础体验"最典型的样本。</li>
+  <li><strong>真正拉开差距的是四个架构分岔，不是功能数量：</strong>AI 是按钮还是键盘本身、算力在云端还是端侧、是否用输入数据换体验、差异化押"准"还是押"好"。这四处分岔决定了每家的 AI 优化重心。</li>
+  <li><strong>手心输入法提供了"零 AI 落点"的对照组。</strong>它在六个层面全部空白，却在"基础打字"维度拿到口碑优势——这说明 AI 落点数量与用户体验之间不存在线性关系。</li>
+</ol>
+
+<h2>一、先立框架：为什么用"六层链路 + 七维差异"来拆</h2>
+
+<p>大部分对比分析错在同一个地方：把功能当单位。于是得到一张"搜狗有 12 个 AI 功能、百度有 9 个、微信输入法有 6 个"的清单——这张清单除了回答"谁的市场部更勤奋"，回答不了任何产品问题。</p>
+
+<p>更有效的做法是把输入法看成一条数据处理链路。用户从"决定要表达什么"到"屏幕上出现文字"，中间必然经过六个层面。各家所谓的 AI 优化，本质上就是在这条链路上选段落点：</p>
+
+<div class="cards">
+  <div class="card">
+    <h4>链路层：看 AI 插在哪</h4>
+    <p>触发与入口层 → 声学与识别层 → 语言后处理层 → 理解与排序层 → 生成与改写层 → 多模态输出层。落点越靠前，越接近"把字弄对"；越靠后，越接近"把话弄好"。</p>
+  </div>
+  <div class="card">
+    <h4>差异层：看凭什么不一样</h4>
+    <p>基础打字、语音识别、AI 生成改写、生态联动、隐私策略、分发覆盖、商业化闭环。前三个是产品能力，后四个是结构性条件——而后四个往往才是差异的真正来源。</p>
+  </div>
+</div>
+
+<div class="callout blue">
+  <span class="tag">框架的关键作用</span>
+  <p>把"功能对比"换成"链路落点对比"之后，一个原本被忽略的事实会浮现出来：<strong>行业在中间层集体缺位</strong>。语音识别层有五六家在卷，生成层有五六家在卷，但真正决定"语音输入能不能直接用"的语言后处理层（去语气词、口语转书面语、自动断句与标点），只有搜狗、讯飞、微信三家明确做了，而它恰恰是用户能直接感知"好不好用"的那一环。</p>
+</div>
+
+<h2>二、六个 AI 落点层面：每一层在优化什么</h2>
+
+<div class="layer">
+  <div class="lhead"><h3>第 1 层 · 触发与入口层</h3></div>
+  <p class="lq">优化目标：让用户"想得到"并且"够得着"AI</p>
+  <p class="who"><b>这一层的差异最直接体现在交互设计上，也是最容易被抄的一层。</b>主流做法分三种：独立按键（讯飞的键盘 AI 键，行业首创，一键唤起帮写与润色）；符号触发（微信输入法的"="键，打完字敲等号即出答案，没有额外按钮）；物理键长按（豆包长按 Alt 即说，把语音提到第一入口）。搜狗用的是"汪仔"形象加 <code>Alt+空格</code> 快捷键，百度则把入口收进"超会写"。</p>
+  <p class="insight"><span>产品判断：</span>这一层的本质分歧是"AI 是可选功能还是默认路径"。独立按键把 AI 做成功能，用户得先想起它；符号触发和长按即说把 AI 做进路径，用户不需要记任何东西。<strong>后者对使用率的提升远大于前者，但代价是干扰风险——这也是"键盘派"必须解决的新问题。</strong></p>
+</div>
+
+<div class="layer">
+  <div class="lhead"><h3>第 2 层 · 声学与识别层</h3></div>
+  <p class="lq">优化目标：把声音尽可能准确地变成字</p>
+  <p class="who"><b>这是目前差异最真实、也最值钱的一层。</b>讯飞宣称支持 202 种方言、连续语音识别准确率 98.3%，并明确支持离线识别；搜狗基于混元语音大模型宣称整体准确率 98%、方言识别准确率提升 30%，并专门优化了"轻声场景"（低于 20 分贝仍保持 97%）；豆包用自研 Seed-ASR，主打弱网与离线可用、15 种方言；微信输入法 2025 年 12 月起支持不限时长的离线语音识别与 15 种方言；百度则以声纹角色分离见长，主打多人会议速记场景。</p>
+  <p class="insight"><span>产品判断：</span>识别层的差异可以被客观测量，因此这里的领先是真的。但要注意两个陷阱：一是<strong>厂商自述准确率不可横向比较</strong>（测试集、场景、口径均不公开）；二是<strong>准确率从 97% 到 98% 对用户体验的边际收益，远小于"离线能不能用"这个开关式差异</strong>。讯飞、豆包、微信都押了离线，这才是真正拉开感知的一步。</p>
+</div>
+
+<div class="layer">
+  <div class="lhead"><h3>第 3 层 · 语言后处理层</h3></div>
+  <p class="lq">优化目标：把口语变成能直接发出去的书面语</p>
+  <p class="who"><b>这是全行业投入最少、但用户感知最强的一层。</b>搜狗把它包装成"电子嘴替"，宣称口语转书面语准确率 92.7%，可自动修正"那个啥""然后呢"等冗余表达，并针对"他她它""的地得"提供智能候选替换；讯飞在 15.0.20 版本加入大模型语义修正，自动去除多余语气词、优化表达逻辑；微信输入法则在 2026 年 4 月的 3.2.0 版本上线"文字整理"。百度以整句纠错为主，没有突出这一层的独立宣传。</p>
+  <p class="insight"><span>产品判断：</span>语音输入的真实门槛从来不是识别准确率，而是<strong>"说出来之后还得手动改一遍"</strong>。一个 95% 准确率但输出口语化乱句的语音输入，实际可用性低于一个 92% 准确率但直接输出书面语的语音输入。这一层是当前性价比最高的差异化位置，也是豆包（纯语音优先路线）暴露出的短板。</p>
+</div>
+
+<div class="layer">
+  <div class="lhead"><h3>第 4 层 · 理解与排序层</h3></div>
+  <p class="lq">优化目标：猜对你接下来要打什么</p>
+  <p class="who"><b>这一层的 AI 化程度，直接决定了"AI 功能越多、打字越慢"这个行业性问题有多严重。</b>搜狗上了自研 AI 打字大模型，宣称词库量指数级提升、本地生活词扩充至 5000 万+、覆盖 18 类垂直 App 场景、新词天级更新，并与腾讯医典、得理科技合作为医生与律师提供专业词库；百度主打"AI 智能输入"，自适应输入场景；讯飞做 AI 预测输入与智能纠错；微信输入法则反向选择——本地词库优先，不追求云端热词时效。</p>
+  <p class="insight"><span>产品判断：</span>候选排序是输入法的核心算法资产，也是<strong>最容易发生资源挤占的地方</strong>。当端侧算力优先分配给 AI 功能推理时，候选排序的响应速度会退化——这正是用户抱怨"打字变慢了"的技术根源。<strong>把"Top-1 上屏率"和"候选响应延迟"设为一级指标，是这一层的唯一正确做法。</strong></p>
+</div>
+
+<div class="layer">
+  <div class="lhead"><h3>第 5 层 · 生成与改写层</h3></div>
+  <p class="lq">优化目标：把话变好——帮写、润色、翻译、文案</p>
+  <p class="who"><b>这一层功能最热闹，差异却最小。</b>搜狗接入混元与 DeepSeek，支持"深度思考"与"联网搜索"，AI 翻译覆盖 30 多种语言；百度以"超会写"覆盖润色、改写、续写、高情商沟通、朋友圈文案、小红书标题、购物评价、工作汇报，并接入 DeepSeek-R1；微信输入法接入混元与 DeepSeek 双模型，支持"边写边译"16 种语言、灵动表达（一键润色或扩写）与 AI 文案生成；讯飞用 AI 键做帮写、润色，并提供高情商沟通、恋爱军师、写作达人等角色化助手。</p>
+  <p class="insight"><span>产品判断：</span>把这几家的功能名去掉品牌前缀，用户基本分不出谁是谁——<strong>因为底层都是通用大模型接同一个位置，差异只存在于入口设计和提示词工程。</strong>这一层不构成护城河，它构成的是"不做就会被认为落后"的入场券。真正的差异化只能来自另外三个条件：生态能调用什么、能不能端侧跑、用户愿不愿意授权数据。</p>
+</div>
+
+<div class="layer">
+  <div class="lhead"><h3>第 6 层 · 多模态输出层</h3></div>
+  <p class="lq">优化目标：超越纯文本的表达</p>
+  <p class="who">搜狗做 AI 合成表情与"混元图搜"（官方称日请求量已达数亿次）；百度做 AR 表情、AI 皮肤与 AI 头像，偏娱乐与个性化；微信输入法做"排版成图"（文字一键转精美图片）与"隔空传送"（跨设备及面对面秒传文件）。</p>
+  <p class="insight"><span>产品判断：</span>这一层对留存的价值远大于对效率的价值，且<strong>是隐私风险最容易失控的区域</strong>——AR 表情涉及人脸、AI 皮肤涉及相册、"排版成图"涉及用户原创文本。合规审查必须前置，不能等上线后补。</p>
+</div>
+
+<h2>三、七个差异维度逐项对照</h2>
+
+<p>下面这张表回答的是"差异凭什么成立"。注意后四个维度不是产品能力，而是结构性条件——<strong>它们往往才是差异的真正来源。</strong></p>
+
+<table>
+  <colgroup><col style="width:16%"><col style="width:46%"><col style="width:19%"><col style="width:19%"></colgroup>
+  <thead>
+    <tr><th>差异维度</th><th>差异的真实来源</th><th>占优者</th><th>失分或缺位者</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>基础打字</td>
+      <td>词库规模、纠错精度、候选排序响应速度。这是输入法的本分，也是 AI 化过程中被牺牲最严重的一项。行业普遍出现"AI 功能变多、基础打字变慢"的效率悖论。</td>
+      <td>手心（稳定性口碑）</td>
+      <td>搜狗（纠错薄弱）</td>
+    </tr>
+    <tr>
+      <td>语音识别</td>
+      <td>方言覆盖广度、离线可用性、噪声与轻声鲁棒性、语言后处理质量。全行业唯一可被客观测量的能力，也是唯一真正形成技术护城河的一层。</td>
+      <td>讯飞、豆包</td>
+      <td>手心（仅传统识别）</td>
+    </tr>
+    <tr>
+      <td>AI 生成改写</td>
+      <td>底层都是通用大模型，差异主要来自入口设计与场景覆盖密度。功能重叠度高，是"必须有但不构成优势"的入场券。</td>
+      <td>搜狗（覆盖最全）</td>
+      <td>手心（完全缺位）</td>
+    </tr>
+    <tr>
+      <td>生态联动</td>
+      <td>键盘之外能调用什么。这是第三方输入法最难跨越的壁垒——微信输入法能推荐公众号、小程序、视频号，搜狗背后是混元与元宝，这两家靠的不是输入法做得好。</td>
+      <td>搜狗、微信输入法</td>
+      <td>讯飞、手心</td>
+    </tr>
+    <tr>
+      <td>隐私策略</td>
+      <td>是否默认本地处理、是否上传输入内容。既是合规防线，也是可主动选择的差异化定位。</td>
+      <td>微信输入法、手心</td>
+      <td>搜狗、百度</td>
+    </tr>
+    <tr>
+      <td>分发覆盖</td>
+      <td>预装渠道、母体流量、平台覆盖数。豆包已覆盖 Windows／macOS／iOS／Android／鸿蒙五端，微信输入法背后是微信的流量池，搜狗靠二十年预装惯性——这一维决定了"产品做得好有没有用"。</td>
+      <td>搜狗、微信输入法</td>
+      <td>手心</td>
+    </tr>
+    <tr>
+      <td>商业化闭环</td>
+      <td>是否有可持续的收入路径。这一维的排序几乎与产品口碑呈负相关：变现能力最强的搜狗恰恰口碑最受损，而不变现的微信输入法与手心口碑最好。</td>
+      <td>搜狗（广告基本盘）</td>
+      <td>微信输入法、手心（主动选择）</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout amber">
+  <span class="tag">这张表最值得注意的一处</span>
+  <p>搜狗在"生态联动""分发覆盖""商业化"三个结构性维度上全部领先，却在"基础打字"这个唯一的本分维度上失分；手心在三个结构性维度上全部缺位，却在"基础打字"上拿到口碑优势。<strong>这不是巧合，而是同一件事的两面：结构性优势会让你有资格忽视用户，结构性劣势会逼你把本分做好。</strong></p>
+</div>
+
+<h2>四、四个分水岭：决定 AI 优化重心的架构选择</h2>
+
+<p>把上面六层和七维串起来，会发现每家的选择并不是随机的，而是由四个架构层面的分岔决定的。</p>
+
+<div class="fork">
+  <h3>分水岭 1 · AI 是「键盘上的一个按钮」，还是「键盘本身」</h3>
+  <p class="q">这一处分岔决定了 AI 功能的实际使用率天花板</p>
+  <div class="sides">
+    <div class="side"><b>按钮派</b><span>AI 是可选入口，不打字的人完全不受影响。讯飞（键盘 AI 键）、百度（超会写）、搜狗（汪仔）。风险是使用率低——用户得先想起它。</span></div>
+    <div class="side"><b>键盘派</b><span>用 AI 重写默认路径，语音或自然语言成为第一入口。豆包（长按 Alt 即说）、微信输入法（"=" 即答）。风险是干扰与误触。</span></div>
+  </div>
+</div>
+
+<div class="fork">
+  <h3>分水岭 2 · 算力放云端，还是放端侧</h3>
+  <p class="q">这一处分岔同时决定了成本结构与隐私可信度</p>
+  <div class="sides">
+    <div class="side"><b>云优先</b><span>能力上限更高、覆盖更广，但推理成本随用户量线性增长——这是"免费工具养不起 AI"的结构性根源。搜狗、百度。</span></div>
+    <div class="side"><b>端侧优先或端云混合</b><span>离线可用、成本可控、隐私可解释，代价是能力上限受设备算力限制。讯飞（离线语音）、豆包（弱网离线）、微信输入法（单机模式）。</span></div>
+  </div>
+</div>
+
+<div class="fork">
+  <h3>分水岭 3 · 是否用输入数据换体验</h3>
+  <p class="q">这一处分岔决定了产品能走多快，也决定了用户信任能有多厚</p>
+  <div class="sides">
+    <div class="side"><b>交换派</b><span>上传输入内容换取更准的联想与云端词库，"新词天级更新"以此为前提。搜狗、百度、讯飞。</span></div>
+    <div class="side"><b>拒绝派</b><span>默认本地处理，主动放弃部分云端能力——离线模式下语音转写与跨设备同步会失效。微信输入法、手心输入法。</span></div>
+  </div>
+</div>
+
+<div class="fork">
+  <h3>分水岭 4 · 差异化押在「准」还是「好」</h3>
+  <p class="q">这一处分岔决定了护城河能维持多久</p>
+  <div class="sides">
+    <div class="side"><b>押「准」</b><span>重心在识别层，把声音和字符弄对。护城河可被客观测量，但需要长期数据积累，短期看不见。讯飞、豆包。</span></div>
+    <div class="side"><b>押「好」</b><span>重心在生成层，把话变好。体验更醒目、更容易做出可传播的功能点，但同质化快，且会掩盖基础能力的退化。搜狗、百度、微信输入法（轻量）。</span></div>
+  </div>
+</div>
+
+<div class="callout coral">
+  <span class="tag">这四处分岔的组合结果</span>
+  <p>把四处分岔叠起来看：<strong>搜狗是"按钮派 + 云优先 + 交换派 + 押好"，四项全部选了更容易见效但更难积累的一侧</strong>；讯飞是"按钮派 + 端侧 + 交换派 + 押准"；微信输入法是"键盘派 + 端侧 + 拒绝派 + 押好（轻量）"；豆包是"键盘派 + 端侧 + 押准"。<strong>没有任何一家四项全对，因为每一侧都有代价。</strong>产品判断的价值不在于选对，而在于清楚自己选了哪一侧、并接受对应的代价。</p>
+</div>
+
+<h2>五、逐家 AI 优化清单与差异定位</h2>
+
+<div class="player focus">
+  <div class="top"><h3>搜狗输入法</h3><span class="badge">六层全覆盖 · 唯一</span></div>
+  <p style="font-size:13.5px; color:var(--t2); margin:0;">20.0 AI 大版本把 AI 化定为主线，是六家里唯一在全部六个层面都有明确落点的玩家。</p>
+  <dl>
+    <dt>AI 优化落点</dt>
+    <dd>
+      <ul>
+        <li>入口层：汪仔按钮 + <code>Alt+空格</code>；"=号"搜索（可在微信、QQ、Word 中边打边搜）</li>
+        <li>识别层：混元语音大模型，宣称整体准确率 98%、方言识别准确率提升 30%、20 分贝轻声场景 97%</li>
+        <li>后处理层："电子嘴替"，口语转书面语宣称准确率 92.7%</li>
+        <li>排序层：自研 AI 打字大模型，本地生活词 5000 万+、18 类垂直场景，与腾讯医典、得理科技合作专业词库</li>
+        <li>生成层：AI 帮写、AI 续写、AI 划词（搜索／翻译／总结）、混元翻译模型覆盖 30+ 语言</li>
+        <li>多模态层：AI 合成表情、混元图搜</li>
+      </ul>
+    </dd>
+    <dt>明确的缺位</dt>
+    <dd>基础打字维度的纠错能力被普遍诟病，候选响应速度因 AI 功能挤占而退化——这是它口碑与份额不匹配的核心原因。</dd>
+  </dl>
+  <p class="verdict">差异定位：<strong>用最全的 AI 落点覆盖最大的人群，代价是把本分让出去了。</strong>它的最大风险不是某个竞品，而是"AI 越多、打字越慢"这个自伤循环。</p>
+</div>
+
+<div class="player">
+  <div class="top"><h3>百度输入法</h3><span class="badge">生成层为重心</span></div>
+  <p style="font-size:13.5px; color:var(--t2); margin:0;">路线最清晰——以传统中文输入为底座，把输入法升级为随处可调用的 AI 创作入口。</p>
+  <dl>
+    <dt>AI 优化落点</dt>
+    <dd>
+      <ul>
+        <li>生成层："超会写"为核心入口，覆盖润色、改写、续写、高情商沟通、神评论、朋友圈文案、小红书标题、购物评价、工作汇报</li>
+        <li>搜索层：AI 搜索，接入 DeepSeek-R1 深度思考</li>
+        <li>识别层：AI 语音输入，中英混输与方言免切换、离线语音；声纹区分角色技术（多人会议速记）</li>
+        <li>排序层：AI 智能输入 + 智能整句纠错</li>
+        <li>多模态层：AI 表情、AR 表情、AI 皮肤、AI 头像</li>
+      </ul>
+    </dd>
+    <dt>明确的缺位</dt>
+    <dd>没有独立的语言后处理层能力宣传（口语转书面语）；多模态层偏向娱乐化，与核心输入效率关系弱。</dd>
+  </dl>
+  <p class="verdict">差异定位：<strong>把 AI 押在"内容生产"而非"输入效率"上，因此它的竞争对象其实是剪映、小红书创作工具，而不只是其他输入法。</strong>风险是重心的偏移让"打字工具"这个身份持续弱化。</p>
+</div>
+
+<div class="player">
+  <div class="top"><h3>讯飞输入法</h3><span class="badge">识别层最深 · 端侧优先</span></div>
+  <p style="font-size:13.5px; color:var(--t2); margin:0;">技术护城河最扎实的一家，也是唯一把"离线可用"作为核心卖点持续投入的玩家之一。</p>
+  <dl>
+    <dt>AI 优化落点</dt>
+    <dd>
+      <ul>
+        <li>识别层：202 种方言、30 多种外语，支持离线语音与弱网识别；连续语音识别准确率宣称 98.3%</li>
+        <li>入口层：行业首创"键盘 AI 键"，一键唤起帮写、润色与智能服务</li>
+        <li>后处理层：15.0.20 版本加入大模型语义修正，自动去除多余语气词、优化表达逻辑</li>
+        <li>排序层：AI 预测输入 + 智能纠错</li>
+        <li>生成层：AI 键帮写与润色，并提供高情商沟通、恋爱军师、百变人设、写作达人等角色化助手；AI 剪贴板支持智能回复、仿写、拆词、翻译</li>
+      </ul>
+    </dd>
+    <dt>明确的缺位</dt>
+    <dd>生态联动薄弱——键盘之外没有可调用的内容与服务生态，能力停在工具层。键盘装扮类功能占比偏高，分散了 AI 叙事的注意力。</dd>
+  </dl>
+  <p class="verdict">差异定位：<strong>押"准"的一侧，护城河真实但天花板取决于"语音是否成为默认输入方式"——而这个变量它控制不了。</strong></p>
+</div>
+
+<div class="player">
+  <div class="top"><h3>微信输入法</h3><span class="badge">入口最轻 · 隐私最强</span></div>
+  <p style="font-size:13.5px; color:var(--t2); margin:0;">AI 做得最少但用得最顺的一家。它的差异化不在功能表上，在默认值的设定上。</p>
+  <dl>
+    <dt>AI 优化落点</dt>
+    <dd>
+      <ul>
+        <li>入口层："="键即问 AI，无独立按钮；接入混元与 DeepSeek 双模型</li>
+        <li>识别层：2025 年 12 月起支持不限时长的离线语音识别与 15 种方言</li>
+        <li>后处理层：2026 年 4 月 3.2.0 版本上线"文字整理"</li>
+        <li>生成层：灵动表达（一键润色或扩写）、边写边译支持 16 种语言互译、AI 文案生成</li>
+        <li>多模态层：排版成图（文字转精美图片）、隔空传送（跨设备及面对面秒传）</li>
+      </ul>
+    </dd>
+    <dt>明确的缺位</dt>
+    <dd>无商业化路径，也不追求全场景 AI 覆盖；排序层明确选择本地词库优先，不追云端热词时效；生态内的智能推荐主要在微信会话场景生效。</dd>
+  </dl>
+  <p class="verdict">差异定位：<strong>把"隐私优先"做成了默认值而不是选项（首次安装即隐私保护模式，单机模式完全断网运行），用克制换取了全行业最高的用户信任。</strong></p>
+</div>
+
+<div class="player">
+  <div class="top"><h3>豆包输入法</h3><span class="badge">键盘派 · 语音优先</span></div>
+  <p style="font-size:13.5px; color:var(--t2); margin:0;">唯一一家把"语音优先"当产品定义、而不是当功能来做的玩家。</p>
+  <dl>
+    <dt>AI 优化落点</dt>
+    <dd>
+      <ul>
+        <li>入口层：Windows 版长按键盘右侧 Alt 即启动语音输入，语音是第一入口而非备用方案</li>
+        <li>识别层：豆包同款语音大模型（Seed-ASR），支持多方言、中英混合、专业术语，弱网甚至完全离线可用；方言识别准确率宣称 98.2%，语音转写宣称错误率较传统输入法低 20%–50%</li>
+        <li>排序层：结合上下文语义分析的智能联想与长句纠错，可预测后续输入内容</li>
+        <li>生成层：基于豆包同款模型做语音转写后的整理</li>
+      </ul>
+    </dd>
+    <dt>明确的缺位</dt>
+    <dd>不强调语言后处理层（口语转书面语的系统化包装）；多模态与生态联动落点少；键盘装扮类功能几乎不做。</dd>
+  </dl>
+  <p class="verdict">差异定位：<strong>不是在和其他输入法抢"打字"这件事，而是在赌"语音会变成默认输入方式"。</strong>2026 年 9 月发布 Windows 版后已完成五端覆盖，产品定义已从"字符搬运工"转向"意图翻译器"。</p>
+</div>
+
+<div class="player focus">
+  <div class="top"><h3>手心输入法</h3><span class="badge">零 AI 落点 · 历史对照</span></div>
+  <p style="font-size:13.5px; color:var(--t2); margin:0;">六个 AI 层面全部空白——这不是遗漏，是它 2014 年立下的产品主张的必然结果。</p>
+  <dl>
+    <dt>AI 优化落点</dt>
+    <dd>无。没有大模型接入、没有帮写润色、没有语音大模型、没有 AI 翻译、没有多模态生成。仅保留传统语音识别与本地词库。</dd>
+    <dt>它做对了什么</dt>
+    <dd>把"不打扰"执行到底：无广告、不捆绑、不擅自篡改用户输入，并在更新日志里主动解释"移除三年前添加的无关功能"。这种在本次调研中唯一见到的做法，恰好证明了减法本身可以成为产品纪律。</dd>
+  </dl>
+  <p class="verdict">差异定位：<strong>它是"AI 落点数量与用户体验无关"最有力的证据。</strong>一家零 AI 落点的小团队，在"把字打对"这件事上被普遍评价为不输给投入数十亿的对手——这本身就是对行业资源分配方式的质问。</p>
+</div>
+
+<h2>六、容易被误读的三件事</h2>
+
+<h3>1. 功能清单的重叠度已经接近 100%</h3>
+<p>语音输入、AI 帮写、AI 翻译、AI 问答、表情生成——把六家的功能名去掉品牌前缀，用户几乎无法分辨。这意味着<strong>"我们也有 AI 帮写"已经不能作为立项理由</strong>，只能作为不落后的底线要求。任何以"竞品有了我们也要有"为出发点的需求，都应该先被问一句：它插在链路的哪一层，那一层是否已经拥挤。</p>
+
+<h3>2. 厂商自述的指标不可横向比较</h3>
+<p>本报告引用的准确率、方言数量、延迟数字，绝大多数来自厂商新闻稿、应用商店文案或自媒体评测。典型例子：同一时间点搜狗份额有 38%–41.8% 多个出处，讯飞有 12.8%–21% 多个出处；某些评测给出的"响应延迟低于 180ms""声纹角色区分准确率 96.1%"缺少公开测试集说明。<strong>引用时请保留区间并标注来源性质，不要把新闻稿数字写进立项文档的对比基线。</strong></p>
+
+<h3>3. AI 落点数量与用户体验之间没有线性关系</h3>
+<p>搜狗六层全覆盖，用户抱怨"打字变慢"；手心零落点，用户评价"稳定、不折腾"。这不是说 AI 没用，而是说<strong>AI 的价值取决于它是否解决了某个具体的、用户已经在忍受的问题</strong>。在这一点上，第 3 层（语言后处理）的价值被整个行业系统性低估了。</p>
+
+<h2>七、给 PM 的四条可操作结论</h2>
+
+<ol>
+  <li><strong>评审任何输入法 AI 需求时，先定位它落在六层的哪一层。</strong>落在第 5 层（生成改写）的需求默认视为"入场券"而非差异化，必须额外回答"我们比竞品好在哪"；落在第 3 层（语言后处理）的需求优先级应上调。</li>
+  <li><strong>把两项基础指标设为不可妥协的护栏：</strong>候选响应延迟与 Top-1 上屏率。任何新增 AI 功能若使这两项退化，无论功能多亮眼都不应上线。<strong>这是"效率悖论"唯一有效的防线。</strong></li>
+  <li><strong>用四个分岔自检产品定位：</strong>我们的 AI 是按钮还是路径？算力在云还是端？是否交换用户数据？差异化押"准"还是押"好"？四个问题答不清楚，功能做得再多也会漂移。</li>
+  <li><strong>如果资源有限，优先做"离线可用 + 语言后处理"这一组合。</strong>离线是开关式的用户感知差异，后处理是决定"语音输入能不能直接用"的关键环节，两者叠加的体验提升幅度大于再做三个生成类功能。</li>
+</ol>
+
+<h2>八、数据口径与不确定性说明</h2>
+
+<ul>
+  <li>本报告的功能落点整理依据官方功能页、应用商店说明、版本更新日志与公开报道交叉比对，版本时点集中在 2026 年上半年至 2026 年 9 月。</li>
+  <li>所有准确率、方言数量、词库规模、日调用量数字均为<strong>厂商或媒体口径</strong>，未经过独立验证，且各家测试集与场景不公开，横向比较无效。</li>
+  <li>百度输入法的部分 AI 能力信息来自第三方评测与商店页面描述，官方功能页表述较为笼统，实际可用范围可能小于描述。</li>
+  <li>豆包输入法为 2025 年 11 月新上线产品，功能迭代速度快，本报告的落点判断存在时效风险。</li>
+  <li>分水岭四类的归类是<strong>分析判断而非官方定位</strong>。同一家在不同平台版本上的选择可能不一致（例如微信输入法的云端能力仅在"拼写 Plus 模式"下启用），归类取的是其产品主线。</li>
+</ul>
+
+<footer>
+  <p>配套阅读：《输入法：从打字工具到 AI 意图入口》（主报告，含市场格局、商业模式、八个机会点与指标体系）。本文档专注差异点与 AI 优化落点的横向拆解，其中的维度划分与分水岭归类为分析框架，供内部评审使用。</p>
+  <p>整理时间：2026 年 9 月 · 基于公开信息综合整理，未含非公开数据。</p>
+</footer>
+
+</div>
+</body>
+</html>

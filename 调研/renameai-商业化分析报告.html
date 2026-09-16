@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="1LJ2pWJ4uajNS1OA1DsMRm">
+<head data-page-node-id="woQCCeMNSkMVCozBfBE9tl">
+<meta charset="utf-8" data-page-node-id="z53PDUHKjLuFYdNZSptqDM">
+<meta name="viewport" content="width=device-width, initial-scale=1" data-page-node-id="Qt5nAPtj7OBUgrHYmh5IDr">
+<title>RenameAI (renameai.online) 商业化分析报告</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --panel:#ffffff; --ink:#111827; --ink2:#4b5563; --ink3:#8b93a1;
+    --line:#e5e7eb; --accent:#6d28d9; --accent2:#0ea5e9;
+    --red:#dc2626; --green:#059669; --amber:#d97706;
+    --shadow:0 1px 2px rgba(16,24,40,.05),0 8px 24px -12px rgba(16,24,40,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.72 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;}
+  .wrap{max-width:1040px;margin:0 auto;padding:40px 24px 80px}
+  header.hero{background:linear-gradient(135deg,#4c1d95 0%,#6d28d9 45%,#0ea5e9 100%);color:#fff;border-radius:18px;padding:34px 34px 30px;box-shadow:var(--shadow)}
+  header.hero .kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.82;font-weight:600}
+  header.hero h1{margin:10px 0 8px;font-size:30px;line-height:1.3;font-weight:700}
+  header.hero .sub{opacity:.9;font-size:14.5px;max-width:760px}
+  header.hero .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:4px 12px;font-size:12.5px}
+  h2{font-size:21px;margin:44px 0 6px;padding-bottom:10px;border-bottom:2px solid var(--line)}
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:8px}
+  h3{font-size:16px;margin:26px 0 8px;color:#1f2937}
+  p{margin:10px 0;color:var(--ink2)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow);margin:16px 0}
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  @media(max-width:840px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+  .kpi .lbl{font-size:12px;color:var(--ink3);font-weight:600;letter-spacing:.02em}
+  .kpi .val{font-size:25px;font-weight:700;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .kpi .foot{font-size:12.5px;color:var(--ink3)}
+  .val.red{color:var(--red)} .val.green{color:var(--green)} .val.amber{color:var(--amber)} .val.purple{color:var(--accent)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:#f9fafb;font-size:12.5px;letter-spacing:.02em;color:#374151;font-weight:700;text-transform:uppercase}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  tbody tr:hover{background:#fbfaff}
+  .tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .t-red{background:#fee2e2;color:#991b1b}
+  .t-amber{background:#fef3c7;color:#92400e}
+  .t-green{background:#d1fae5;color:#065f46}
+  .t-gray{background:#f1f5f9;color:#475569}
+  .t-purple{background:#ede9fe;color:#5b21b6}
+  .callout{border-left:4px solid var(--accent);background:#faf5ff;border-radius:0 12px 12px 0;padding:14px 18px;margin:16px 0}
+  .callout.warn{border-color:var(--red);background:#fef2f2}
+  .callout.ok{border-color:var(--green);background:#ecfdf5}
+  .callout .t{font-weight:700;margin-bottom:4px;font-size:14.5px}
+  .callout p{margin:6px 0 0;color:#374151}
+  .bar-row{display:grid;grid-template-columns:230px 1fr 92px;gap:12px;align-items:center;margin:7px 0;font-size:13.5px}
+  .bar-track{background:#f1f5f9;border-radius:6px;height:20px;position:relative;overflow:hidden}
+  .bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#a78bfa,#6d28d9)}
+  .bar-fill.mkt{background:linear-gradient(90deg,#cbd5e1,#94a3b8)}
+  .bar-fill.us{background:linear-gradient(90deg,#fca5a5,#dc2626)}
+  .bar-row .bval{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2);font-weight:600}
+  .funnel{display:flex;flex-direction:column;gap:9px;margin:18px 0}
+  .fstep{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center}
+  .fstep .n{width:44px;height:44px;border-radius:12px;background:#ede9fe;color:#5b21b6;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .fstep .body{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 16px;box-shadow:var(--shadow)}
+  .fstep.danger .n{background:#fee2e2;color:#991b1b}
+  .fstep.danger .body{border-color:#fecaca;background:#fff7f7}
+  .fstep .body b{display:block;font-size:14.5px}
+  .fstep .body span{font-size:13px;color:var(--ink2)}
+  .gapbox{background:#fff7ed;border:1px dashed #fdba74;border-radius:10px;padding:9px 14px;font-size:13px;color:#9a3412;margin:6px 0}
+  ul{margin:10px 0;padding-left:22px;color:var(--ink2)}
+  li{margin:6px 0}
+  code{background:#f3f4f6;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#374151;word-break:break-all}
+  .src{font-size:12.5px;color:var(--ink3);margin-top:8px}
+  .prio{display:inline-flex;width:34px;height:24px;align-items:center;justify-content:center;border-radius:6px;font-weight:800;font-size:12px;margin-right:10px;vertical-align:1px}
+  .p0{background:#dc2626;color:#fff} .p1{background:#f59e0b;color:#fff} .p2{background:#0ea5e9;color:#fff}
+  .item{padding:13px 0;border-bottom:1px solid var(--line)}
+  .item:last-child{border-bottom:none}
+  .item .h{font-weight:700;font-size:14.5px;display:flex;align-items:center}
+  .item .d{color:var(--ink2);font-size:13.5px;margin-top:3px;padding-left:44px}
+  footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  .legend{font-size:12.5px;color:var(--ink3);margin-top:10px}
+</style>
+</head>
+<body data-page-node-id="FmL8wEG2iYzrp2M1Znf5TQ">
+<div class="wrap" data-page-node-id="KTBHLoRK97DoTkZuXLvCKQ">
+
+<header class="hero" data-page-node-id="NUBQaBst2MegXCgqkfA9nu">
+  <div class="kicker" data-page-node-id="BlCOIl7QwnVj6jGv46T8Sb">Product &amp; Monetization Review</div>
+  <h1 data-page-node-id="XDqbY2bRfFKLPBCXLPpXXb">RenameAI（renameai.online）商业化分析报告</h1>
+  <div class="sub" data-page-node-id="ct1fDcuFGovCe9wftbbJLd">以产品经理视角，从线上生产环境可验证的数据出发，拆解这个 AI 批量图片改名工具的产品形态、定价体系、支付链路、流量结构与单位经济模型。</div>
+  <div class="meta" data-page-node-id="inpaBWahpqsxEvJFw33762">
+    <span class="chip" data-page-node-id="B0hVBgvDsNT7DGuXK26qbP">分析日期：2026-09-15</span>
+    <span class="chip" data-page-node-id="ipHjSLHvfoCh1retNukmrr">数据来源：线上前端 bundle / 后端 OpenAPI / 实测接口 / 第三方流量</span>
+    <span class="chip" data-page-node-id="BbpqoTAEySJKksibaCIfHz">结论：技术已跑通，商业化未闭环</span>
+  </div>
+</header>
+
+<!-- ============ 1 ============ -->
+<h2 data-page-node-id="5sMsan2wFwt54F9xE2Od6v"><span class="num" data-page-node-id="PddPV1fytMw4iAFdeQqpDU">01</span>执行摘要：六个可直接决策的判断</h2>
+
+<div class="grid g4" data-page-node-id="yzXioNazpM80jJN6G2YIT5">
+  <div class="kpi" data-page-node-id="tBCec0pnF1dfHF8zO2wZfG"><div class="lbl" data-page-node-id="dArFrIh09TPqynqlJZDdIh">付费链路状态</div><div class="val red" data-page-node-id="2huU96x3RnRKisdZ59ElBP">未闭环</div><div class="foot" data-page-node-id="bDmIxDZolExp2YI7S8LeMO">前端回退到占位 Stripe 链接</div></div>
+  <div class="kpi" data-page-node-id="zng0kLryQMbpkn4TGQ8mBP"><div class="lbl" data-page-node-id="GlvrhKJ8lt7S45cbEIzBK1">月访问量（估）</div><div class="val red" data-page-node-id="u2fmbBNSwMd2eptH5SbBIF">&lt;7K</div><div class="foot" data-page-node-id="aE8hh49Jf6FDanvCcwqi0W">近 3 个月合计 &lt;20K，环比 -75%</div></div>
+  <div class="kpi" data-page-node-id="XmRb8bmrlDr06QxsqEDEAo"><div class="lbl" data-page-node-id="zLwlSb8vNpk2HeRDfCJXaZ">单张定价 vs 市场</div><div class="val amber" data-page-node-id="IdS3AiBl33W9tNdAacIW1D">1/26</div><div class="foot" data-page-node-id="cZFnDrexRkkwySCruK7QUu">$0.0019 vs 竞品 $0.0498</div></div>
+  <div class="kpi" data-page-node-id="dbM4YeclHSOHxrwmblm4Wg"><div class="lbl" data-page-node-id="ZUlD0ZFcsXFJ7OEDwnWQWA">免费额度 vs 市场</div><div class="val purple" data-page-node-id="E6KIs9oG3f8UVqpVAKy6Ct">4×</div><div class="foot" data-page-node-id="03grb5VmZwEe6yKOuK2Ozo">100 张/月 vs 竞品 25 张/月</div></div>
+</div>
+
+<div class="card" data-page-node-id="QYltUiJu5PlxHTSkMBAcsp">
+  <div class="item" data-page-node-id="g22i0dFML6m254QXCbxfhv"><div class="h" data-page-node-id="VVibgwnmUegp6USqNmsGS9"><span class="prio p0" data-page-node-id="CU6B0r6x6NLiHaxI7siIKG">结论</span>这是一个「演示级完成度、商业化未上线」的半成品，当前大概率收不到一分钱</div>
+  <div class="d" data-page-node-id="L7ongMF2zMI2EOsCZB9Gpx">后端 <code data-page-node-id="rebbmJkBkNhqykS6hEr1PW">/api/billing/create-checkout</code> 确实存在，但前端在请求失败时回退到 <code data-page-node-id="QD9uCT8RCGh5QdrR2Urwoa">buy.stripe.com/your_starter_link</code> / <code data-page-node-id="U8wcmedUKjyGWCKAixD3lt">your_pro_link</code> / <code data-page-node-id="0zGmnwVMGWyyItrQq5dCuP">your_agency_link</code> 三个<strong data-page-node-id="o8Oeha7lJazVKpXTQ2DiZ0">未替换的占位符</strong>。用户点「升级」要么被跳去 404，要么什么都不发生。这是最优先、也是唯一决定「能不能开始赚钱」的问题。</div></div>
+
+  <div class="item" data-page-node-id="jS6Rf5RAZhpzyhn7avoA3k"><div class="h" data-page-node-id="sdWZYSniOwFF5XUCOIemgJ"><span class="prio p0" data-page-node-id="LqUoS5V4LXbGDwyXXfohIW">结论</span>定价不是「便宜」，是「没有商业逻辑」——按成本定价，而不是按价值定价</div>
+  <div class="d" data-page-node-id="xZsjmPOzNPKkJ4RIJiQYsA">Agency 档 $39 / 50,000 张 = <strong data-page-node-id="HyGtLKBnwW155cJbQbKed0">$0.00078/张</strong>，比品类标杆 renamer.ai 的 $0.0498/张便宜 <strong data-page-node-id="CgpMZQkdu0XcfTzlDZdgjA">64 倍</strong>。而它自己声称会随机路由到 OpenAI / Google / NVIDIA / OpenRouter —— <strong data-page-node-id="Z4kaS59xhfkoY8BfpgUHIP">定价依赖「每次都命中最便宜的模型」这一无法保证的前提</strong>，毛利随时可能翻负。</div></div>
+
+  <div class="item" data-page-node-id="JCx2ZoQuiqnbmHEqgFJOFh"><div class="h" data-page-node-id="aC3S9tJNsdbPoXk3IAcO3b"><span class="prio p1" data-page-node-id="iVeybxDhBAgrOsZoHToV9h">结论</span>免费档过肥，直接吃掉了 Starter 档的付费动机</div>
+  <div class="d" data-page-node-id="jziXl1cYg8tF2PmEFUACLW">免费 100 张/月，是竞品标准（25 张）的 4 倍。而 Starter（$9）相对免费档的增量权益只有「批量 50 张 / ZIP 下载 / 优先级队列」——这些对轻度用户是<strong data-page-node-id="iGNZ6aW1xGSHliAsLkJY4a">可有可无</strong>的功能，不足以触发付费。真正的价格阶梯缺口在于：没有年付、没有买断、没有本地/BYOK 版本，而这恰恰是 Zush（$48 买断）、AI Renamer（$19 买断）抢客户的两把刀。</div></div>
+
+  <div class="item" data-page-node-id="AkFBzeYG6RXnGdWzAETygi"><div class="h" data-page-node-id="c0UWveAlWbqGvWGDyaVqTk"><span class="prio p1" data-page-node-id="dWJ4u7UA9eH8YoCfvffWPT">结论</span>增长引擎完全缺失：无内容矩阵、无品牌词、无付费投放</div>
+  <div class="d" data-page-node-id="Aqdv2qxwJHd5mnEReHa8rt">自然搜索关键词仅 2 个（<code data-page-node-id="cYjUZJeTNLUzmgSFoIq2tg">renameai</code>、<code data-page-node-id="ylhdMt0G2nSftoZvqdUguI">renameai leak</code>），付费搜索占比 0%，流量地区集中在越南（72%）和土耳其（28%）。而竞品 renamer.ai 用 4 个对比/攻略页（<em data-page-node-id="3f1Ax0gGdbSUYMLdVLpfnF">best-ai-file-renamer</em>、<em data-page-node-id="RurhWCKj22hOZL7lFhFfBj">ai-file-renamer-free</em>、<em data-page-node-id="aGvTni63XlpjuCsqqcbQUr">bulk-rename-images</em>、<em data-page-node-id="oQu4cwtmwqyRq9MrQKi1gt">auto-rename-photos</em>）<strong data-page-node-id="IXw5H1I8DatlpegdM1HwZU">把整个品类词吃穿了</strong>——搜索「renameai online」返回的结果几乎全是 renamer.ai 的内容。</div></div>
+
+  <div class="item" data-page-node-id="zxZTc9ITq5jVsUTB7o2yhc"><div class="h" data-page-node-id="r6e2LeVaJmwc4eZbAi9X24"><span class="prio p1" data-page-node-id="lIbUASZyKH5jBSq05T13Os">结论</span>品牌名称与品类头部的冲突，是一颗迟早会爆的雷</div>
+  <div class="d" data-page-node-id="pFAFwWVBsvFPESjVS85B52"><code data-page-node-id="e29VVvHr05WQqMS1QlaAdK">renameai.online</code> 与 <code data-page-node-id="9qXp8uGuazAbz3hqwlDVEE">renamer.ai</code>（月访问 40.32K、6,100+ 用户、4.9/5 评分）在名称、品类、视觉定位上高度重合。后果有两层：<strong data-page-node-id="2Hua6tHSn1LLnHViKJWXEv">①</strong> 所有品牌搜索流量被对手截胡；<strong data-page-node-id="6X7HkU2nsXQEdmJewwB9ps">②</strong> 一旦规模化，商标与不正当竞争的沟通成本会先于收入到来。</div></div>
+
+  <div class="item" data-page-node-id="ps9zWB4Xu1FTPL16bNqdfq"><div class="h" data-page-node-id="K0HsHKbDdTO3hLImgwqDxe"><span class="prio p2" data-page-node-id="hT2sPmqjcIOd6MV20TMxc5">结论</span>产品能力天花板低：只做「图片改名」这个动作，护城河约等于零</div>
+  <div class="d" data-page-node-id="WXTY4ovJUGCn00ojSsb3tD">不支持 PDF / 发票 / 文档 OCR（竞品的核心高客单场景：会计、法务、DAM），没有桌面端、没有文件夹监控（Magic Folder 类自动重命名是竞品真正的留存机制）。纯 Web 图片改名会被同类工具在价格上碾平——这解释了为什么它的定价必须一路向下。</div></div>
+</div>
+
+<!-- ============ 2 ============ -->
+<h2 data-page-node-id="PzGoVJ2V070fTDMiESnEWf"><span class="num" data-page-node-id="aa7Rii3qNVH7jikjSTsJPf">02</span>产品与技术画像（实测）</h2>
+
+<div class="grid g2" data-page-node-id="FCQZmVqfTbIbzHYYd6ShhY">
+  <div class="card" data-page-node-id="igBt8Vc7zIUx4vkJoUgLSQ">
+    <h3 style="margin-top:0" data-page-node-id="XCCgtQ7HzUmwZjYQY6CyCw">产品定位</h3>
+    <p data-page-node-id="umALMzBULGHMAqGGqWucsD"><strong data-page-node-id="M7JLmlHvjEDSZdNclpN2w8">一句话：</strong>用 AI 视觉模型「看懂」图片内容，再批量生成有语义的文件名，替代 <code data-page-node-id="e0CsLHt8dJteY2q4lMvNfA">IMG_2847.jpg</code>。</p>
+    <p data-page-node-id="8mEklx1IVMhOUc4cP9djnk"><strong data-page-node-id="DmnJQqhC8EcRUnHZO6CaE6">核心宣称：</strong>「Rename 1000 Photos in 60 Seconds」</p>
+    <p data-page-node-id="QuiwTqAzF1WCpClgU9o5HO"><strong data-page-node-id="AZvseCYCRyG4XSfmWgCYIA">输入边界：</strong>PNG / JPG / JPEG / WebP / GIF / BMP；单批上限 50 张。</p>
+    <p data-page-node-id="7V9EUgwPQbeDdOyeAu8oaR"><strong data-page-node-id="HSOdUvpLlpPGRblck513jf">命名风格：</strong>Creative / SEO-Friendly / Professional / Custom（自定义时可选语言）。</p>
+    <p data-page-node-id="oP7iADw3B3iecKijMv2lcU"><strong data-page-node-id="aHPEzTrBPTSwtG3Ko811Lw">多语言覆盖：</strong>英语、波斯语、阿拉伯语、土耳其语等——语言组合暗示了明显的伊朗 / 中东市场取向。</p>
+  </div>
+  <div class="card" data-page-node-id="CqvYNRujh8tEH8y2RoLfJ2">
+    <h3 style="margin-top:0" data-page-node-id="B8O7P1nN1aXJFPcJkG8Tsb">技术栈与交付形态</h3>
+    <p data-page-node-id="KzHASVxDQBYEBurt5gsk6E"><strong data-page-node-id="3v7dQK90udH5J9dkzrqayZ">前端：</strong>Next.js（App Router，Turbopack），生产响应头 <code data-page-node-id="468gLJV1RKAvMzx5rL41zh">X-Powered-By: Next.js</code>。</p>
+    <p data-page-node-id="WGm5KKHYUUEt1eGtW6gJhU"><strong data-page-node-id="OmGQWCPkU3cGPMoBXW7tWW">后端：</strong>FastAPI（<code data-page-node-id="8y1BykheLzTADnBDE9sNA7">/openapi.json</code> 暴露，title 为 <strong data-page-node-id="BA2gxJVamW9ae9XndGtylc">SmartRenamer API</strong>），运行在 <strong data-page-node-id="5O0nkIA0yyWfFFdXdNSuOV">nginx/1.24.0 (Ubuntu)</strong> 自建 VPS 上。</p>
+    <p data-page-node-id="91DRwI5QdmgGemKmMTOAdi"><strong data-page-node-id="pEetFivTjhVlnW3yHLFCov">API 基址：</strong><code data-page-node-id="5AGl9XEF7SY7Xw9HuVNT6K">https://api.renameai.online</code>（独立子域，版本号 2.2.0）。</p>
+    <p data-page-node-id="wxHc1t3GYkTkJiKP4ooop2"><strong data-page-node-id="hpz2u5WT30UYeCUyRHCHEu">鉴权：</strong>邮箱密码 + Google OAuth（经 Supabase Auth），token 以 <code data-page-node-id="pENZstAjYgeUHKXO2upFkV">sr_token</code> 存于 localStorage，后续以 <code data-page-node-id="el7CsO8Q3XaiFVBIxkSVAO">Authorization: Bearer</code> 调用。</p>
+    <p data-page-node-id="ZBBDNLsUrR5LvQylBnKxo9"><strong data-page-node-id="aW780n4gkADdmnYzBiy5WW">AI 供应商：</strong>官方声明为 NVIDIA NIM / OpenAI / Google AI / OpenRouter —— <strong data-page-node-id="jwlrn2NyK0d8B2BlBotPyE">自身不训练模型，是纯中间层</strong>。</p>
+  </div>
+</div>
+
+<h3 data-page-node-id="DlyqitLekZNYAwyEiUBlj9">后端真实能力面（来自生产 OpenAPI，非营销文案）</h3>
+<table data-page-node-id="3bkmNG5AjocM6vPLFlGy6E">
+  <thead data-page-node-id="liWIlXUl0V32XDmXtu7FTT"><tr data-page-node-id="TvV5GRvpx4mvMGqA9efRID"><th data-page-node-id="cWXdUADErEKHopjABjG2xh">端点</th><th data-page-node-id="oinxmcdUOJ477EbmIJOVBD">方法</th><th data-page-node-id="tyS452ypoyDkApcPUFskE2">能力</th><th data-page-node-id="VffsDaapbPLJG3cN97U50N">商业化含义</th></tr></thead>
+  <tbody data-page-node-id="HoBGSd1tGdQXDWSBaSvgG5">
+    <tr data-page-node-id="sfLu9IooZfpf76XrCFc7FX"><td data-page-node-id="VHHYG9RQzYGlBO2dDV5eaT"><code data-page-node-id="Weobt7dtUGwiPojtkfSij5">/api/auth/register</code> <code data-page-node-id="TEjjKqxIPVnzmKSLzboa7j">/login</code> <code data-page-node-id="zs6bxpo9mSg2My5HPuBvzJ">/google</code></td><td data-page-node-id="ZgXsbncjcbP1DQZznQw0JK">POST</td><td data-page-node-id="XbxZ8vixGDV2DqoCmkfrO5">注册 / 登录 / Google 登录</td><td data-page-node-id="HlwEEFjodTbYTc1tTd52hA">账号体系齐全，可支撑订阅制</td></tr>
+    <tr data-page-node-id="sQAJ0hsUrkPhADKfDOzEWX"><td data-page-node-id="PhSCnoaOwV7yXUjfbzPmvP"><code data-page-node-id="K4tmefVIjsOqQGmMDnyYkE">/api/auth/api-key</code> · <code data-page-node-id="IK5rwWkhwCcVhEuEctAWI0">/api/auth/api-keys</code></td><td data-page-node-id="kMsAraslfSb5zP46nXPA1Q">POST/GET</td><td data-page-node-id="V2CIepvzhgeNaXWScAUZGB">生成与列出 API Key</td><td data-page-node-id="1GBjEGc51TGeFqPv0HiC6x"><span class="tag t-purple" data-page-node-id="VxLzKWBbQTstD0GTkcMDnV">重要</span>API Key 能力已实现，但官网 FAQ 说 API「还没做，在路线图上」</td></tr>
+    <tr data-page-node-id="G9HaU7SGd24FozCRvfJlXE"><td data-page-node-id="51DDxPGN85PmZCR2xhG65W"><code data-page-node-id="AWAeulYt4469VI5vqo4qdu">/api/billing/create-checkout</code></td><td data-page-node-id="N9xieezO5Vl35EvXxOXtk0">POST</td><td data-page-node-id="EpnDVLyKJHCJpj8pzPfuyf">按 plan 创建结算会话</td><td data-page-node-id="vMkS1i1lXa34Y3o4CYoARJ"><span class="tag t-green" data-page-node-id="eA02EJTPJUUYCwSZFdGHvs">已就绪</span>服务端支付入口存在</td></tr>
+    <tr data-page-node-id="6HbefLJVarRBz6bejspxAJ"><td data-page-node-id="6MXS8jIJ8ydGzBeB68dgHF"><code data-page-node-id="U3hm5xldRD3o6TvezPQuBw">/api/billing/success</code></td><td data-page-node-id="RSbpaBwmHEJRlPFZAdcisF">GET</td><td data-page-node-id="Qjmynv7s91cFOYRYcrR18X">支付成功回跳</td><td data-page-node-id="gkIeRN4BBZ4Zsh3doW6ASr">有回跳页，说明设计过完整链路</td></tr>
+    <tr data-page-node-id="j9Ep2pyN7dg1gyeSclYSa9"><td data-page-node-id="tM2F3QkEHjaTrTRWYD2T80"><code data-page-node-id="YFP42nwyEbdymy039Qs96Z">/api/webhooks/stripe</code></td><td data-page-node-id="Lyy5PzG2ILPvunZYHKAXN2">POST</td><td data-page-node-id="ENVVTztlidy9NNZWiPDvgI">Stripe 回调</td><td data-page-node-id="s1TAFyTc1W9e14mP7O0IBz"><span class="tag t-green" data-page-node-id="EES8Hp4ATeClhQtGkdjCGh">已就绪</span>可自动开通订阅与额度</td></tr>
+    <tr data-page-node-id="bjEEDdh97peouuBgTsN2Wl"><td data-page-node-id="rRicvAu2bSWUq3KFFKnPIn"><code data-page-node-id="vB6YBdC3ANEVwyfR0FZQJA">/rename</code></td><td data-page-node-id="9tGw2sLtHGDRWP8gxSasww">POST</td><td data-page-node-id="porPtoPEuqiqRJ2F3kA6SX">核心：批量改名（含内容审核）</td><td data-page-node-id="XEq6qPngqYp8hKm13YCAGt">返回 <code data-page-node-id="mMLj3BkXPtWcEx2tTzjpOR">credits_remaining</code>，额度扣减闭环完整</td></tr>
+    <tr data-page-node-id="LgXEFxT0qSJZIpcI9fvsEC"><td data-page-node-id="cbMl0tTUrlPctUqKy4ZvVe"><code data-page-node-id="mk6iBOQjZ4tqnkUmFNE1DF">/download</code></td><td data-page-node-id="2KxCZQUz4oDo6HJ4dbvICU">POST</td><td data-page-node-id="iQjKRlhwVfiqExSXGtIKOY">打包 ZIP 下载</td><td data-page-node-id="y56NPW7MOaQhNphQEO4NiT">与 Starter 档权益「ZIP download」对应</td></tr>
+    <tr data-page-node-id="liCQA6yQLXSuNuoLhJyDqT"><td data-page-node-id="4coUBTXbEABuHTkxkkDcIZ"><code data-page-node-id="sJXUrHom1moiSE3OAND0dV">/api/admin/evidence</code></td><td data-page-node-id="FCF9DR56G2blHrL0mFDWcd">GET</td><td data-page-node-id="Nn18vkD5D6WC46QwrH5dmB">审核证据查看（Admin）</td><td data-page-node-id="sw7tvGGAjgwMR56W1FAz9x">与 Terms 中「违规图片永久留存作证据」条款对应</td></tr>
+    <tr data-page-node-id="1GwrQtGuZdUCaLuEq7NeNi"><td data-page-node-id="79ZTSJkYpqsvXMm7DrueSg"><code data-page-node-id="MRExTcMnwymv9r99E4HOin">/api/admin/reset-credits</code></td><td data-page-node-id="eBorH5F7WAesvoL7YE2CDZ">POST</td><td data-page-node-id="En6aKGqBBMql3WODSNreJL">一键重置全站额度</td><td data-page-node-id="D2q5F0W7iiQNcUHKbFtSD1">运营工具，也是额度周期管理的临时手段</td></tr>
+  </tbody>
+</table>
+<div class="callout" data-page-node-id="OPHlDM45BrrnAqbZvUMAkt">
+  <div class="t" data-page-node-id="dYPlImtXQAWnTDfRaimVUR">PM 视角：后端完成度显著高于前端与商业化完成度</div>
+  <p data-page-node-id="AqkgQQb1mDTEyLZAIQz8TW">支付、额度、API Key、内容审核、证据留存——后端该有的都有了；缺失的全部集中在「前端收口」和「增长」上。这是一个典型的<strong data-page-node-id="DYBTXsYUCLbXjHVWF0CKEc">工程师主导、没有 PM 收尾</strong>的项目形态。</p>
+</div>
+
+<!-- ============ 3 ============ -->
+<h2 data-page-node-id="a12ANAbfGiCOJfxvNYKmuw"><span class="num" data-page-node-id="lHGN9HflNFBXI1qwZqUFUY">03</span>商业化核心数据</h2>
+
+<h3 data-page-node-id="Zk57biG5GuWGdObyxOyZ8e">3.1 定价矩阵（从生产环境前端 bundle 逐字提取）</h3>
+<table data-page-node-id="aODk0WdOi9f19QaSpvlNFI">
+  <thead data-page-node-id="Yq35FmQc5f87NsDxiTaihf"><tr data-page-node-id="kH5uM8vlRD50uFYl2rFKEu">
+    <th data-page-node-id="9D20adJRL053LdACJQpl7Z">计划</th><th class="num" data-page-node-id="Mm3l2xl2BpjK5yBkf9yDiP">价格</th><th class="num" data-page-node-id="L1vPsAHZ8SNFZkRRu31a9P">额度</th><th class="num" data-page-node-id="K6oE58NEGge8YCjXPJum7R">单张价格</th><th data-page-node-id="a5QZpTxRJO6G5GqaFZZwd1">权益</th><th data-page-node-id="UxUbwAoCzTK5Il5sUmRC2x">问题标签</th>
+  </tr></thead>
+  <tbody data-page-node-id="yiiD7fU1VvaAIA5myEY6ZC">
+    <tr data-page-node-id="ECA57slHGS38fKB6XWtvVZ"><td data-page-node-id="4zxyu9GN67L8Wrz0HYbP41"><strong data-page-node-id="Aa3RAF8AqeYS7Nk7V0CYox">Free</strong></td><td class="num" data-page-node-id="HQB3hhvBE6H8VruxfyMbXs">$0</td><td class="num" data-page-node-id="Rss2OKksvn997bQ4hvprsE">100 / 月</td><td class="num" data-page-node-id="GPgq8LrEpKwrOYRuLHiLdO">—</td><td data-page-node-id="VzFb3yZHgyORFACvjwpC2P">Basic rename · English only · Single file · 3 files per batch</td><td data-page-node-id="aP7pZydop25P0RoLj5Aelo"><span class="tag t-amber" data-page-node-id="P4FUQmna6Booekr0Up3Ra2">与首页宣称冲突</span></td></tr>
+    <tr data-page-node-id="CqDSZod4As4yiEhR3CSQFZ"><td data-page-node-id="1nsHtVRxILMgmTI27EBzAC"><strong data-page-node-id="SK0pduHqtECFfH24jVZ5Ze">Starter</strong></td><td class="num" data-page-node-id="TzZo3gsgCxorU8ZwfXbZ5a">$9 / mo</td><td class="num" data-page-node-id="GT9fmFrOCdqOJJPZvSdRc9">2,000 / 月</td><td class="num" data-page-node-id="MCsjHZh2HCrn8Qo6P6Katp">$0.0045</td><td data-page-node-id="6nCuUvDRCVjUiyakmhUkSG">4 rename styles · Batch upload (50) · ZIP download · Priority queue</td><td data-page-node-id="5dbawp9hxD8KY5HjiM5bDS"><span class="tag t-gray" data-page-node-id="LFr3352YoP5HWdxBJAWqFC">增量权益较弱</span></td></tr>
+    <tr data-page-node-id="H0MyffQ2GcXTba8b7yiq3C"><td data-page-node-id="sUYAFtPQ6hFMvP0RDgmBBc"><strong data-page-node-id="rpADpsjOEoAWuhZXeTg63P">Pro</strong></td><td class="num" data-page-node-id="UEIvcwTYCV3U6oPKeD7cxA">$19 / mo</td><td class="num" data-page-node-id="LwF4sR9FDNrQ0vkYkEIrbr">10,000 / 月</td><td class="num" data-page-node-id="JCoQaROmYmfpaoTiw1F7lj">$0.0019</td><td data-page-node-id="mTqN8bqnSrWwIitDYDR73G">Auto-categorize · Multi-language · SEO mode · <strong data-page-node-id="Nu5WGvN6KwqFQkhILYA7II">API access</strong> · Priority support</td><td data-page-node-id="cwjnEdhcK7ZoVJABKHjtLB"><span class="tag t-red" data-page-node-id="mvhI9KjH7SG84QnwweDgwv">含未上线权益</span></td></tr>
+    <tr data-page-node-id="oY62TDBjsiFbAlgBs2bbVK"><td data-page-node-id="nM4XEVUOU6Q6yWfG3hNM8D"><strong data-page-node-id="CWfX4kCEOHNkEYXRC3uQIf">Agency</strong></td><td class="num" data-page-node-id="pqTyXUouYCVQXC2Y9QSdN6">$39 / mo</td><td class="num" data-page-node-id="DHktxQ9PteygksFMtYnpVX">50,000 / 月</td><td class="num" data-page-node-id="39unMxao0nAMqGNhjxW2SP">$0.00078</td><td data-page-node-id="syheY2KOhrYEWo53o4Zr3S">Unlimited API · Team accounts (5) · Custom styles · White-label · Dedicated support</td><td data-page-node-id="tZxTnzGjK4McGKyAgjz2qS"><span class="tag t-red" data-page-node-id="W1JIkrkvhxpUuvFaT6eZm1">毛利风险</span></td></tr>
+  </tbody>
+</table>
+<p class="src" data-page-node-id="XsakYeCG45KvwlzoFCecU2">注：官方 FAQ 口径为「free credits 每月 100，升级计划 $9/月起」，与上表一致；但未登录访客实测只有 <strong data-page-node-id="zmuCXVgpm8CNtV81dWaAwE">5 credits</strong>（返回体 <code data-page-node-id="9mRbkcvuJXRAcSf5tIcg0y">credits_limit: 5</code>，账号标识 <code data-page-node-id="NDzPcWYuTxbQxte91moYKW">guest@smart-renamer.app</code>）。</p>
+
+<div class="callout warn" data-page-node-id="qaSu2Gu7D4ULQ2xmwGyGJB">
+  <div class="t" data-page-node-id="NxXGzx7HldVfbc8YQE374i">额度口径在三个地方互相打架——这是转化率杀手</div>
+  <p data-page-node-id="v9NclSGQi6XcroEktDBEZ4">① 首页与 FAQ：「一次最多上传 <strong data-page-node-id="0U6EJxMS1ZT6pUIPBE2I56">50 张</strong>」；② 免费档权益：「Single file / <strong data-page-node-id="yxl54Wn6UvQjVbjJ58zQ5h">3 files per batch</strong>」；③ 主标题：「<strong data-page-node-id="LtTZtiGcEeGN9blZMwTsOp">1000 张 / 60 秒</strong>」。用户看到「免费」后注册，才发现免费档不能批量——这是最典型的「承诺-交付落差」，直接制造差评和流失。产品页必须先统一到同一个事实。</p>
+</div>
+
+<h3 data-page-node-id="gEBn5heKjyHzWKkhj80oLV">3.2 单张定价 vs 品类市场价格带</h3>
+<div class="card" data-page-node-id="VIxTrmcicW4btiMGFriHSB">
+  <div class="bar-row" data-page-node-id="V5fHsGPZYlwZVzhyb7zOxG"><span data-page-node-id="IzDCMWI5jlFQQCBvdwwmEf">RenameAI · Agency $39/50K</span><div class="bar-track" data-page-node-id="XbUK4FNaQUfRdhOpCnhdhT"><div class="bar-fill us" style="width:2%" data-page-node-id="EEFtlrHkakhHeB1awX6uCJ"></div></div><span class="bval" data-page-node-id="zjkDrpFEb15lTooXk4XOn7">$0.00078</span></div>
+  <div class="bar-row" data-page-node-id="K46xBww66nj6gPiuDm15es"><span data-page-node-id="PkggQvLATs6NeaJn1it1eO">RenameAI · Pro $19/10K</span><div class="bar-track" data-page-node-id="Y02b6Ue90qZ2o4lPsCq7ST"><div class="bar-fill us" style="width:4%" data-page-node-id="vJnSHrTLBLhCOk27mYNDLX"></div></div><span class="bval" data-page-node-id="gEY8JYoiGGSMApkGptwftG">$0.0019</span></div>
+  <div class="bar-row" data-page-node-id="HlDnHCnnhlXbNQZ8vzNGJC"><span data-page-node-id="fSuX1uZDBtVWGGDkOZWQsl">Renamed.to $49/10K</span><div class="bar-track" data-page-node-id="7PrfMBBKnENPATQbOkoNgW"><div class="bar-fill mkt" style="width:10%" data-page-node-id="VmaBUfoDXx4gCzFMCqbsLh"></div></div><span class="bval" data-page-node-id="2q8eMDIQJS78rHz7aJyJ0W">$0.0049</span></div>
+  <div class="bar-row" data-page-node-id="hfeSKiwcVhfRQrcgFiNYGX"><span data-page-node-id="EBHInuKPsHALXqcGd02Pc0">RenameAI · Starter $9/2K</span><div class="bar-track" data-page-node-id="cx2oMhbqnyX3UC2yDAj5eC"><div class="bar-fill us" style="width:9%" data-page-node-id="txdBtf9zB4DN3BQi8gl496"></div></div><span class="bval" data-page-node-id="7eBL6HPskSi6fYBDsZLmCF">$0.0045</span></div>
+  <div class="bar-row" data-page-node-id="7jq2p5NRPzIMy6zw8DS6BS"><span data-page-node-id="qi4237yZh8Sk0fCahGulrT">File Renamer AI $10/1K</span><div class="bar-track" data-page-node-id="wtgRr99NTrq8Q6im2gewFH"><div class="bar-fill mkt" style="width:20%" data-page-node-id="EAQaVcFczaeFUKM88rQTfA"></div></div><span class="bval" data-page-node-id="601p3CY7YpgovVHD14V9My">$0.0100</span></div>
+  <div class="bar-row" data-page-node-id="UQLuppPKXxD5Z6Npl1f9rx"><span data-page-node-id="R7uhEoKFG0VHKaAYlDB9iy">renamer.ai · Ultimate $99.95/5K</span><div class="bar-track" data-page-node-id="ndTPE7CILgXYrJVSkU7yDn"><div class="bar-fill mkt" style="width:40%" data-page-node-id="tDeQ7wAgnDTIN9HrVlmTlt"></div></div><span class="bval" data-page-node-id="O1R6me5xkW9yNUCfcVCkLq">$0.0200</span></div>
+  <div class="bar-row" data-page-node-id="N9RGSuGGF1w1mOSn5mqDWq"><span data-page-node-id="aLVVmwIIBgE0pskNOTi1IR">renamer.ai · Pro $9.95/200</span><div class="bar-track" data-page-node-id="1xCz8bQup8FGqjkdS08FTi"><div class="bar-fill mkt" style="width:99%" data-page-node-id="eucqYNAOEmAQrqjRjAYxkP"></div></div><span class="bval" data-page-node-id="R88GPFGEcZ49P4SmF8PtTv">$0.0498</span></div>
+  <div class="bar-row" data-page-node-id="03lon6Danv6jxc45jRCiL7"><span data-page-node-id="e4xMS8EVmDSfcIxBDXVEji">AI Renamer Cloud $10/200</span><div class="bar-track" data-page-node-id="ctQcr0VIvD9URDHo3DUeaF"><div class="bar-fill mkt" style="width:100%" data-page-node-id="2pdWruwF9J3mixEn9Lkv4k"></div></div><span class="bval" data-page-node-id="5SOqGZPmdRBLKIwvEFtseN">$0.0500</span></div>
+  <div class="legend" data-page-node-id="i8oWiRxRXQdGII9aeT4KRG">紫色 = RenameAI 自有档位；灰色 = 市场竞品。长度按单张价格线性映射，最长条 = $0.05。</div>
+</div>
+<p data-page-node-id="yJcf2OsnXpQ55xicueAA2t"><strong data-page-node-id="pHbJ83n2MqCAPdnHK5CCH8">解读：</strong>RenameAI 把自己放到了价格带的<em data-page-node-id="b9vNUd9heYxgBEkRghcHUj">最底端 4%</em>。免费档给得最慷慨（100 vs 竞品 25），付费档又便宜 10–64 倍——两头同时让利，中间没有留下任何「用户为什么非买不可」的理由。这不是价格策略，而是<strong data-page-node-id="RcF8KqNt7OucKIpPqoz3PG">还没做过价格策略</strong>。</p>
+
+<h3 data-page-node-id="vQs1kEloVHHNCgDANGGm1E">3.3 支付链路实测结论（本次分析最关键的发现）</h3>
+<div class="card" data-page-node-id="hWHSS2Fas8Dbc4JxUC1dRU">
+  <p data-page-node-id="lLs1D7wPSaS7kPtiSxQ1Zq"><strong data-page-node-id="2XPAsowjytsOuFXBVHUNd7">实测 1｜后端结算入口存在且鉴权正确</strong></p>
+  <p data-page-node-id="CNByeud01DwR3XNR2WqruA">向 <code data-page-node-id="FBtzQoczETHasTINY6S9AK">POST https://api.renameai.online/api/billing/create-checkout</code>（plan=starter）发起未认证请求，返回 <code data-page-node-id="2KS3uc5z2rrWfJ1G0JII0S">401 {"detail":"Login required"}</code> —— 端点真实存在且受保护，不是空壳。</p>
+  <p data-page-node-id="AOvH7BSX5TrUNVfvppHlVl"><strong data-page-node-id="OIwWR7CtkPFmeQdGGdOGY9">实测 2｜前端兜底逻辑指向未替换的占位符</strong></p>
+  <p data-page-node-id="XUuZfbp3zD3r61PqhCtzUI">从前端代码还原的用户路径如下：</p>
+  <ul data-page-node-id="ggDlgmjpnZet8O9hX5JPMT">
+    <li data-page-node-id="HoRWAGwk3ifwcdqzZwbGzD">未登录点「升级」→ 跳 <code data-page-node-id="A85twuMsgnjF0nGDhDoMoX">/login</code>（只把路径 push 进跳转队列，<strong data-page-node-id="sTi7Ule7hTv3CX9h1XDgGS">没有引导文案</strong>）。</li>
+    <li data-page-node-id="O7bQcH2PRjQrtO4zY6mr46">已登录点「升级」→ <code data-page-node-id="QrBxQlo8Iyhb6I1FgIhmUY">POST /api/billing/create-checkout</code>；若响应含 <code data-page-node-id="sydCDbH9MTcUL3GNZx0zlP">url</code> 则跳转 Stripe；</li>
+    <li data-page-node-id="uAAGzIa9shcBJuLS0Wnnwr">否则 → <code data-page-node-id="CXx9AoJbHs1DnHAO2X06J7">window.open(占位链接)</code>，三个占位符分别为 <code data-page-node-id="evx1QbAxcXmzNWVOp15QBP">https://buy.stripe.com/your_starter_link</code>、<code data-page-node-id="Xci39Tg3O1NnyTUOXREjdJ">.../your_pro_link</code>、<code data-page-node-id="ANyPSH4ZLECgzLdSiSGM2j">.../your_agency_link</code>。</li>
+  </ul>
+  <div class="callout warn" style="margin-bottom:0" data-page-node-id="3VMrPFwiHQm984t3wgEqTR">
+    <div class="t" data-page-node-id="lzDux5IEHycYUF3sA6b3Gi">判定：付费按钮目前很可能是「死按钮」</div>
+    <p data-page-node-id="JjhLM3XHAHxTtAfH6BUmOh">占位符未替换 + 后端 Stripe 密钥是否配置无法从外部确认 ⇒ 最坏情况是<strong data-page-node-id="dHsnqO9YxI4lt0zk3kqFOp">所有付费尝试都落到一个不存在的 Stripe 链接上</strong>。这是一个 5 分钟就能修、但会把 100% 付费意向清零的缺陷，必须作为 P0 第一条处理。</p>
+  </div>
+</div>
+
+<h3 data-page-node-id="HqOnujtBUt20ZR5KVscCe9">3.4 流量与获客（第三方估算）</h3>
+<div class="grid g3" data-page-node-id="m1BcBVR6VWWQgmVNJ311cE">
+  <div class="kpi" data-page-node-id="jFRIuqYEUTiEic1kd2aTfj"><div class="lbl" data-page-node-id="PSYnwcrwHwww9d5NfWANZo">近 3 个月访问量</div><div class="val red" data-page-node-id="dvwx8l0OcDavYx3KesH4SR">&lt; 20K</div><div class="foot" data-page-node-id="1mEpguycjrjJaiHC3D9wS8">月均不足 7K</div></div>
+  <div class="kpi" data-page-node-id="AAI1jADfKG0MMrsDUMmpDs"><div class="lbl" data-page-node-id="fgF4URw1rRPgBWrjboLbdH">环比变化</div><div class="val red" data-page-node-id="FBmSeIRSyNzagVjXfCW2SD">-75.33%</div><div class="foot" data-page-node-id="4PowmZSWeHUvO3lJFUOMAm">流量快速下滑</div></div>
+  <div class="kpi" data-page-node-id="DkswSj8thcEpixOjq95Yw4"><div class="lbl" data-page-node-id="9XVfDkdyX1qzXhv3qv9ERu">全球 / 国家排名</div><div class="val amber" data-page-node-id="FMT4ZGGKmvEQWrHqeirVJ5">无数据</div><div class="foot" data-page-node-id="V7T6iKY9mBXPYYCx93bPVd">未进入任何榜单</div></div>
+</div>
+<table data-page-node-id="YBreAPMAtAGkI3nI4yZQxA">
+  <thead data-page-node-id="Lzvq7859DXET8K2gHw8MXk"><tr data-page-node-id="vcbdgvhqbpVp9zfih6GHJF"><th data-page-node-id="UQbgUFNLQDQA7ukcpbjVdK">维度</th><th data-page-node-id="3b6voNxjrF1XYqF5GqMLls">数据</th><th data-page-node-id="KUgL5rbKMsZdw25B68ZPUe">PM 解读</th></tr></thead>
+  <tbody data-page-node-id="WC1EPZ3UFp0Y1sXX1aI0Cq">
+    <tr data-page-node-id="p2lEGPwNezEBGCDMf8ejuA"><td data-page-node-id="Cw4kt4FnvbAdkKzoTsQwkt">流量来源</td><td data-page-node-id="LDVF7o8qwAvBd0JO42Ydhc">Direct 37.97%（首位），自然搜索第 2，引荐第 3</td><td data-page-node-id="csBD64DumPfYFQ2H2XaINa">Direct 占比高但总量极小，说明来自「熟人/群组转发」而非品牌沉淀；没有可持续的搜索入口</td></tr>
+    <tr data-page-node-id="EhRIAnw1xydrX8u0RXCnV5"><td data-page-node-id="XltQ0FHHXSbDjwxkJpOCii">地区分布</td><td data-page-node-id="kj3fPlwKdr0m91ZTnLLRVI">越南 72.17% ／ 土耳其 27.83%</td><td data-page-node-id="sponU4bZdiK1nRCe8gIdQi"><span class="tag t-red" data-page-node-id="UM2mtXxLRmQFP0RZ1YxIOR">严重集中</span>几乎零欧美流量。而付费意愿最强的英文市场（美/英/德）贡献为 0</td></tr>
+    <tr data-page-node-id="wGWcZNnixoJKErhrbWtET0"><td data-page-node-id="QNKgCgXetHIV2SP06q5MIH">自然关键词</td><td data-page-node-id="wpD1Q2oDZhJ56wQ7asT3JH">仅 2 个：<code data-page-node-id="DHwO6hW3aSAhl8dyE8exP5">renameai</code>、<code data-page-node-id="oaKCZ2Ri3HEy2ucmdebSZb">renameai leak</code></td><td data-page-node-id="4oN8pFlG5y3i7JkGZ8hNOf">完全没有内容矩阵与长尾词覆盖；出现了 <code data-page-node-id="SSU33pdTkOEdUQJVi1V5wG">renameai leak</code> 这类词，说明品牌词已出现非预期联想</td></tr>
+    <tr data-page-node-id="J7lmVWebVKudP9x0ugF4C3"><td data-page-node-id="mtLf8gwZ22rQjHZEQy7wmO">付费搜索</td><td data-page-node-id="8rmg29xIekOK8DJidyvun4">0%</td><td data-page-node-id="ghgyYi0B0RRQtIPaZoDWA6">无投放预算投入，获客完全被动</td></tr>
+    <tr data-page-node-id="YBrxDWQHyKdTx7SzQQNxrM"><td data-page-node-id="r37nGZPyPVpOxl71Pv2gch">引荐网站</td><td data-page-node-id="bG5Dv9M44I27u18gtzcTzK">无数据</td><td data-page-node-id="qyqFgfvkwJia80hWIeLQd8">没有任何媒体、目录站、社区带来可观流量</td></tr>
+  </tbody>
+</table>
+<div class="callout" data-page-node-id="sp1TErdRcnpMsMRLMKZsBb">
+  <div class="t" data-page-node-id="aWDbXR4hyeWPgCFsKQm8kc">对照：品类头部的内容打法</div>
+  <p data-page-node-id="fDSDosMmTnBU61E99sIvAy">renamer.ai 月访问约 <strong data-page-node-id="ZjI6qJigczqQIyQCB7Yzyz">40.32K</strong>（RenameAI 的 6 倍以上），靠的是一整套程序化 SEO 内容：<em data-page-node-id="eFKiqX9RdYGMHGA0SzRozZ">best-ai-file-renamer</em>（7 款横评）、<em data-page-node-id="ZLvM4zQnnRhLcvGazMCFq3">ai-file-renamer-free</em>（免费档对比表）、<em data-page-node-id="vAPfcY275RZv7l2vDFaqkl">bulk-rename-images</em>、<em data-page-node-id="RWAiEE22cXEc6ncPdA8Q6n">auto-rename-photos</em>、<em data-page-node-id="eOBnOdZNFPjj0rMhcRMFLp">how-to-rename-images-in-bulk</em> 等。搜索「renameai online」时，返回结果几乎全是 renamer.ai 的页面——<strong data-page-node-id="MHpix1mRlRiCj81044FIYa">品牌词和品类词同时被对手占位</strong>。</p>
+</div>
+
+<!-- ============ 4 ============ -->
+<h2 data-page-node-id="seClA5XifqrC9speldSFeG"><span class="num" data-page-node-id="UQoyy5YNkH91UTkiUlL1NP">04</span>单位经济模型与毛利护栏</h2>
+
+<p data-page-node-id="KJBwCau8pEhc9r3CyCDEY4">由于官方声明会「按可用性、命名风格与内部路由逻辑」在四家供应商间动态选择模型，单张 COGS 的波动区间极大。下表按典型视觉模型的价格带反推各档毛利率：</p>
+
+<table data-page-node-id="oLzW7XqLqREViXhu9xfjFN">
+  <thead data-page-node-id="JfpG7YfQ5e11YMYOZ1tJHo"><tr data-page-node-id="BjmLoCJo3rAXdiY5RmjFzV">
+    <th data-page-node-id="UKid0hpedjdypU0dJenVSV">模型档位（示例）</th><th class="num" data-page-node-id="GrKf1YWhSMDhk6iRjV4cPG">单张 COGS 估算</th><th class="num" data-page-node-id="yrbe4nGNHq5s4wjI8Vat9H">Starter $0.0045</th><th class="num" data-page-node-id="IpBtiNW8e6g4MBGpLGZxoX">Pro $0.0019</th><th class="num" data-page-node-id="WkNr43cdELIXMWbBr13r4P">Agency $0.00078</th>
+  </tr></thead>
+  <tbody data-page-node-id="bUkUyJxbiDETSsfTZkB449">
+    <tr data-page-node-id="HzdqiWPuwVc4Pt9hzNdhh7"><td data-page-node-id="AmtIgLA4pze15tJkkuqTmT">极廉价档 · Gemini Flash / NVIDIA NIM 小模型</td><td class="num" data-page-node-id="VvSdryhyUTCd69XZ1gL0YH">$0.00005 – 0.0002</td><td class="num" data-page-node-id="Glg09GOksddQ9NIrenzgCo"><span class="tag t-green" data-page-node-id="lNSxvT5NPRkUvp3cvPtBNW">毛利 96%+</span></td><td class="num" data-page-node-id="ObWKTDwyG5kWvYECmpvsxl"><span class="tag t-green" data-page-node-id="tr5c0SEIc4ZvyyownKhwOL">毛利 89%+</span></td><td class="num" data-page-node-id="4FgU0BgeaX34orGnMZQWUo"><span class="tag t-green" data-page-node-id="xtBlEuTlp1NLrBcJBuRjR8">毛利 74%+</span></td></tr>
+    <tr data-page-node-id="ekZRWlBntU9mjgpjDPZi28"><td data-page-node-id="uGf5PNba1V1ksC5JZ2le2h">经济档 · GPT-4o-mini 级视觉</td><td class="num" data-page-node-id="ZgmVc8Kgk2XrPOQjcFwIWW">$0.0001 – 0.0003</td><td class="num" data-page-node-id="bmBKhFOKBSBKXWTD2N3w1C"><span class="tag t-green" data-page-node-id="kgsHvNP83E2cGA8QboNXPZ">毛利 93%+</span></td><td class="num" data-page-node-id="2CLdT0wweYBEO9MKfbUDwO"><span class="tag t-green" data-page-node-id="9SCwv2PIuul6tHh8g8WNvR">毛利 84%+</span></td><td class="num" data-page-node-id="3PJ1skreEaoFtWGWbuIkIU"><span class="tag t-amber" data-page-node-id="G1yppwOqALvZyNksNxxrs5">毛利 62%+</span></td></tr>
+    <tr data-page-node-id="TJOZAgXCCWGCqHK6RqCCpF"><td data-page-node-id="P3FBWaiklO9t70CcZ2uHq0">中端档 · GPT-4o / Claude Sonnet 级视觉</td><td class="num" data-page-node-id="UBjCb35v17BGHobPbPeYOS">$0.003 – 0.008</td><td class="num" data-page-node-id="poOPTuFaWDn2wBbEFF8CkT"><span class="tag t-amber" data-page-node-id="SMvfzlqL8Wa4XzkTwdE0EI">毛利 0–33%</span></td><td class="num" data-page-node-id="Y9lGPDkYHOGgtLrfW1HKyl"><span class="tag t-red" data-page-node-id="MauD1TJhmdrDCDBeLyOBMj">毛利为负</span></td><td class="num" data-page-node-id="Sf2vGA8xO9vaR1MFErTRH0"><span class="tag t-red" data-page-node-id="PZQpb9XsOm3Efghu43Ej0i">毛利为负（约 -900%）</span></td></tr>
+  </tbody>
+</table>
+<p class="src" data-page-node-id="CwLm3UdRM8sen7eA3iNr7O">估算口径：每张图一次视觉调用，约 300–800 输入 token + 30 输出 token，按主流厂商公开价换算；未计入内容审核（moderation）的额外一次调用、带宽、存储与 Stripe 手续费（约 2.9% + $0.30/笔）。<strong data-page-node-id="bU44KFzqN93gSHPnzYArtH">Stripe 固定费 $0.30 一项就吃掉 Starter 档 $9 订单的 3.3%</strong>。</p>
+
+<div class="callout warn" data-page-node-id="B20oyET5DJPVqMD3AFrq4N">
+  <div class="t" data-page-node-id="uy67pYQ7AfGmvWZPzFawh4">三个结构性风险</div>
+  <p data-page-node-id="238bomoIQcm8rLjQKKkRg0"><strong data-page-node-id="xO8owof9hSwDDGu0ccILk7">① 毛利不由自己控制。</strong>「随机路由到四家供应商」= 把毛利率交给可用性。Pro / Agency 档只要命中一次中端模型就做一单亏一单，而这两档恰恰是重度用户（最容易被路由到贵模型的高并发时段）。</p>
+  <p data-page-node-id="lnS3BjGCKGj0u2eyBHY17y"><strong data-page-node-id="f4U7D3RU1ySzPg0PanL0tp">② 免费额度是最直接的现金漏损。</strong>100 张/月 × 廉价档 COGS ≈ $0.03/用户/月，绝对值不高，但它同时消灭了轻度用户的付费动机——用「零成本的钱」换走了「本来可能付费的人」。</p>
+  <p data-page-node-id="MSBtk8vdQAfq3fDHZ9LcnL"><strong data-page-node-id="p7g74I9CzMqAC0eIXlKCpD">③ 缺少任何成本护栏。</strong>代码层面看不到按档位限定模型池、单用户限速或超额熔断的设计，只有 <code data-page-node-id="O5jplpI2UG4EdAAsNq6La6">insufficient_credits</code> 一道额度闸门。</p>
+</div>
+
+<div class="callout ok" data-page-node-id="OAyUMHH76qbN74HaMYA9uO">
+  <div class="t" data-page-node-id="TAhitwuak1FTzZiMrk2yet">参考基线：这个品类单点工具的真实收入量级</div>
+  <p data-page-node-id="D5pRltN5NJR6kAABYcz9PR">同赛道可比产品 AI Renamer（airenamer.app）公开数据：<strong data-page-node-id="jI98DGTfVM9V8qWoBCFwi0">近 30 天收入 $91</strong>（环比 +27%）、<strong data-page-node-id="ebzIDoDCHg2a0njSqUigln">生命周期总收入 $7.1K</strong>、利润率 95%、月访问约 1.1K、挂售价 $18K。<br data-page-node-id="3gl5nmPXKfNjTeAGHp4yYJ">
+  含义：即便做到「可正常收款」，纯图片/文件改名这类单点工具的月收入天花板通常在<strong data-page-node-id="ALSY4dGUI9FA3LpqoWFkjM">百美元级</strong>。要覆盖 VPS + 域名 + 模型调用 + 支付手续费的固定成本（保守估 $50–80/月），大约需要 <strong data-page-node-id="nosR4gTIac85ewyTzFQLyY">6–9 个 Starter 付费用户</strong>——这不是一个靠订阅量级取胜的赛道，必须靠「高客单场景」（会计/法务/数字资产管理的批量文档）或「买断式高价 SKU」破局，而这两者当前都不在产品里。</p>
+</div>
+
+<!-- ============ 5 ============ -->
+<h2 data-page-node-id="fQgziZPfIGRuoH7ZiPNKW8"><span class="num" data-page-node-id="3iE71lQJF370sCdDf3Toty">05</span>转化漏斗还原：卡点在哪里</h2>
+
+<div class="funnel" data-page-node-id="NWpCsYnsQA1bF7RvcR4ot8">
+  <div class="fstep" data-page-node-id="HudM3ACAx1BmrYSfhbBwwI"><div class="n" data-page-node-id="xbpGhetyYuhbHAYPBFi4K3">1</div><div class="body" data-page-node-id="D0PLMXMV36HXLjEhve3D5c"><b data-page-node-id="eLe3JLSyI4DdNuJjzdD4HO">访客落地首页</b><span data-page-node-id="axpRFUvwu5W0ifKXwFpTgj">看到「Rename 1000 Photos in 60 Seconds」+ 「Try Free →」</span></div></div>
+  <div class="gapbox" data-page-node-id="Ao0zcDXMvDO4Us82BSKDUD">▲ 卡点：主标题承诺 1000 张/60 秒，实际单批上限 50 张，免费档仅 3 张/批。第一屏就产生了预期落差。</div>
+
+  <div class="fstep" data-page-node-id="0S4DAkxwaQ2aLYdQXkgHHv"><div class="n" data-page-node-id="aJ4EVkBc1CqzCldHdza3wm">2</div><div class="body" data-page-node-id="10nbK4foBTl2B42kHpG0Qt"><b data-page-node-id="468qyzNRGUiuFjhGosBnEF">未登录试用：5 credits</b><span data-page-node-id="BDvXQYJf6eHhVmGaRmGHMI"><code data-page-node-id="SRa3Wq9S2jgN8PDgJlRmfd">credits_limit: 5</code>，额度极小，几乎没有产生「爽感」的空间</span></div></div>
+  <div class="gapbox" data-page-node-id="nvknhBk0RcDtpzRLbe7jkJ">▲ 卡点：额度耗尽时只有浏览器原生 <code data-page-node-id="CDrBTBWTVAqJdYvXHDoOnx">alert()</code> 弹窗提示「You've used all your credits!」，<strong data-page-node-id="VM8j2PWqWmu1wzfGE3kLwP">没有内嵌升级卡片、没有价格锚点、没有上下文引导</strong>。</div>
+
+  <div class="fstep danger" data-page-node-id="kJwjihjFX1a6fuWL5XsZhS"><div class="n" data-page-node-id="H9JCXdWOyQlVxKnjgrENGU">3</div><div class="body" data-page-node-id="2SrD6mfKKoxbAixb8cPNZY"><b data-page-node-id="pFLVLVeifgRqxVNYrjUvoA">注册：100 credits / 月</b><span data-page-node-id="yl7TJHMq4rd9qmL9dmjCfh">注册动机是「额度更多」，但注册后的批量能力仍被限制为 3 张/批</span></div></div>
+  <div class="gapbox" data-page-node-id="CVH0Xgbi7iI5gC23bEnZMy">▲ 卡点：这是漏斗中损失最大的一环。用户注册的预期是「免费批量改名」，实际拿到的是「免费单张改名 ×100」—— 与首屏承诺直接矛盾。</div>
+
+  <div class="fstep danger" data-page-node-id="kOA559guKLEfGEMeflP3Dy"><div class="n" data-page-node-id="h2R0EOeVwIgpnAkiOBruA9">4</div><div class="body" data-page-node-id="KoIfclClhsg9lpLGA8qtoX"><b data-page-node-id="QHBKe01PpD4tUUC3F7yinS">点击升级 → 支付链路</b><span data-page-node-id="Ud6e8gbCXQMqrHF6YZm2Gy">未登录只做 <code data-page-node-id="99gcpEqVHGOtu1mbtGRoRD">push("/login")</code>；已登录则可能落到未替换的 Stripe 占位链接</span></div></div>
+  <div class="gapbox" data-page-node-id="tFJ6rAVR5Z71shPiCASEgE">▲ 卡点：付费入口即是断点。这是当前唯一的「0 收入」硬故障。</div>
+
+  <div class="fstep" data-page-node-id="ggoVbAiUJhlh3WAtbdkKmY"><div class="n" data-page-node-id="BoKj74cFVLM4tzgk6dSQPo">5</div><div class="body" data-page-node-id="VdcBhLHyShhmmxqGpcr1pi"><b data-page-node-id="CZ3XXbxxKyTgsjRolB1IBQ">付费后体验</b><span data-page-node-id="ogzCYVN6sCHVWvqmIL5hjB">Pro 档权益含「API access」，但官网 FAQ 明说 API「还没做，在路线图上，可从 dashboard 加入等待列表」</span></div></div>
+  <div class="gapbox" data-page-node-id="XtMaj1HtHdtVXBVG7CPHBo">▲ 卡点：付费即失望 → 退款与差评风险。后端其实已有 <code data-page-node-id="qWKUFq0Jp0GRr5bTXe2B88">api-key</code> 端点，问题只在「承诺与交付不同步」。</div>
+</div>
+
+<div class="card" data-page-node-id="Ndf4W5LM6okqvw6sKCWIpu">
+  <h3 style="margin-top:0" data-page-node-id="vFzTqSifKABlfo8wfXmCmN">未被利用的转化杠杆（按预期收益排序）</h3>
+  <ul data-page-node-id="YhTXb7T9kTKt0WjEtXfvAC">
+    <li data-page-node-id="xCjEBlCylqo0FmKpyAXo7I"><strong data-page-node-id="fp5EXQHCkDbPS6cCGrvuyP">额度耗尽即升级触点。</strong>把 <code data-page-node-id="F2m5ndmA20EWvjddRxK5yL">alert()</code> 换成「你已处理 5 张，本批还剩 47 张未处理 —— 升级 Starter 立即可用批量 + ZIP」的内嵌卡片。这是同类工具转化率最高的单一动作。</li>
+    <li data-page-node-id="u2KTOPYXg0n4BNfcMHoA34"><strong data-page-node-id="BwpaPXXSllLHTZhvcacZIU">首次批量完成后的「成果时刻」。</strong>用户亲眼看到 47 个 <code data-page-node-id="btltLDjwpPaeVkmd46zVMe">IMG_xxxx.jpg</code> 变成有语义的文件名时，是付费意愿的峰值。</li>
+    <li data-page-node-id="o9jtwxuK585HE9CmJzdi0D"><strong data-page-node-id="D03KJE3y9va3kh1wwv5cNv">年付与买断双轨。</strong>竞品的买断价（$19–$48）是这个品类里最有效的转化器，也是对抗订阅疲劳的武器。当前 RenameAI 只有月付一条路。</li>
+    <li data-page-node-id="4b5EPbm9B8bLBysWWHYIZq"><strong data-page-node-id="ZqCr3nJliqTrBfpbRQdVoB">邮箱触达缺失。</strong>未发现邮件服务（如 Resend / SendGrid / Mailgun）的集成痕迹，注册后没有任何激活、额度提醒、挽回邮件——意味着所有未转化流量一次性浪费。</li>
+  </ul>
+</div>
+
+<!-- ============ 6 ============ -->
+<h2 data-page-node-id="kxNkLheRRDPS3jqCLjRWNM"><span class="num" data-page-node-id="BwBo7ZQcuH9HX7HAtgmkCO">06</span>竞品全景对比</h2>
+
+<table data-page-node-id="LgRzavPF4N7WSutUokZAMk">
+  <thead data-page-node-id="iKt78EutQWVByR4BFnVLxs"><tr data-page-node-id="tZdzQdn8Edtqt9KnjmvpbI">
+    <th data-page-node-id="J5MiJwzpetnyK5NgvORgkO">产品</th><th data-page-node-id="lyKIbrOgKqMIuDziB5eFmx">输入类型</th><th data-page-node-id="QCCE9R8GHFANULSUHJjJ5K">平台</th><th class="num" data-page-node-id="VlQAvCCIykYB2WGuqvTfr2">免费额度</th><th class="num" data-page-node-id="4hBCjPxn15Mxx3Fzd8oE5S">起步价</th><th data-page-node-id="YlRRnS1eV9HJveXWrryMT1">买断选项</th><th class="num" data-page-node-id="FwYwySeAXlHHGwcugFbl3u">单张价格</th><th data-page-node-id="Fo6yKyY9Egso5D5cq9N45v">可验证规模</th>
+  </tr></thead>
+  <tbody data-page-node-id="Ik9cP3Lg832Z3RMPmKhpkl">
+    <tr style="background:#faf5ff" data-page-node-id="TlLUgiIuhYfRL8G6vltAIr">
+      <td data-page-node-id="0cNNMcyLoXwZmEww4EDEGY"><strong data-page-node-id="0F13EKPTRb4Xa7PVHRee7g">RenameAI</strong><br data-page-node-id="XRqLIINBR8rqXMeEv8XXTb"><span class="src" data-page-node-id="Ar3bPh1DYhDIuigwxwesu9">renameai.online</span></td>
+      <td data-page-node-id="CzschpdpuXPgmlQ2Rs04kM">仅图片（6 种格式）</td><td data-page-node-id="6fiqqxHEKHH36HaCrIFAav">Web</td><td class="num" data-page-node-id="h7sYmAmdMRkqKeAxyrSE2V">100 / 月</td><td class="num" data-page-node-id="CTE1fsXCHozNNEBb7dClJO">$9 / mo</td><td data-page-node-id="fMENsdVzh66A8xdAxchJEJ"><span class="tag t-red" data-page-node-id="PyQoULwwH5u1zSi1lXGF3H">无</span></td><td class="num" data-page-node-id="bkCAfGrd4xDaALFNgs47dw">$0.0019–0.0045</td>
+      <td data-page-node-id="0O5RDmmlEVTZZGqmYA0le5">月访问 &lt;7K，环比 -75%</td>
+    </tr>
+    <tr data-page-node-id="Up3IXcaDPoPTUwAzcrI7am">
+      <td data-page-node-id="ykxnrve3CdxjGtJHhxZbSI"><strong data-page-node-id="DA0aRgb6xvFpRswpFbJyhb">Renamer.ai</strong><br data-page-node-id="PJnDe6WBxFAHEHQsUnOnNL"><span class="src" data-page-node-id="kyk7S0oDBr28tQUR6Bh1n1">renamer.ai</span></td>
+      <td data-page-node-id="qJAmOWc8R1sPhGJgT4n7Xp">25–30+ 类型（含 PDF/发票/表格/邮件）</td><td data-page-node-id="Xj62xBwtUCFzaL507Bnjwk">Web + Win/Mac 桌面端</td><td class="num" data-page-node-id="zkylCe6FA69O7Rh2T6Ojl2">25 / 月</td><td class="num" data-page-node-id="agasoF3PlNJhEUwHGrv58M">$9.95 / mo</td><td data-page-node-id="dpxBdBj0bvnoiNrBElzGKY"><span class="tag t-red" data-page-node-id="6lzbeAhitbJJfszSfSNUH6">无</span></td><td class="num" data-page-node-id="Sy0Rj846CWJfaE8YOLxICG">$0.02–0.05</td>
+      <td data-page-node-id="iz7xnGystky5Agd5uKxkFr">月访问 40.32K；6,100+ 用户；4.9/5</td>
+    </tr>
+    <tr data-page-node-id="zWvLrY33zrcJKFvNMGukjN">
+      <td data-page-node-id="z9EVGrK11pPC8BzzgJPViU"><strong data-page-node-id="8zSrMqUbec1PDPCJ1phD95">AI Renamer</strong><br data-page-node-id="6324SkAQkSRBLiYz6CgVX1"><span class="src" data-page-node-id="XDSuQ49MrrGXbuCnQX22vS">airenamer.app</span></td>
+      <td data-page-node-id="eE4JL4CPqK4brH5ONWLd0n">图片 + PDF/文本</td><td data-page-node-id="BXTbNDuEx11bMZxvupCXUY">Win/Mac + 本地模型</td><td class="num" data-page-node-id="qDJidYbIgdmyYtiLAxmJmG">10 credits</td><td class="num" data-page-node-id="mkw5iTFNXDbCaJQ6lzEFci">$19 一次性 / $10 云</td><td data-page-node-id="27IZYpx4IgrzD3F4OOTWPq"><span class="tag t-green" data-page-node-id="kRzQPuQsyWHN3gyCb8yq6y">$19 买断</span></td><td class="num" data-page-node-id="Vs5DVguUy8nuJGjDF3MgOl">$0.05</td>
+      <td data-page-node-id="4QZ2MAndLBz8wBMSwt01VG">30 天收入 $91；累计 $7.1K；95% 利润率</td>
+    </tr>
+    <tr data-page-node-id="fYlv8f1L5ag1eMcsKaOHo2">
+      <td data-page-node-id="dzPLmFo25GakqDdd89W6BM"><strong data-page-node-id="ttBAsheb6ltZ9csPWdODZD">Zush</strong><br data-page-node-id="qQ0WOBcFfYnczeoCrfCyAh"><span class="src" data-page-node-id="HmDmzT2Ll5CTkegpn8JFmI">zushapp.com</span></td>
+      <td data-page-node-id="194vodhOvYu9gHEloBNsnX">RAW/设计/音视频/文档 全混合</td><td data-page-node-id="EgjQ8ArpBPxfIrIbsWyWxG">Win/Mac</td><td class="num" data-page-node-id="GN6hYUDvS3R0uoeV5PX4aP">50 次</td><td class="num" data-page-node-id="194gvOtZz8rWrhCRFdQ9cb">$8 / mo</td><td data-page-node-id="BjE3d565Wq76HVAZrosvtT"><span class="tag t-green" data-page-node-id="xnAOTuHMfKvBcAxg3o2c6A">$48 买断</span></td><td class="num" data-page-node-id="nL77Q1XhQcvdKny2oBxw22">不限量</td>
+      <td data-page-node-id="Mv442V948x4DFGtGH7ZXZN">以 BYOK / 本地模型为主打</td>
+    </tr>
+    <tr data-page-node-id="1aCPQZeMR3UiSVmF2I7IoV">
+      <td data-page-node-id="rpDQU7q0TGXnSduFRgvoAf"><strong data-page-node-id="bEJJVaaaA1B4zBnbMxxvgd">Renamed.to</strong></td><td data-page-node-id="9mu3fvO7BiJxKELCFRlY6h">文档 + 云盘集成</td><td data-page-node-id="06KFDHIKMQRThnAwtsmeLp">Web + Google Drive/Dropbox/OneDrive</td><td class="num" data-page-node-id="5tPHNjcYwGRH5CCIBOsmDq">—</td><td class="num" data-page-node-id="hCgxEiqHOQj3G4szoyrAmO">$9 / 1K</td><td data-page-node-id="UzESdQGxjCEFYZdjtCIfEs"><span class="tag t-red" data-page-node-id="mf4R7IpGPLEcyAlWW1EeLE">无</span></td><td class="num" data-page-node-id="B2P5ISTcIzJR8IxyYnPL1X">$0.0049–0.009</td>
+      <td data-page-node-id="xUJktUxfqFYDi6Ya28e7f4">团队向，含置信度评分</td>
+    </tr>
+    <tr data-page-node-id="EFatzoxKbvEepZlu6OrmTM">
+      <td data-page-node-id="uVGuXMvjMXWuKZFtDoqn7t"><strong data-page-node-id="DQuU7TXhhAHIjVKJBHFSuD">NameQuick / RenameClick / FilesDesk</strong></td><td data-page-node-id="bfOdgYftNp1gsMqqv0RP2A">文档与图片</td><td data-page-node-id="91M9Bf6q6Z0iDpJF7TL6pK">桌面端</td><td class="num" data-page-node-id="yQEKW4tUl78LHkXAWDfvoc">30–50 次</td><td class="num" data-page-node-id="pLQlEw6YA3tGrABgvZqWke">$5–12 / mo</td><td data-page-node-id="0fadzYhEKnpDaMG12C6QIm"><span class="tag t-green" data-page-node-id="tWU7PnllUkODwx9QcPp1fG">$20–69 买断</span></td><td class="num" data-page-node-id="KPWtA41b80rgefxYwJqhiG">—</td>
+      <td data-page-node-id="b9CWePpC0I9vRan8tcHz2i">Windows/macOS 单平台为主</td>
+    </tr>
+    <tr data-page-node-id="om8VESQxmtS0i2jOnUEyQ7">
+      <td data-page-node-id="3ltNYoUKT7SqjaPMg5cK4c"><strong data-page-node-id="giwbgW0edQBYYhG3feaTuN">Wisfile / Riffo</strong></td><td data-page-node-id="Br9UxKZehGkQiRFoTbIsmc">文档 / 图片</td><td data-page-node-id="WvYFtZGsks3wXsl8bMwXGz">桌面端</td><td class="num" data-page-node-id="RVqdiyupCimK4yVV6tE7pm">不限量免费</td><td class="num" data-page-node-id="hTU6LaPZFjdtpp9GjNe9r5">$0</td><td data-page-node-id="cJg2phRcXOla9grqklqLWb">—</td><td class="num" data-page-node-id="cdmWBv9RtMArfSwWZxMG9C">—</td>
+      <td data-page-node-id="ezUDAitUrBAsY7uYksQm9x"><span class="tag t-red" data-page-node-id="6kgbqDpxi8Y2elV4tuOBBV">免费替代品</span>直接压制低价区间</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout" data-page-node-id="CcFcm7oPggnRKW8SibPvc0">
+  <div class="t" data-page-node-id="vTzj53HL6Xjqw5WNaOJz5w">竞争格局判断：RenameAI 站在最差的位置</div>
+  <p data-page-node-id="UHcoFhjE1eraPKE67LcgYy"><strong data-page-node-id="m7rJpwwzdSUXWVIDS5QLbz">向下</strong>有 Wisfile / Riffo 的「免费不限量」，<strong data-page-node-id="DA7uSj8OCq6ZU4LpduBCBo">向上</strong>有 renamer.ai 的「文档 + 桌面端 + Magic Folder」生态，<strong data-page-node-id="IjGuhENbcrurLN24AHcX45">侧面</strong>有 Zush / AI Renamer 的「$19–48 一次买断」。RenameAI 唯一的差异化是「便宜」——而便宜在这个品类里已经被免费产品定义过了。</p>
+</div>
+
+<!-- ============ 7 ============ -->
+<h2 data-page-node-id="YnqUUs9ADbL6aaw8v88HJW"><span class="num" data-page-node-id="H4CEYMFKIiusiSJ5AIcrNR">07</span>行动清单（按商业化影响排序）</h2>
+
+<div class="card" data-page-node-id="8MafsZLdpvbMnsXThmuTLm">
+  <div class="item" data-page-node-id="YNPFCaACI0SE27kADn9xRr"><div class="h" data-page-node-id="0KHcM5suzFn6OckFNdxB4j"><span class="prio p0" data-page-node-id="pj87TxYx7zNS9fDsgTJ6aY">P0</span>修复支付链路，把它变成可收钱的产品</div>
+    <div class="d" data-page-node-id="CNQEATDghtkhZsjuZGPefG">① 替换三个 <code data-page-node-id="Dx8ICTg59w6sUOMHzLp8tn">buy.stripe.com/your_*_link</code> 占位符，或在配置缺失时直接禁用按钮而不是跳到死链；② 用一笔真实小额测试单端到端验证 <code data-page-node-id="Kkb65PMcFNWmVbwGpCH0YQ">create-checkout → Stripe → success → webhook 开通额度</code>；③ 在 <code data-page-node-id="aG5n9x25euCbD4B3O1zGTz">/api/webhooks/stripe</code> 上补齐订阅状态与额度续期的幂等处理。<strong data-page-node-id="B7sqHGCBrOQrgkTyD2FnmV">预计工作量：0.5–1 天。</strong></div></div>
+
+  <div class="item" data-page-node-id="skuudJqmwNhdWDu1LWx6El"><div class="h" data-page-node-id="LCJuDIOL3cH8fCDBIMZd7J"><span class="prio p0" data-page-node-id="aP2joYnFYknp4e1FMp67vu">P0</span>统一额度口径，消除「承诺-交付落差」</div>
+    <div class="d" data-page-node-id="sfZHZYuyoyP5VK9vaDSJAu">在 <code data-page-node-id="P0yQeHcPT2IRKuuTnv7l0m">50 张/批（首页）</code> 与 <code data-page-node-id="Orku9DD7qV3YTlidqNjnw3">3 张/批（免费档）</code> 之间选一个事实并全站对齐。建议改为：<strong data-page-node-id="MJlxnav6hQezczloZ67s6q">免费档 5 张/批</strong>（保留升级理由，同时不违背「拖一批照片进来」的直觉），首页标题从「1000 张/60 秒」改为可兑现的口径（如「100 张照片，一次拖入，60 秒完成」）。</div></div>
+
+  <div class="item" data-page-node-id="GnTWLhSlTxzHehX5PLGGrX"><div class="h" data-page-node-id="EBB0x9Eo6VhlG6BXnGu3J8"><span class="prio p0" data-page-node-id="EQSODM6cWY3z1HbMTLCa3g">P0</span>撤下未上线权益，或立刻上线 API</div>
+    <div class="d" data-page-node-id="jLw2BW5MakrNuPH8c4EzPi">Pro 档的「API access」与 Agency 档的「Unlimited API」当前是<strong data-page-node-id="sCs6RAFqFbPA1PdXUOAbjN">虚假权益</strong>（FAQ 自己说 API 未发布），而后端 <code data-page-node-id="dLZA4FnG6vHOBYJtF6VJCy">/api/auth/api-key</code> 已就绪。要么把 API 开关打开并补齐文档，要么从价目表移除。<strong data-page-node-id="wOmxAvL3m4wEEqh0Iggyr4">带着虚假权益收钱，等于自造退款与差评。</strong></div></div>
+
+  <div class="item" data-page-node-id="kVGKOmooYBB0nK9xOh42sY"><div class="h" data-page-node-id="j017kB2sQFygXVLU3cGXrL"><span class="prio p1" data-page-node-id="wg9n2kWqBE2nSD6vBfywSc">P1</span>重构定价：按「张」计价 + 补齐价格阶梯</div>
+    <div class="d" data-page-node-id="77T0tiQYojMq5iv177E5VZ">① 把含混的 credit 换成用户能算清的单位（<em data-page-node-id="PfGGVTgbUOgZ2BeevakJBd">张 / 月</em>），并公开每张消耗规则；② 新增<strong data-page-node-id="d7fRXeqCmDe09X7fsgV119">年付（-20%）</strong>以改善现金流；③ 新增<strong data-page-node-id="6CYeTWvZHzr3F7aa0TKNpj">买断 / BYOK 本地版</strong>对抗 Zush 与 AI Renamer 的 $19–48 一次性报价；④ 把免费档从 100 张/月降到 30 张/月左右（仍高于 renamer.ai 的 25 张，但不再消灭 Starter 的动机）；⑤ Starter 从 2,000 张降到 300–500 张（多数用户的真实月需求），把「量大」的价值主张留给 Pro/Agency。</div></div>
+
+  <div class="item" data-page-node-id="p65hJsTzshQSvzL5zj9S0Q"><div class="h" data-page-node-id="uMAP0gg17yLhA3iLbgEoNB"><span class="prio p1" data-page-node-id="4xBAj2FUXfk9vVeaDU2B1D">P1</span>建立毛利护栏</div>
+    <div class="d" data-page-node-id="5KQKgKgRc0o8QccLzcq3MQ">① 按档位限定模型池——免费档只用最廉价档模型，Pro/Agency 才允许中端模型；② 对单张输入做尺寸/token 上限截断（当前无限制说明）；③ 在后台加一个「COGS/收入比」看板，超过 20% 自动告警；④ 把内容审核调用与业务调用合并到一次请求里，避免每张两次调用。</div></div>
+
+  <div class="item" data-page-node-id="q0I8ipcSaZ5e2bSYrljwHU"><div class="h" data-page-node-id="6NoTyBAqMUexhMKZQzS9GW"><span class="prio p1" data-page-node-id="S0SQ3PQwccKgX2UBSHR3G9">P1</span>重做额度耗尽这个升级触点</div>
+    <div class="d" data-page-node-id="kVGJk3JV2M2dLb6RhTWlXG"><code data-page-node-id="f4WVhUDHk1mDSU0k2NDXb8">alert()</code> 换成内嵌升级卡片（含剩余未处理张数 + 价格对比 + 一键升级）；首次批量成功完成后触发一次「成果回顾 + 升级引导」；接入邮件服务补上激活、额度预警、流失挽回三条触达链路（当前为 0）。</div></div>
+
+  <div class="item" data-page-node-id="cCRLgvxWBs7o2zqK1DwOCz"><div class="h" data-page-node-id="ZMtPQxdkTBNcpjhqdqJYck"><span class="prio p1" data-page-node-id="xYq9Hvg2dWq132tK4FJsCR">P1</span>处理品牌与法务风险</div>
+    <div class="d" data-page-node-id="ILHPn85HeA0mhQBnIDGI6L">① 与 renamer.ai 的名称冲突需要决策：改名、或明确定位为窄场景子品牌（例如只做「电商商品图批量改名 + SEO」，避开泛文档战场）；② 合规层面建议尽快补齐：隐私政策写「托管商 Vercel Inc.」，实测服务运行在自建 nginx/Ubuntu；政策写「使用会话/认证 Cookie」，实测使用 localStorage 的 <code data-page-node-id="a44eRE1Ef6K7Wq4jQCTNun">sr_token</code>——<strong data-page-node-id="DqD1OkjDVw7IxBEoafHugF">描述与实现不一致在德国法域属于高风险项</strong>；③ 条款以德国法为准（引用 Bundeskriminalamt、责任上限 €100、证据留存最长 30 年），但站点未见德国法要求的 Impressum（运营者信息页），建议补齐。</div></div>
+
+  <div class="item" data-page-node-id="HI2qooXcZ8GGycu3rlQgs0"><div class="h" data-page-node-id="jE4nRpIHvYmXXnOOtWnj2i"><span class="prio p2" data-page-node-id="0EFdIji61gMGEUPFwrY27H">P2</span>扩能力边界，逃离「低价图片改名」红海</div>
+    <div class="d" data-page-node-id="HtR51HFkdWAPIYFVJBVByU">① 支持 PDF / 发票 / 截图 OCR——这是竞品的高客单来源（会计、法务、数字资产管理），也是唯一能支撑 $29–99/月定价的场景；② 桌面端 + 文件夹监控自动重命名（Magic Folder 类），这是竞品真正的留存机制，一次安装换来长期订阅；③ 建 SEO 内容矩阵对标 renamer.ai：品类词（best AI file renamer）、对比词（vs Renamer.ai）、场景词（rename invoices / product photos）、免费词（free AI renamer），先把品牌词 <code data-page-node-id="YL4EtL32S8Lf6iRjUcNoo3">renameai</code> 从对手页面里抢回来。</div></div>
+</div>
+
+<!-- ============ 8 ============ -->
+<h2 data-page-node-id="zMyw7itmQ91RuXFnyxlujL"><span class="num" data-page-node-id="L2EIfK7HGJzM4r4uCflS6A">08</span>指标体系建议（含当前可测基线）</h2>
+
+<table data-page-node-id="EQRAWERg18GVlJGFOfdwrJ">
+  <thead data-page-node-id="uFCF9SgJjA4KgioHCtbpJh"><tr data-page-node-id="a1tvbAqIF5MwMrGNxqjFIY"><th data-page-node-id="sOANeFfD0KRBMo9ZOCcdsy">层级</th><th data-page-node-id="4PHQUoz6vDGUBnEpVd1Shk">指标</th><th data-page-node-id="cmjnTUqB7wHHohPD6yuRvO">定义</th><th data-page-node-id="SV0E61PpxIb0RElBZtGyNJ">当前可测基线</th><th data-page-node-id="h6WFWv8Z4Fn0KL14YBVnED">建议目标</th></tr></thead>
+  <tbody data-page-node-id="XCISCCqaNCC7SAk5YBXSuW">
+    <tr data-page-node-id="rqM93k0hXml1sBcXGXfEEl"><td rowspan="3" data-page-node-id="pA7eV19GpATrhRrpwBL9mn"><strong data-page-node-id="DEbB2HLs0uR5On6Fmscd9d">北极星</strong></td><td data-page-node-id="oiGIRsvvqMsO8PF3jYSCUW"><strong data-page-node-id="g3Cj1B408SokWxRY25I8Gs">WRI · 周成功改名张数</strong></td><td data-page-node-id="Z2GbZyZdn5F0POlUDrbMp2">每周成功返回文件名并完成下载的图片张数（不是上传数，不是注册数）</td><td data-page-node-id="teTzkhztj4iXihEASCvCh6">未知（无公开数据）</td><td data-page-node-id="otZ9TEyYeDlkaMggq83x4G">先建立测量，再谈增长</td></tr>
+    <tr data-page-node-id="XSy6Fsm5959NeP9FUj64DY"><td data-page-node-id="J9RHsmMcP2hJKRs41kJRbv">付费渗透率</td><td data-page-node-id="DniU7axLm4ZNdkZFYDXaVX">付费用户 / 月活注册用户</td><td data-page-node-id="Lf88D3xSZStzTEluonBm0v">当前应为 0（支付断链）</td><td data-page-node-id="q3JEu8lrIjAPNGwd3xORap">1–3%（品类平均偏低）</td></tr>
+    <tr data-page-node-id="y4IEeWvd1TR6OfMMDp1xVR"><td data-page-node-id="cGrlaQJavMzOypJYIVzf4Q">单付费用户 ARPU</td><td data-page-node-id="wKcWw1bWpGgbAbNiXUwEA0">月经常性收入 / 付费用户</td><td data-page-node-id="b3v6LIY4efF2RtiM5VZgKz">$9–39 档位区间</td><td data-page-node-id="UMhyYQxzLVIrpbv9wqw6is">向 $15+ 靠拢（需年付）</td></tr>
+    <tr data-page-node-id="GV6dWAzxu13ICpXho6Tfa0"><td rowspan="4" data-page-node-id="EvLXl2e1NBwDpHccaCc3Uk"><strong data-page-node-id="WZnNOoNqSUObkFqVgRlLPQ">驱动指标</strong></td><td data-page-node-id="VEsvJsiTunHXpEzrRzwTCA">访客 → 注册转化率</td><td data-page-node-id="yCDLv4pTshZTTDxrkIbJa6">注册数 / 独立访客</td><td data-page-node-id="fr6TLhGmdNvOc4YyrH6iSw">未知；当前 5 credits 试用额度过小</td><td data-page-node-id="3mhfM1rPPWla2JBIC8wDmq">&gt; 8%</td></tr>
+    <tr data-page-node-id="Y6iQYOOV5Q9oOMKcH79u9I"><td data-page-node-id="RvmWjRJwGjpFH3fsCQh4Y9">注册 → 首次批量成功率</td><td data-page-node-id="lInS1swcT6OeMpHCUGOUgB">完成一次 ≥5 张批量处理的注册用户占比</td><td data-page-node-id="TGD3kBD0AaVvm5Lqhr8g20">未知；受「免费档 3 张/批」压制</td><td data-page-node-id="L86N8LO8fom7D7Fv219yoA">&gt; 40%</td></tr>
+    <tr data-page-node-id="HVfoPenVCugWp8gw2mkptZ"><td data-page-node-id="TFHtGh6S0CydbjuVFAG3yG">额度耗尽 → 升级点击率</td><td data-page-node-id="SFtGj2aCA9q7AdY7mqY6qt">看到额度提示后点击升级的比例</td><td data-page-node-id="lI8xdhsgkMDUN2xPAO5d4U">当前仅有 <code data-page-node-id="GKLXGiljry3RdbAkKTFp2i">alert()</code>，不可测</td><td data-page-node-id="aRszRLUuQFjHame0GnmVrI">&gt; 15%</td></tr>
+    <tr data-page-node-id="ISUyqkf8Dyv3DmEEobGFOH"><td data-page-node-id="pRryEQNgiU05kHBlSRDnKo">升级点击 → 支付成功率</td><td data-page-node-id="xK5Dv1r5WKdwYygio8BHmU">完成付款 / 发起结账</td><td data-page-node-id="AvC9g711pCylRruhMcG1Yp"><strong data-page-node-id="54AY9hnTMInLqMLu6oyU6L">当前为 0（链路断裂）</strong></td><td data-page-node-id="xF8SUSxtoUQ3cn12E27td7">&gt; 60%</td></tr>
+    <tr data-page-node-id="yAlcye3eEmsnztz2HqEkAn"><td rowspan="4" data-page-node-id="GZYvgGdhT2Q2yyFWo45ypC"><strong data-page-node-id="jbMYRXMhYBWOs4H5A9M5Kt">健康指标</strong></td><td data-page-node-id="0GvqhGSMwnuF5BiLRNzz5m">单张 COGS / 单张收入</td><td data-page-node-id="GF9enUWYFBtQvONV0BSITv">模型调用成本 ÷ 每张实收</td><td data-page-node-id="MG6dGofu83DXnPrtLRsrUk">0.4%–170%+（取决于命中的模型档位）</td><td data-page-node-id="fRKdg6phYVy7HbBCLV0mfn">&lt; 20%</td></tr>
+    <tr data-page-node-id="AxSwvcWj4rSaqUdoL1Ind0"><td data-page-node-id="psBs1YWsMBYLF6JHOn9LEu">改名成功率</td><td data-page-node-id="YvVeeXOwPg23aUcRExRUYC">成功返回文件名 / 提交张数</td><td data-page-node-id="mTEyPrCl0EUmEYaXk0ftmK">未知</td><td data-page-node-id="F9HFddSdB8TqI7AKabLFMd">&gt; 95%</td></tr>
+    <tr data-page-node-id="gJueM8wTFWIB2r1NMysvkV"><td data-page-node-id="U2ug9kwPOMWsHrsjdtN20B">P95 处理延迟</td><td data-page-node-id="CjlmEKN2DECppHzwTJ7jjV">单批从上传到返回的 95 分位耗时</td><td data-page-node-id="kZXXQa6zoDg2tsFjTmbqWp">未知（主标题承诺 60 秒/1000 张）</td><td data-page-node-id="YyCNlbx8ughBDVwlKwCyUB">&lt; 3 秒 / 张</td></tr>
+    <tr data-page-node-id="tAklGjzM1jWS4ZbaPGE84A"><td data-page-node-id="v0plCKmeBLf0c7SaoF0qLg">审核误杀率 &amp; 退款率</td><td data-page-node-id="TN4jmaadBuegARVz8kV5Pa">被内容审核误拦比例 / 退款订单占比</td><td data-page-node-id="lbmSFvv0R4XRYdbE8SQr9a">未知；条款规定误判需邮件申诉，自动化程度为零</td><td data-page-node-id="MAiOExY3zZN0Z9wHXvaN04">&lt; 1% / &lt; 3%</td></tr>
+  </tbody>
+</table>
+
+<div class="callout" data-page-node-id="0gQPuKfTIX4HEGt9vkkJ2b">
+  <div class="t" data-page-node-id="2tPJrEYXmzQFl22FpytrpO">指标体系的第一个动作不是「加指标」，而是「补埋点」</div>
+  <p data-page-node-id="8RfRLW34FVxtCCR9B7Ae8B">当前唯一能确认的量化事实只有「额度数字」（访客 5 / 免费 100 / 各档上限）。注册转化、批量成功率、升级点击、支付成功率这些真正决定收入的数据，从外部<strong data-page-node-id="gQyfOUKpiVFgmoVvEzOPYQ">完全不可见</strong>——这本身就说明产品没有可用的分析体系。在支付链路修好之前，先补上事件埋点，否则修好了链路也读不出它在不在工作。</p>
+</div>
+
+<!-- ============ 9 ============ -->
+<h2 data-page-node-id="ZSczh8NCAPZFbSFSsFYqdt"><span class="num" data-page-node-id="KGZw9ZXIkEvLQH9sqlCijY">09</span>数据来源与可信度</h2>
+<table data-page-node-id="TPE1YF5EdIFjvYlehGuxqF">
+  <thead data-page-node-id="ESlY214YnMDBFrzlZteb0b"><tr data-page-node-id="tZhMxlFrjyxd5L9jfysbM9"><th data-page-node-id="aUFWiOorinF1tDVhjiLRsk">数据</th><th data-page-node-id="OKPq0aoGReB6NmFAAnHWvr">来源</th><th data-page-node-id="iiBB6wZl2s87BPaeVRFdAO">可信度</th></tr></thead>
+  <tbody data-page-node-id="ImDBc0PxSL1Bjivlv8BXXf">
+    <tr data-page-node-id="GNdTMFK95R7MlRYPXndk4g"><td data-page-node-id="eHExMOSwdYdUVw09ln6xWP">四档定价、权益、单张价格</td><td data-page-node-id="jZ9yyPQokSYxAXFEwU7107">生产环境前端 JS bundle 中的定价数据结构逐字提取</td><td data-page-node-id="VT9yxpUZTgdH6tg3aw2IXr"><span class="tag t-green" data-page-node-id="qtcd5xLHYjmXazKEzr5VEq">高</span></td></tr>
+    <tr data-page-node-id="FrAr1XuBK4f8f18XsGZYFG"><td data-page-node-id="UTvadFa3rIVJxs6QDTQLru">Stripe 占位符与前端结账回退逻辑</td><td data-page-node-id="i3E0AIJi0olSQCywrlHWKP">生产环境前端 JS 中的 <code data-page-node-id="kOZQH2rVI9xfoAjQMeY6rd">create-checkout</code> 调用与 <code data-page-node-id="7ql6Fbl9CIJEi8mWTwBZJs">E{starter|pro|agency}</code> 映射</td><td data-page-node-id="M1BG1pWNynh3IOfWPwWj8e"><span class="tag t-green" data-page-node-id="88if7m79oBKC5e4wD2BYmD">高</span></td></tr>
+    <tr data-page-node-id="v6uyBZeQ7TzQHtLhEWOaFE"><td data-page-node-id="mQ8zJgXlaYxcRI8Ld7bMPi">后端能力面（支付/额度/API Key/审核/证据）</td><td data-page-node-id="gyA0m2N8BWPsslo2vO0FjI"><code data-page-node-id="Z4ZYoAlwh3lgIK2DKn0RGi">https://api.renameai.online/openapi.json</code> + 实测 401/403 响应</td><td data-page-node-id="hym75yx6AbNTXSdLxCjjr1"><span class="tag t-green" data-page-node-id="ZcnUn1N5ok5dTb4CVS1IJN">高</span></td></tr>
+    <tr data-page-node-id="GxcG5tQndxRqQBwK5zzQYt"><td data-page-node-id="R9ZJDFE2rbZ797EF3ki5cM">访客 5 credits 与 guest 账号标识</td><td data-page-node-id="Iuca9SilcqDNTGCMkumdMN">实测 <code data-page-node-id="NM7eN56dcohvRVeQ8TCsME">/api/auth/me</code> 返回体（<code data-page-node-id="IWITbWhLmV5NhF8SFRBDXa">guest@smart-renamer.app</code>，API title = SmartRenamer）</td><td data-page-node-id="FkYQTCASAqbNYq2Ebw6aI1"><span class="tag t-green" data-page-node-id="7ePmJxS4rL2e3Vd58bhK7h">高</span></td></tr>
+    <tr data-page-node-id="sDIEjEYQHnVnJVUKeSHGLK"><td data-page-node-id="ysaIguLIFSb4T2Lbaj3cpr">托管环境（nginx/Ubuntu，非 Vercel）</td><td data-page-node-id="AY4KwnK2C6eHXRXHof0H3g">实测响应头 <code data-page-node-id="GVMQ59I2cOhDIKsXStzlKF">Server: nginx/1.24.0 (Ubuntu)</code></td><td data-page-node-id="PMzOCbcTm7ZepWbh99zCFQ"><span class="tag t-green" data-page-node-id="hyKYEvuJhTVhdYBmbxW0LT">高</span></td></tr>
+    <tr data-page-node-id="46X8j8VD5yLvJe5TuWYG8u"><td data-page-node-id="4QYEjOGX0p02P70ncHoVFz">法务条款、内容审核与证据留存规则</td><td data-page-node-id="e6xgqIGbSYouCT8H8T3uaY">官网 <code data-page-node-id="yMPUQyPv0AE2cLvaiL5cBJ">/terms</code>、<code data-page-node-id="bVwjigQZcAGD4LrlOTv9lz">/privacy</code> 全文</td><td data-page-node-id="vbrsKaGycSiHSX0D0gcjZ2"><span class="tag t-green" data-page-node-id="o3UiDDAkeEDOtYkugakR5c">高</span></td></tr>
+    <tr data-page-node-id="NghsLkvX0RKft7f3utZmMo"><td data-page-node-id="A7qfNiXVV0gYJe2fP7d8ks">访问量、地区分布、关键词</td><td data-page-node-id="FeLIo3oEw6hFZdh86yqRni">Similarweb 免费视图估算（&lt;20K/3 月、-75.33%、越南 72.17% / 土耳其 27.83%、2 个关键词）</td><td data-page-node-id="Q5lkLTUBS7OYXZRfwhrWLa"><span class="tag t-amber" data-page-node-id="5BAy4HhGTomgG4bFRDoOXH">中</span></td></tr>
+    <tr data-page-node-id="jzbG56bkhWC2jCZriUnGNA"><td data-page-node-id="gAjUpMOAZMu8T5ptYLpo3G">竞品定价与规模</td><td data-page-node-id="dDtqaWodB5mOVXDfYWVFgN">竞品官网及第三方目录站（renamer.ai / airenamer.app / zushapp.com 等）公开数据</td><td data-page-node-id="Ew4YMm9EFXBPgQDrf6oSvD"><span class="tag t-amber" data-page-node-id="L4W9qSrBv59dba6v54aZ7g">中</span></td></tr>
+    <tr data-page-node-id="EsyDK19qCu1BOMVG6HVzP6"><td data-page-node-id="sQGyAtmYh0gqRjK2de12q6">同类产品收入量级（$91/月、$7.1K 累计）</td><td data-page-node-id="8ROJAc1AJ8MTl4bAsjEECK">第三方并购信息站对 airenamer.app 的公开挂牌数据</td><td data-page-node-id="Ufo5llqVoF1aLjWJkViql3"><span class="tag t-amber" data-page-node-id="wNj8zg7DA3NdJb4sozgJdL">中（第三方口径）</span></td></tr>
+    <tr data-page-node-id="5ZmJDdi7h7Gt82tgl1ozTO"><td data-page-node-id="eVVkganSIl2CPI0YLJJwKQ">COGS 估算</td><td data-page-node-id="d1dL7Mnc5DKAChvWHJ3Ddr">基于主流视觉模型公开价格与 token 估算自行推算</td><td data-page-node-id="5W3Y6KOTaQ0yQ39WRiBjeF"><span class="tag t-amber" data-page-node-id="kNtDBsxfOqcn4xMgOP5e4y">中（估算模型）</span></td></tr>
+    <tr data-page-node-id="QmAaGNGgKaI31gkJ3oJx6A"><td data-page-node-id="VOFge0Dx6tBQYxxtSFDB7I">RenameAI 自身收入 / 付费用户数</td><td data-page-node-id="w770fTzRSImxsG1GaeTVpT"><strong data-page-node-id="ixRwf0zyiNzR81Omsty6MY">无法获取</strong>——未做披露，且支付链路疑似未通</td><td data-page-node-id="UHc6coYVPP6e4s49giUvk4"><span class="tag t-gray" data-page-node-id="ic7TNLbAcsSEIv2ywpcWqJ">不可验证</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout warn" data-page-node-id="a9WjXEleEsM0zhHwo8iJiE">
+  <div class="t" data-page-node-id="qHNDqnzxlbdujHrENQLEFX">本次分析未能验证的事项（需要内部数据才能回答）</div>
+  <p data-page-node-id="hzOtVr2AQEMQX686hGEv36">① Stripe 密钥在生产环境是否已配置（外部只能看到占位符与端点存在）；② 是否存在任何真实付费用户与 MRR；③ <code data-page-node-id="aYfQHfWKK17dg4g7ZjytKw">/rename</code> 实际路由到哪家模型、单张真实成本；④ 注册转化率、批量成功率、退款率等漏斗数据；⑤ 是否已有商标申请或与 renamer.ai 的沟通记录。建议以这五项作为内部对齐的第一轮问题清单。</p>
+</div>
+
+<footer data-page-node-id="6mAxYvARU38geUvNOt8LK4">
+  报告生成时间：2026-09-15 · 分析对象：https://renameai.online/ · 方法：线上产品逆向 + 第三方流量数据 + 品类竞品对标<br data-page-node-id="3fbG5bMcXGkybrohjxHUp3">
+  说明：本报告基于公开可获取的线上数据推演，涉及收入的推断为估算而非实测值，已在「数据来源与可信度」中逐项标注。
+</footer>
+
+</div>
+</body>
+</html>

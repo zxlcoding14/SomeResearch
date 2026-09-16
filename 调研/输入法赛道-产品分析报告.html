@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="UioenHaDlcQM33JDArFhGX">
+<head data-page-node-id="tGSlw8Ub0JkCX1ZlA0mMFm">
+<meta charset="UTF-8" data-page-node-id="G5vnDUeZoiL4tDU4bOB6zq">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="LLq97BKB7EgpnGlH3pAe2y">
+<title>输入法赛道产品分析报告 · 产品经理视角</title>
+<style>
+  :root{
+    --bg:#FFFFFF; --bg2:#F7F7F5; --bg3:#F1EFE8; --line:#E5E4E0; --line2:#D3D1C7;
+    --t1:#1F1F1E; --t2:#5F5E5A; --t3:#8A8880;
+    --blue:#378ADD; --blue-bg:#E6F1FB; --blue-tx:#0C447C;
+    --coral:#D85A30; --coral-bg:#FAECE7; --coral-tx:#712B13;
+    --teal:#1D9E75; --teal-bg:#E1F5EE; --teal-tx:#085041;
+    --amber:#BA7517; --amber-bg:#FAEEDA; --amber-tx:#633806;
+    --red:#E24B4A; --red-bg:#FCEBEB; --red-tx:#791F1F;
+    --gray:#888780; --gray-bg:#F1EFE8; --gray-tx:#444441;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--t1);
+    font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:48px 32px 80px;}
+  header{border-bottom:1px solid var(--line); padding-bottom:28px; margin-bottom:40px;}
+  .kicker{font-size:13px; color:var(--t3); letter-spacing:.04em; margin:0 0 12px;}
+  h1{font-size:30px; font-weight:500; line-height:1.35; margin:0 0 14px; letter-spacing:-.01em;}
+  .lede{font-size:16px; color:var(--t2); margin:0; line-height:1.75;}
+  .meta{font-size:13px; color:var(--t3); margin-top:18px;}
+  h2{font-size:20px; font-weight:500; margin:52px 0 18px; padding-left:14px; border-left:3px solid var(--blue); line-height:1.4;}
+  h3{font-size:16px; font-weight:500; margin:32px 0 12px;}
+  h4{font-size:14px; font-weight:500; margin:22px 0 8px; color:var(--t1);}
+  p{margin:0 0 14px;}
+  ul,ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  strong{font-weight:500;}
+  code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:13px; background:var(--bg3); padding:1px 5px; border-radius:4px;}
+
+  .callout{background:var(--bg2); border-radius:12px; padding:18px 22px; margin:22px 0;}
+  .callout.blue{background:var(--blue-bg);}
+  .callout.coral{background:var(--coral-bg);}
+  .callout.amber{background:var(--amber-bg);}
+  .callout p:last-child{margin-bottom:0;}
+  .callout .tag{font-size:12px; font-weight:500; letter-spacing:.04em; display:block; margin-bottom:6px; opacity:.8;}
+
+  table{width:100%; border-collapse:collapse; margin:20px 0; font-size:13.5px;}
+  th{text-align:left; font-weight:500; font-size:13px; color:var(--t2); padding:10px 8px; border-bottom:1px solid var(--line2); vertical-align:bottom;}
+  td{padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.6;}
+  td:first-child{font-weight:500;}
+  tr:last-child td{border-bottom:none;}
+  .grp td{background:var(--bg2); font-weight:500; font-size:12.5px; color:var(--t2); padding:7px 8px;}
+
+  .rate{display:inline-block; font-size:12px; padding:2px 7px; border-radius:99px; white-space:nowrap; line-height:1.6;}
+  .r-lead{background:var(--teal-bg); color:var(--teal-tx);}
+  .r-ok{background:var(--blue-bg); color:var(--blue-tx);}
+  .r-mid{background:var(--amber-bg); color:var(--amber-tx);}
+  .r-weak{background:var(--red-bg); color:var(--red-tx);}
+  .r-none{background:var(--gray-bg); color:var(--gray-tx);}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:22px 0;}
+  .card{background:var(--bg2); border-radius:12px; padding:18px 20px;}
+  .card h4{margin:0 0 8px; font-size:14px;}
+  .card p{font-size:13.5px; color:var(--t2); margin:0; line-height:1.65;}
+
+  .player{border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin:18px 0;}
+  .player.focus{border:1px solid var(--amber); background:#FFFDF8;}
+  .player .top{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px;}
+  .player .top h3{margin:0; font-size:17px;}
+  .player .badge{font-size:12px; color:var(--t2); background:var(--bg3); padding:2px 9px; border-radius:99px;}
+  .player dl{margin:16px 0 0; font-size:13.5px;}
+  .player dt{font-weight:500; color:var(--t1); margin-top:12px;}
+  .player dd{margin:2px 0 0; color:var(--t2); line-height:1.65;}
+  .verdict{margin-top:16px; padding-top:14px; border-top:1px dashed var(--line2); font-size:14px;}
+  .verdict strong{color:var(--coral-tx);}
+
+  .opp{border-left:3px solid var(--coral); padding:2px 0 2px 18px; margin:22px 0;}
+  .opp h3{margin:0 0 8px; font-size:16px;}
+  .opp .why{font-size:13.5px; color:var(--t2); margin:8px 0 0;}
+  .opp .why b{font-weight:500; color:var(--t1);}
+
+  .num{display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:var(--coral-bg); color:var(--coral-tx); font-size:13px; font-weight:500; margin-right:8px; vertical-align:middle;}
+
+  footer{margin-top:64px; padding-top:24px; border-top:1px solid var(--line); font-size:13px; color:var(--t3);}
+  @media (max-width:680px){
+    .wrap{padding:32px 18px 60px;}
+    h1{font-size:24px;}
+    table{font-size:12px;}
+    th,td{padding:8px 4px;}
+    .rate{font-size:11px; padding:2px 5px;}
+  }
+</style>
+</head>
+<body data-page-node-id="7ER56QyZKnUZyL0ur18Ipy">
+<div class="wrap" data-page-node-id="iNXQEblJda5QfHB9D7Lqdb">
+
+<header data-page-node-id="kvtJaKdnQ7YB5KyYJHP9Ip">
+  <p class="kicker" data-page-node-id="kxz3lR5DHTbl8evavFtWPl">赛道分析 · 产品经理视角</p>
+  <h1 data-page-node-id="k4xxPebaudrOS42JtGdQz0">输入法：从打字工具到 AI 意图入口</h1>
+  <p class="lede" data-page-node-id="E6c2SEytYb52f4eWMOGT5s">2026 年，一个诞生二十余年的"维护性产品"重新成为大厂必争之地。腾讯、字节、阿里、百度、讯飞、智谱、小米先后落子。这份报告拆解这个赛道的竞争结构、产品架构、商业模式与真实机会点，并把"手心输入法"作为最重要的历史对照案例单独分析。</p>
+  <p class="meta" data-page-node-id="laUxu7buqtsyaeetJ84cWn">整理时间：2026 年 9 月 · 基于公开报道与第三方机构数据综合整理</p>
+</header>
+
+<h2 data-page-node-id="LKrd6ei0M7uNEDH6Xia5yN">摘要：六个核心判断</h2>
+<ol data-page-node-id="M3DLnvWiGPliStK88wQg5H">
+  <li data-page-node-id="ZX01lhMFFin9flfHF0KLYu"><strong data-page-node-id="j15eiJZcuOgrRHmgfu9pHm">输入法的重新走红不是"老工具复活"，而是大模型找到了唯一一个还握在用户手里、且免费高频的意图入口。</strong>它不是被 AI 赋能的产品，而是 AI 争夺的阵地。</li>
+  <li data-page-node-id="BQMgcCXmaquo0BBAWNmmRS"><strong data-page-node-id="PYhT5I6XvXI0F65g7qFfit">竞争主战场已从 L2 理解层上移到 L3 生成层。</strong>2015 年比的是词库大小，2026 年比的是"能不能替用户把话说完整"。</li>
+  <li data-page-node-id="NhA9dBGh8mPAi7BH2HGgwZ"><strong data-page-node-id="JHltIRWj6jacwErspSaebz">行业最大的结构性矛盾是免费工具的变现困局：</strong>用户越多，AI 推理成本越高，但没有任何一家敢收费。广告是这个矛盾的临时补丁，而补丁正在失效。</li>
+  <li data-page-node-id="7APwvurDkeEI3tP8ibSBnl"><strong data-page-node-id="pmkUYMWZ7lC5xCT6Q2CZ3K">"模型派"与"老牌派"双线对峙，但最终不会有份额赢家，只有场景赢家。</strong>语音归讯飞与豆包、隐私归微信输入法、办公长文本归阿里、存量习惯归搜狗。</li>
+  <li data-page-node-id="5xLlJohlZ1FJVc9lnjKOb3"><strong data-page-node-id="Uw6hfl0fDhMwqsDDaAzbDJ">当前最大的产品机会不在"更强的 AI"，而在修复被 AI 加法破坏的基础体验。</strong>这是全行业共同忽视、且成本最低的差异化位置。</li>
+  <li data-page-node-id="R0sbSJT9idEa16F3PdNDyt"><strong data-page-node-id="AgbCtbw1lKK3xLOSYTpgrV">手心输入法提供了最有力的反证：判断正确不等于结果正确。</strong>它比微信输入法早十年提出"无广告、只做输入本质"，却始终没有走出小众。定位正确只是必要条件——还需要对的时机与对的分发能力。</li>
+</ol>
+
+<h2 data-page-node-id="mltmOV85AHIC8XnXcPe4RL">一、为什么输入法在 2026 年重新变热</h2>
+
+<h3 data-page-node-id="dPzyuewZMdxzv8jMGUUKGo">三个结构性原因</h3>
+<div class="cards" data-page-node-id="BCvBL9eoiXQ6jOOEo3UnoS">
+  <div class="card" data-page-node-id="znuN4u4lVQGav1I8z5hNeF">
+    <h4 data-page-node-id="mtWZLMAsfmWtGmbnorYnhC">功能重叠：大模型本来就在做输入法的事</h4>
+    <p data-page-node-id="z5AiGbE5rnE0XkxYFsYASR">用户与 AI 对话时习惯直接说，语音转写是大模型的原生能力。既然技术已经具备，把语音转文本能力封装成独立输入法客户端不构成任何障碍——不做反而要把核心数据入口让给搜狗、百度、讯飞。</p>
+  </div>
+  <div class="card" data-page-node-id="Si9JBCreS47C34srqOPxl0">
+    <h4 data-page-node-id="bRxrKFdBMVDM0OdWQ0Dz29">入口价值：唯一覆盖全 App 的系统级键盘</h4>
+    <p data-page-node-id="obrCod1JJUSiLtDDehnte3">用户每天唤起输入法数十次，横跨微信、购物、搜索、办公。它是人机交互绕不开的咽喉，且无需注册、无需下载独立 App 即可触达用户——大模型触达普通人成本最低的渠道。</p>
+  </div>
+  <div class="card" data-page-node-id="tCQ3UAu3bWRlVO3Hi93hlT">
+    <h4 data-page-node-id="CTKkzAksZHfkZXEwYIjwk2">数据价值：最真实的意图语料</h4>
+    <p data-page-node-id="E0PRLqndNSutKg9lcrAKMX">用户主动输入的文本与语音，是最真实的意图数据，训练价值远超爬虫数据。每一次输入都是一条数据源，语音输入尤其如此，长期会沉淀为有价值的个人词库。</p>
+  </div>
+</div>
+
+<h3 data-page-node-id="7FYobipfgY7jTj3gdf72Ih">三代输入法战争</h3>
+<table data-page-node-id="qAwBuIjv1vKOxtaR4GfGvQ">
+  <colgroup data-page-node-id="YIVQUFOGiKtcHP089etNuZ"><col style="width:22%" data-page-node-id="cClaB5XafEV33FnDktpYBI"><col style="width:39%" data-page-node-id="FDyg7egDqHynfRqnsr7zxy"><col style="width:39%" data-page-node-id="TpQTSVTqWyBRvz9xRxCDeW"></colgroup>
+  <thead data-page-node-id="ietqaw2hMw11TZCXkSdSjK"><tr data-page-node-id="gkGUFMYY7G5dDrEAWxkT3X"><th data-page-node-id="wZJKx0jFdkMhBD7pwHjRMQ">阶段</th><th data-page-node-id="TujCgjXasjnLwc21NgPas4">竞争逻辑</th><th data-page-node-id="TZhQ0PzUoLVujsEl4EVmAm">变现方式</th></tr></thead>
+  <tbody data-page-node-id="DGCdwzbGQb2aMavULZGkOe">
+    <tr data-page-node-id="yDARUh1BQPrt7G0tNXh0BO"><td data-page-node-id="p7W8QqKaQgZvypsuORhf1x">PC 时代<br data-page-node-id="yrRUVdiUCJBKelXCpHeo68">2006–2015</td><td data-page-node-id="j1p3vIh0WCy6dxuFS3eVyd">三级火箭：输入法 → 浏览器 → 搜索，核心是导流量</td><td data-page-node-id="20hIWQ09vYhsV4liasbqiT">搜索广告导流，皮肤与增值</td></tr>
+    <tr data-page-node-id="zjdeYlquyci7pBTGSR9roS"><td data-page-node-id="8SWjC2xpEh1wkhmPJIpoQ7">移动时代<br data-page-node-id="2yqjSGlzTn8dwAz5xOc4RT">2015–2023</td><td data-page-node-id="kysxyCjVACvcQ1gZM7poR8">词库规模、语音识别、皮肤生态、预装渠道</td><td data-page-node-id="MExYGQYxZfilGcwezutZMc">广告 + OEM 预装分成 + 装扮付费</td></tr>
+    <tr data-page-node-id="f9M0pigDAiclI1eeoOWBLc"><td data-page-node-id="wCsZqHCQCBEoLjlPLUlXGw">AI 时代<br data-page-node-id="m4yWXTeGKaU2DlkXUXgZB4">2023 至今</td><td data-page-node-id="Ym3sgdptw6h0wEsmeaBX7p">意图理解：输入法 → AI 智能体 → 全生态服务（创作、订票、打车）</td><td data-page-node-id="ic4lG617E22TAn4Ds7fcNf">抓意图、练模型、锁生态，直接变现被刻意弱化</td></tr>
+  </tbody>
+</table>
+
+<h3 data-page-node-id="2fF348MHWjzkKx1dEAlwUN">关键时间线</h3>
+<table data-page-node-id="o2eLTgHVeuPQPRNBI9Zrxg">
+  <colgroup data-page-node-id="9fH9jC1MuBBNxxGtkcnS0N"><col style="width:22%" data-page-node-id="aIGQZgrVMwdcHZntLNnKWU"><col style="width:78%" data-page-node-id="Urn14wCbolzzMdfUJjP302"></colgroup>
+  <thead data-page-node-id="wQRHVMapZKstHS4u0w1VDC"><tr data-page-node-id="NTIiClQ5nKttdoESMZ7OmE"><th data-page-node-id="xc4c10RoAoxZPZmsgCvEAC">时间</th><th data-page-node-id="fssRDcdTHRriZgzYhDjT4o">事件</th></tr></thead>
+  <tbody data-page-node-id="BfBeK7iTVJoAKv0zVAXxOD">
+    <tr data-page-node-id="AhzoDvhBH1hDxiH4w6BBPq"><td data-page-node-id="udrkfSBsfctayK5hGidD7B">2014.05</td><td data-page-node-id="DtBHFEEAhdo3zF5JjNQuc0"><strong data-page-node-id="erWM5eRnbr080KtHa1DBYB">手心输入法上线</strong>，以"无广告、不骚扰、只专注输入本质"为定位——这比微信输入法提出同类主张早了约十年</td></tr>
+    <tr data-page-node-id="FjgDvHeWCxApJDux4aWwzC"><td data-page-node-id="kU0UntCqXMm4B1nTDdH8Rt">2015–2023</td><td data-page-node-id="lKhQGTJzrqm0tZociKStXN">输入法进入广告变现的黄金期，搜狗、百度、讯飞相继走向"功能做加法、广告做乘法"，纯净定位被边缘化</td></tr>
+    <tr data-page-node-id="8m5OsD6mjF1ZEgRQGYWItW"><td data-page-node-id="BTfqwSIPYuDKiRLPr34C3O">2024.06</td><td data-page-node-id="weE3ilreITcvmfiKM2YCVt">微信输入法接入腾讯混元，推出"问 AI"，用户无需切换 App 即可在键盘上获取 AI 回答</td></tr>
+    <tr data-page-node-id="rGmh0lQQc0o8vbgUfUsQ2r"><td data-page-node-id="iFKOY0rDKOYdWk0CVAUnfh">2025.11</td><td data-page-node-id="rhVgBp4CoFh3fqTBOCDfa7">豆包输入法上线（Seed-ASR 2.0，宣称 0.8 秒低延迟）；智谱启动输入法内测</td></tr>
+    <tr data-page-node-id="RslJrRjmqH0cSyrDo7zCno"><td data-page-node-id="W9hDlyeNF8NJ2f78ygDjbw">2025.12</td><td data-page-node-id="MxC4rP6ejC9DIvvAn3tPtT">智谱推出桌面端 AI 输入法</td></tr>
+    <tr data-page-node-id="sIEGLApz84HWW0C7chDIlr"><td data-page-node-id="kyGLb89wm1G3Mt4KNXLj3q">2026.01</td><td data-page-node-id="FMkLR8z7eBXSpZRxeflwIa">搜狗输入法 20.0 发布，宣布全面 AI 化，语音/打字/翻译接入混元；披露 AI 用户规模破亿</td></tr>
+    <tr data-page-node-id="EL9nGWVeYoaC23H9CI86IJ"><td data-page-node-id="MIJ2iGr9MzlSXWQrqmVd4J">2026.05</td><td data-page-node-id="DBocuacfZZ1Zr8WoEtShAy">千问推出 AI 语音输入法；微信输入法"隔空传送"冲上 App Store 免费总榜第 6</td></tr>
+    <tr data-page-node-id="HWsOe7RJHIg4jgDaFEYDCm"><td data-page-node-id="pjBT8VJTtBYdPUHxHQbnCP">2026.06</td><td data-page-node-id="6rctxBcfVoE1ssW7OgWNmq">阿里云推出 AI 语音输入法 CosyVoice</td></tr>
+    <tr data-page-node-id="aHFjDZ9Qcym9jhpItybi9Q"><td data-page-node-id="olPp6Tj4fNt9YYRPq8Jo2x">2026 年内</td><td data-page-node-id="asaJZ9CEM7sislOqvcLGX1">小米推送自研系统级输入法（MiMo 大模型），处于澎湃 OS 3 内测阶段</td></tr>
+  </tbody>
+</table>
+
+<p data-page-node-id="AHl4CdQfdRMt3erDLvjPUA">至此，大厂与大模型完成了一一对齐：腾讯（元宝 + 微信输入法/搜狗）、百度（文心 + 百度输入法）、阿里（千问 + 千问输入法/CosyVoice）、字节（豆包 + 豆包输入法）、讯飞（星火 + 讯飞输入法）、智谱（GLM + 智谱输入法）、小米（MiMo + 系统输入法）。<strong data-page-node-id="I50LqeuIcv9snAyAuK28BS">唯一的例外是手心输入法——它是这个名单里唯一没有大模型、也没有大厂生态的产品。</strong></p>
+
+<h2 data-page-node-id="yJsZ0fbeLO2Q24zzw8cAQe">二、竞争格局：四层竞品地图</h2>
+
+<p data-page-node-id="DNtgjFUNMnYE2439iRDhcu">大部分分析只盯着"搜狗 VS 百度 VS 讯飞"，这会导致严重的判断偏差。真实的竞争结构是四层叠加的。</p>
+
+<table data-page-node-id="7CKJakbhj1fpagFgpgGj7k">
+  <colgroup data-page-node-id="yBVJ14LFBkyroPsGz3H6DP"><col style="width:18%" data-page-node-id="wr9UDEyFB9E2wtvpAIzBo1"><col style="width:41%" data-page-node-id="INFYeiolYkxAUZEshH0wfE"><col style="width:41%" data-page-node-id="AB9NvZPv6b21HaW0RNSqPM"></colgroup>
+  <thead data-page-node-id="Qaq5KYDFUm4Jtu4wLzXBra"><tr data-page-node-id="XoZGIhXmQRbBK31uD2Fl0s"><th data-page-node-id="jzTrh8y14uANnWFWUKTGz6">层级</th><th data-page-node-id="AFNPH2IhCT22zxJO4EhCXH">玩家</th><th data-page-node-id="dfHFWAd79hC1mftcE9CbA5">威胁性质</th></tr></thead>
+  <tbody data-page-node-id="h4dBwtKMGf4mvxXvWSc29M">
+    <tr data-page-node-id="xVO6loGQLD9sX6QbXmuJYu">
+      <td data-page-node-id="039LT5Er7JYYa1UxxnoxgT">直接竞品</td>
+      <td data-page-node-id="bSA7A2au2uBVX7yliCwQtF">搜狗、百度、讯飞、微信输入法、豆包、千问、智谱、QQ 输入法、<strong data-page-node-id="HnJtqx7lQQ2cxBmZa1zaaY">手心输入法</strong></td>
+      <td data-page-node-id="OLfakYE6IyX7EvPGEYQ3qI">同一用户在应用商店里会横向对比的选择</td>
+    </tr>
+    <tr data-page-node-id="iewiFkqUHLYsLw3LGJzh6E">
+      <td data-page-node-id="TEXKDAWZ0EDOGF8CWKrF7G">间接竞品</td>
+      <td data-page-node-id="GxL6wTqVcJpwGzRVvfSHWm">华为小艺输入法、小米 MiMo 输入法、三星/苹果系统键盘、微软拼音</td>
+      <td data-page-node-id="ipEQHIMkqi9eAiqC9eSLpU">用不同方式解决同一需求。<strong data-page-node-id="smL6Rd4sfWe7BF9XFgHCk2">威胁被严重低估</strong>：OS 厂商手握系统权限与预装位，且正在收回键盘沙箱权限</td>
+    </tr>
+    <tr data-page-node-id="hVByNvEnwC0fBD7Bxfmz1k">
+      <td data-page-node-id="21VKz8SJfVJBU3XUOH82Lo">邻近竞品</td>
+      <td data-page-node-id="PRvolYPyLbSPpzCC4fa8WB">Wispr Flow、Typeless、Aqua Voice、superwhisper、Yaps（语音优先）；KK 键盘（变声）、Grammarly（写作）</td>
+      <td data-page-node-id="XF8OljkhFekCeNytDYWx4M">不覆盖全场景，但在单个高价值场景做得更深，且<strong data-page-node-id="4icurEKoKs2HxN2TwCVhlj">能收钱</strong></td>
+    </tr>
+    <tr data-page-node-id="fBDhUAiIGkeWZmg2En4Wh3">
+      <td data-page-node-id="76ZIgO4FVPkaSicq7niIlc">替代方案</td>
+      <td data-page-node-id="w5KYSAx6YiFahNNntj4d0R">直接发语音消息、用 AI 语音对话代替打字、干脆不输入</td>
+      <td data-page-node-id="pOtL1UznVRYc3FBTqp45a0">这是最危险的对手：当"不打字"成为选项，输入法的存在前提就被动摇了</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout coral" data-page-node-id="qiSz7GESFCLdcjFI1jmZZ6">
+  <span class="tag" data-page-node-id="54F7r5q4kF7vwrMcw4SLFr">必须警惕的替代趋势</span>
+  <p data-page-node-id="tzZUXSoL7raR7BrVilllbU">Z 世代是"移动互联网原住民"，电脑操作能力普遍弱于上一代。对他们而言，<strong data-page-node-id="UWdx9mfDlWysoFTIUV5Zo2">语音输入不是"替代方案"，而是"默认选项"</strong>。业界共识正在形成：打字不会消失，但角色会变——从"创造"变成"编辑"，工作流变成"口述生成初稿，打字修订"。有研究预测，Alpha 世代进入职场后将"在打字之前就通过口述完成工作"。这是输入法赛道未来十年最大的变量。</p>
+</div>
+
+<h2 data-page-node-id="xznIfG8wvZlbBW70G6JLpb">三、主力玩家逐家解构</h2>
+
+<div class="player" data-page-node-id="4hFPgcdQmgXFFNtHj0Lfjd">
+  <div class="top" data-page-node-id="sbh73AMJCcUmGSNTX7NGiQ"><h3 data-page-node-id="EGc03oJmDIaQMzfHi9WleH">搜狗输入法（腾讯）</h3><span class="badge" data-page-node-id="D5BYUQMBCt8b9pvzhEVbgZ">份额约 40%</span><span class="badge" data-page-node-id="Ewt5KgR2bCuJXbC1l5dlfR">月活约 4.2 亿</span></div>
+  <dl data-page-node-id="oSoED2hqrC7i0PqO0tEBi6">
+    <dt data-page-node-id="cGo7UmhUNlrWOF9e0jfHNk">定位</dt>
+    <dd data-page-node-id="nvRg58h0UopDhhd9LDtTDk">老牌霸主，正在被用 AI 重做一遍。"输入法或将是 AI 的超级入口，人们用输入法调用 Agent"——团队明确的战略锚点。</dd>
+    <dt data-page-node-id="6aclEYEUnK4qZ2lJoC9JWq">核心壁垒</dt>
+    <dd data-page-node-id="DI75sTUKTR7X8si8HAGhsM">词库最全、皮肤生态最强、二十年积累的用户肌肉记忆。PC 端份额约 40%，地位仍稳固。</dd>
+    <dt data-page-node-id="hBhlzPSbUVJMoZBfPnU0IG">产品进展</dt>
+    <dd data-page-node-id="xPhVxgKSrft01nfaDun2va">2026 年 1 月发布 20.0 版本全面 AI 化，语音、打字、翻译三大场景接入混元；宣称 AI 用户规模破亿、日均语音使用次数接近 20 亿次。团队每周回复用户内容超 1000 条，产品经理直播"听劝"，需求从提出到上线最快 4 个工作日。</dd>
+    <dt data-page-node-id="Hyz7UPdaaJt2eFJ5xzDijZ">商业模式</dt>
+    <dd data-page-node-id="Ix0wxDRgjRdEqVzsub2XyK">全行业最重的广告变现：开屏广告、候选栏广告、工具栏推送、资讯弹窗；叠加皮肤/字体/装扮付费与专有词库定制。20.0 版本号称支持"一键关闭广告"，但入口埋得很深。腾讯财报中看不到该产品的独立营收数字。</dd>
+    <dt data-page-node-id="SsF1UZA6w992nvo7a47ceh">软肋</dt>
+    <dd data-page-node-id="3Zdao6iXRBKPKVhfHbWCaG">三重挤压。外部被百度追近、被讯飞抢语音标签、被豆包抢年轻用户；内部腾讯重心在微信输入法，生态曝光资源、隐私叙事、AI 接入优先级都在向外倾斜。</dd>
+  </dl>
+  <p class="verdict" data-page-node-id="Ut8TqCnuKFmEb9bxWNH4jS"><strong data-page-node-id="vByD9QZoX76MwF2E3G8kom">PM 判断：</strong>搜狗最尴尬的地方不在于产品弱，而在于它是"腾讯的现金牛"与"腾讯的边缘资产"这两个矛盾身份的结合体——想减广告会伤当期收入，想加 AI 又要和自家微信输入法抢资源。这个战略定位不清晰，比任何竞品都更致命。</p>
+</div>
+
+<div class="player" data-page-node-id="SoMBxVUMGMa6rwDYxIYids">
+  <div class="top" data-page-node-id="U63T72oxjenHw5kEZm0z0k"><h3 data-page-node-id="c0Ym6eEW1RyTzz4ZuoJ6VR">百度输入法</h3><span class="badge" data-page-node-id="3WFAiIcIisuZU8QHAozieW">份额约 29%</span><span class="badge" data-page-node-id="As0RUNVMXGCQBNKpWG2f1V">月活约 3.8 亿</span></div>
+  <dl data-page-node-id="aUOEBeZcAp4sNYpENB0kcx">
+    <dt data-page-node-id="rv4NayiC80p54KcC8zMmdl">定位</dt>
+    <dd data-page-node-id="d0GGCix55S3FvKrST4yUY0">"不只是把字打出来，而是用户日常表达中值得信赖的智能入口"——依托文心大模型与搜索生态。</dd>
+    <dt data-page-node-id="ibBLqwHsdG2P8hvPhZrVHn">核心壁垒</dt>
+    <dd data-page-node-id="65rTebEWJYJrQWb9tebxEY">搜索候选（边打字边出搜索结果，PC 端独特体验）、OEM 预装渠道、全终端覆盖（含 Linux 与国产 UOS，信创场景有位置）、AI 创作功能较全（"超会写"）。</dd>
+    <dt data-page-node-id="l53CCyeP0EgHsXe8nufLVs">商业模式</dt>
+    <dd data-page-node-id="Zfol5FYNlKppkCZudovTin">广告（开屏、推送、信息流）中等强度，无法完全关闭；会员付费模式；预装分成。商业变现压力在整个百度生态中体现明显。</dd>
+    <dt data-page-node-id="EJMIXPeyhxY74urH2wBkgo">软肋</dt>
+    <dd data-page-node-id="3UjGX7IpczHmglJgQVtRDD">没有绝对强项。语音打不过讯飞，AI 打不过豆包，隐私打不过微信输入法，词库打不过搜狗。对外的口径也是"不同用户偏好不一致，会尽可能提供个性化"——这是缺乏主张的典型话术。</dd>
+  </dl>
+  <p class="verdict" data-page-node-id="EsA4IaIuzgqoiT2AQdeAfq"><strong data-page-node-id="AjZaeoH7rCsfyCvOoCI4zD">PM 判断：</strong>"全能但平庸"是产品定位中最危险的象限。在存量市场里，没有记忆点等于持续失血，靠预装维持的份额是租来的，不是自己的。</p>
+</div>
+
+<div class="player" data-page-node-id="9mj21pu7CkaGYEc8VO6fSL">
+  <div class="top" data-page-node-id="3FnHLlltlnLyEA5D9uqeZ9"><h3 data-page-node-id="5U9DEIvM4YNYEppJZRWQXC">讯飞输入法</h3><span class="badge" data-page-node-id="CH4VsPgplNYBipfA2uI4sK">份额约 20%</span><span class="badge" data-page-node-id="l5zALEt6EDH93dd7E0hIVE">酷安评分最高</span></div>
+  <dl data-page-node-id="fAYAcG1KdLosmMalDenbWr">
+    <dt data-page-node-id="VCZ5LuHWhXUmlQRgQpDy4z">定位</dt>
+    <dd data-page-node-id="jVX2O9Jfvz38YyklE1J6JP">语音之王。15.0 版本在键盘里硬加一颗 AI 键，一键接入星火大模型做帮写与润色。14.0 版本接入星火语音大模型，宣称实现 202 种方言免切换识别。</dd>
+    <dt data-page-node-id="3ptQgCbwXpbTjcGhP7eZyM">核心壁垒</dt>
+    <dd data-page-node-id="O2zPpogmLm1X7XzYcIStKO">真实的技术护城河：语音识别错误率比竞品低 20%–50%，26 种以上方言、抗噪能力强。基础输入模式下核心功能完全离线化。B 端与政企、车载、会议、信创场景基本盘稳固，PC 端份额约 25% 且在国产系统中更强。增速显著（2025 年底至 2026 年一季度增速 60%+）。酷安 2026 年第一季度评分 4.8，为行业最高。</dd>
+    <dt data-page-node-id="Aq5fcmbmZyP2wxbMItXAyY">软肋</dt>
+    <dd data-page-node-id="p7kTh0t2C1gFZ66P7L4bLc">通用 AI 能力弱于模型派；手机版广告较多；2025 年试图通过智能体平台把 AI 助手的定义权交给用户，方向正确但产品表达复杂，普通用户感知不到。</dd>
+  </dl>
+  <p class="verdict" data-page-node-id="JY8CYjz6zP0WstpsElq0At"><strong data-page-node-id="shF7uNyiNumt9cKiWUGLQD">PM 判断：</strong>语音赛道的绝对赢家，但它的天花板取决于一个它无法控制的问题——语音什么时候成为默认输入方式。在这个临界点到来之前，讯飞的增长是线性的；到来之后，是爆炸的。</p>
+</div>
+
+<div class="player" data-page-node-id="JcaHqUjsG5Qom7N4y1RJay">
+  <div class="top" data-page-node-id="DWGRmz33L0VQpZd6mbMdrk"><h3 data-page-node-id="osYzpBmBppgGjF2PGoKthO">微信输入法（腾讯）</h3><span class="badge" data-page-node-id="DqFqCGGFJvtTSYQ8T2i5mm">份额约 5%，忠诚度最高</span></div>
+  <dl data-page-node-id="92MrVYRycmWvbGeUyGYO0K">
+    <dt data-page-node-id="GZwCwbWjgAX8EVRSxqcNnO">定位</dt>
+    <dd data-page-node-id="LUQDXrwHbUDuCbqYiewBuK">不做最强的输入法，做最让人放心的输入法。核心主张是"不上传输入内容"。</dd>
+    <dt data-page-node-id="4Br48uGWgrgfYvyeItGBOy">核心壁垒</dt>
+    <dd data-page-node-id="ImZLr4v7uK0vluD272DOH4">端侧隐私计算 + 微信/QQ 生态无缝衔接 + 跨设备剪贴板（Windows/macOS/Android/iOS 互通）+ <strong data-page-node-id="ghuwoRTZKs8jSJ6lxOlFus">零广告、零弹窗</strong>。2024 年 6 月接入混元推出"问 AI"，不切 App、不跳转即可获得 AI 回答；2026 年 5 月"隔空传送"功能带动排名冲到 App Store 免费总榜第六。微信 13 亿月活是天然的零成本用户池。</dd>
+    <dt data-page-node-id="Db27rq3BXThdUH8E24BxpX">软肋</dt>
+    <dd data-page-node-id="33tQDq8wIWbf2YugVfOYpN">功能极简、词库小、通用 AI 能力弱。对重度用户（长文本、专业术语、双拼）吸引力有限。</dd>
+  </dl>
+  <p class="verdict" data-page-node-id="h6NhdA3sehD1hh6Sqw52JJ"><strong data-page-node-id="t1GFX0f07pKIpUkkVjJDFw">PM 判断：</strong>微信输入法卖的不是输入效率，是<strong data-page-node-id="N9zTcaCYODDfM7FfRHHYSU">安全感</strong>。在一个输入内容会被上传、会被用于广告匹配的市场里，"我什么都不知道"就是最强的差异化。份额不高但几乎不流失——这个模式证明了：<strong data-page-node-id="z5XLIdqcYGkXV1XFuAp4LI">在输入法赛道，克制本身可以是一种护城河。</strong></p>
+</div>
+
+<div class="player" data-page-node-id="M0aBUkmrX24sGIvNvRnEdl">
+  <div class="top" data-page-node-id="UEu9AEcPvaL5GIXy7b0Yaq"><h3 data-page-node-id="IPATnlGlYWT6pnfjmt3G5P">豆包输入法（字节）</h3><span class="badge" data-page-node-id="Tj7HObTznQ4cAx8A7kOWoi">份额约 2%，增速第一</span><span class="badge" data-page-node-id="XZXUvE5w9spGc1WpepkcBG">2025.11 上线</span></div>
+  <dl data-page-node-id="FFmneEZOaNFeRBnhFfCD1B">
+    <dt data-page-node-id="2rDv8qY4w68vIgDIdsHSWZ">定位</dt>
+    <dd data-page-node-id="5xhiPvzTGimKIxWuLr61yI">AI 原生输入法。"按住说话、松手结束"的极简交互，把语音输入做成产品主干而非附属功能。</dd>
+    <dt data-page-node-id="bflYYflRAB3Sd97BHjaIP4">核心壁垒</dt>
+    <dd data-page-node-id="JZOSdU9eFHNJakbqvEf00L">豆包大模型的语义与纠错能力、嘈杂环境下的语音识别表现、端侧智能、纯净无广告。同步上线 Windows / macOS / 移动端全平台。字节全力导流。</dd>
+    <dt data-page-node-id="JRtEtAGEe8JvTAlRCVWZ9T">软肋</dt>
+    <dd data-page-node-id="MvfdBToTJ1aLQAy9pEDb40">词库浅、上线晚（2025 年底）、基数小。语音之外的输入体验与老牌产品仍有差距。</dd>
+  </dl>
+  <p class="verdict" data-page-node-id="YAEyDQJoIuNEbFohdXxGfd"><strong data-page-node-id="zCEAP2oRxQPmBxHEd27AlA">PM 判断：</strong>字节不是在"做输入法"，是在赌一个前提——<strong data-page-node-id="sRnaV56CmmKNoIgw4tPM3k">语音会变成默认输入方式</strong>。如果这个赌注成立，豆包的低起点反而是优势，因为它没有历史包袱；如果不成立，它就会变成一个功能强大的小众工具。</p>
+</div>
+
+<div class="player" data-page-node-id="olL6loMvsUyqLKmv5kANWi">
+  <div class="top" data-page-node-id="REm4dErBwZJxr7EcMi5oEE"><h3 data-page-node-id="Dd5HfAei5Yq2u7t0EHFgdH">千问输入法 / CosyVoice（阿里）</h3><span class="badge" data-page-node-id="ZGQSDkABBNZdn52ikarQrA">2026.05 / 06 上线</span></div>
+  <dl data-page-node-id="oVwNbzMVICsvPJER4dNwlL">
+    <dt data-page-node-id="5YY4y3PiuKvQ30nAIbK5ff">定位</dt>
+    <dd data-page-node-id="z12AhcuAa71MrcgJi4RcBt">主打 PC 端办公语音输入，把口语化的语音整理为结构化文本。千问输入法支持"按住说话自动转写并整理为清晰表达"。</dd>
+    <dt data-page-node-id="iPYGWoarJ2AEaRSvwMNjv7">核心壁垒</dt>
+    <dd data-page-node-id="hyLkAuigFm736rbgOpnjzC">阿里云语音技术积累 + 对"办公长文本"这一细分场景的针对性打磨。填补了电脑端高效输入工具的空白。</dd>
+    <dt data-page-node-id="f4IkUV0vcnGygI0XCeEJLl">软肋</dt>
+    <dd data-page-node-id="Ezl2BTuaNkjLuOJK64uAJH">移动端布局晚，缺乏消费级用户基础；PC 输入法是一个低频迁移、高习惯依赖的市场。</dd>
+  </dl>
+  <p class="verdict" data-page-node-id="KCRWDRL57v4RHz37LneZnG"><strong data-page-node-id="koKsCyNdWmAeEw9NBFVkr8">PM 判断：</strong>阿里切的是"办公长文本"这个没人认真做的场景。方向选得好——这是场景化 AI 而不是全场景 AI。但 PC 输入法的迁移成本极高，需要极长的耐心。</p>
+</div>
+
+<div class="player" data-page-node-id="1qhNhFc1JDezifZmKSArlr">
+  <div class="top" data-page-node-id="fgLWWJfOxuVIfDWIooENcE"><h3 data-page-node-id="w056K1gaKX0oszZlaSzL3y">智谱输入法</h3><span class="badge" data-page-node-id="8uU0QABBNkrrXQDB7FlERd">2025.12 桌面端</span></div>
+  <dl data-page-node-id="HKCL93i1UDaZC30JfFRP7s">
+    <dt data-page-node-id="FaLMAlmNvB4sKm849ZwbAg">定位</dt>
+    <dd data-page-node-id="XzW2WN3Ugor5G5P297OGMD">极简模式：只保留语音交互 + 生成结构化文本。部分产品已开始尝试订阅制收费。</dd>
+  </dl>
+  <p class="verdict" data-page-node-id="3lACJBtaMhkHHpbBG9Uy06"><strong data-page-node-id="cq0aNALo1fX2LAhrgF9cEJ">PM 判断：</strong>国内唯一在认真试订阅制的玩家。这个实验很有价值——它会回答一个全行业都想知道的答案：<strong data-page-node-id="VQYsanAm1Ty8s2yQtTm72H">中国用户愿不愿意为输入法付钱？</strong>值得持续跟踪。</p>
+</div>
+
+<div class="player focus" data-page-node-id="bobWru86iwl1orLBKxLoeA">
+  <div class="top" data-page-node-id="fbQLysXXycQu5xWNDjymyU"><h3 data-page-node-id="MeSxLSyH01XkGdIjw7XhDB">手心输入法</h3><span class="badge" data-page-node-id="vsjzQNCKzEIAd0KZxCaU1W">2014 年上线</span><span class="badge" data-page-node-id="X5jU6sJFxSwvK5Kg7BE24B">无 AI 功能</span><span class="badge" data-page-node-id="LGhzFaEBSnk4a5TnOzKTEr">本报告重点对照案例</span></div>
+  <dl data-page-node-id="SDmnfZd1eu25mZpVpE8cXj">
+    <dt data-page-node-id="g1gmwXHrERHCZUsBZbO13O">定位</dt>
+    <dd data-page-node-id="eQtQFyOt4Yt2tuwVu6rUkl">"智能、高效、无广告骚扰、只专注于输入本质的纯粹输入法"。它是国内最早把"纯净"作为核心主张的第三方输入法，比微信输入法提出同类主张早了约十年。</dd>
+    <dt data-page-node-id="er8pQlyuCF5PoS52QYWwpN">产品状态（2026 年 9 月核实）</dt>
+    <dd data-page-node-id="DOBJNhr987mDCxwCeuV84U">仍在更新，但投入明显有限：Windows 端 V3.3.0.1000（2026.05.20）、Android 端 V4.3.3（2026.06.17）、iOS 端 3.6.0（2026.06.10）均有更新；<strong data-page-node-id="ko9P49GcRAhHlSZETxsXVl">但 macOS 端停留在 1.1 版，更新时间是 2015 年 8 月——已近十一年未更新</strong>。这是一个典型的"半维护状态"产品。</dd>
+    <dt data-page-node-id="F8Um8bkO7mbxiUU6G2WzvH">能力盘点</dt>
+    <dd data-page-node-id="zrKTRMTiZ6t0w4B3rG2EB5">输入方式齐全（拼音、双拼、五笔、手写、笔画、外接键盘），本地词库规模约 24 万–50 万条（各渠道口径不一），支持按键纠错、模糊音、笔画过滤、拆字输入、云候选。效率工具保留完整：剪贴板（可存近千条）、快捷短语（百条量级）这两个刚需功能没有为了压缩体积而砍掉。安装包 35–75MB，内存占用显著低于同类，权限申请克制、本地词库优先、可断网使用。</dd>
+    <dt data-page-node-id="dqWW9tqeiFgWZKIu7YzvUT">它是唯一完全没有 AI 功能的参赛者</dt>
+    <dd data-page-node-id="Nl1U3x4aGbGwn8awZpJcOm">没有大模型接入、没有 AI 帮写润色、没有语音大模型。在 2026 年这场 AI 军备竞赛里，它主动缺席。</dd>
+    <dt data-page-node-id="ihip4FHpJzpDQyDHlZz0Xm">商业化</dt>
+    <dd data-page-node-id="wjSuEvaIzs2zHvk7S4VypM">不成立。无广告 = 无收入 = 无持续投入的动机。这直接解释了为什么 Mac 端能停更十一年，也解释了为什么它无法像微信输入法那样做跨端体验。它的历史轨迹——先是更新停滞，之后由原团队以外的主体维护——本身就是这个小众定位无法自我造血的结果。</dd>
+    <dt data-page-node-id="243UKMxjkXblFTSZShWOqy">一个值得记下的产品动作</dt>
+    <dd data-page-node-id="axF7EPHaeWYk7ANCLjiXEE">2024 年 12 月的 Windows 3.1.2 版本更新日志里写着"按计划移除 3 年前添加的无关功能"，并特别备注"产品理念不会改变，不用过多猜疑"。<strong data-page-node-id="bgjBT7etELStGOYMc9GAnc">主动做减法、并公开向用户解释为什么</strong>——这是本次调研中唯一见到这样做的厂商，值得所有 PM 学习。</dd>
+  </dl>
+  <p class="verdict" data-page-node-id="iEq8uEED0vAwulCGJDpFpz"><strong data-page-node-id="hF4td1zP0MTcUKRXVHmnOl">PM 判断：</strong>手心输入法最有价值的地方不是它的产品，而是它给出的那个反证。<strong data-page-node-id="n1harFyB5bCu1uqRx803BW">它在十年前就判断对了方向——"用户会厌倦广告，纯净会是差异化"——但没能换来结果。</strong>原因有三：其一，2014 年的用户还没被广告折磨到会为一个"没有广告"的输入法迁移，需求存在但强度不够；其二，无广告意味着没有商业闭环，团队没有持续投入的理由；其三，也是决定性的，它只有减法，没有生态分发——微信输入法做同样的事能拿到 5% 份额和最高忠诚度，靠的是背后 13 亿月活的微信，而不是"无广告"这个想法本身。</p>
+</div>
+
+<h3 data-page-node-id="y8YaA7ygFRQecahuaIJL0r">海外对照组：另一条完全不同的路</h3>
+<table data-page-node-id="FrT2Fr3fEIpwgMAocluvHq">
+  <colgroup data-page-node-id="OGiiIRM28BHIpyFBFgG7UU"><col style="width:22%" data-page-node-id="3U6xyzRlG5GeZ9Ma4NHR02"><col style="width:40%" data-page-node-id="0yCYzaYA29CNdhZAbo8042"><col style="width:38%" data-page-node-id="jOl6px8c97LDXgtBfNxmXn"></colgroup>
+  <thead data-page-node-id="AkK6uCNitRc1LpVSCxsmJL"><tr data-page-node-id="7DKBxcgKMABNQ1HRkqeu9N"><th data-page-node-id="jUxPLrMXCoCQfN9e9JQjS9">产品</th><th data-page-node-id="xsU3kBC3WmC1zm6cKvADhe">打法</th><th data-page-node-id="HiysW0Y9c4O9CRsMIXEEp1">商业化与启示</th></tr></thead>
+  <tbody data-page-node-id="mvSBoeFWpqmkdIF0DXNqz2">
+    <tr data-page-node-id="ENCsh3klrGerHRYoohpfdF">
+      <td data-page-node-id="CbEigWCi1EJKAeYWKIX2dN">Gboard / SwiftKey</td>
+      <td data-page-node-id="v3d77P9rbEd6WcyHIHbLec">免费、无广告、预测能力行业最强；Gboard 深度集成搜索与翻译，SwiftKey 以跨设备学习与多语言见长</td>
+      <td data-page-node-id="tRpaeN2TTgPSUs9aD19HbU">不直接变现，通过数据与生态变现。证明"无广告 + 强预测"可以共存，不需要牺牲体验换收入</td>
+    </tr>
+    <tr data-page-node-id="DhablQ0sYuzHHrWK4pTfqD">
+      <td data-page-node-id="WGBFM4KYS3v1AGYdVz3KzG">Wispr Flow</td>
+      <td data-page-node-id="kuiumn9gjozNXe0W5z6EDs">纯语音键盘，云处理，AI 润色格式化体验好</td>
+      <td data-page-node-id="4Czp34Z0jre8CEp67wrCBZ">估值从 7 亿美元向 20 亿美元攀升（B 轮洽谈中）。证明语音输入有独立商业价值</td>
+    </tr>
+    <tr data-page-node-id="k8xCqbgj17l7uCFPdILRzi">
+      <td data-page-node-id="7kGYTqCkfDn12xzvfkpERx">Typeless</td>
+      <td data-page-node-id="U5ZAlS6phZi4a0Pde8iJwV">"仅保留语音交互 + 生成结构化文本"的极简模式</td>
+      <td data-page-node-id="7nqoxVTjEB6jp8ev6swrZL">2026 年 3 月完成 1.2 亿美元 A 轮，投后估值 8.5 亿美元</td>
+    </tr>
+    <tr data-page-node-id="U9CnPDDmCerVxvGQEbc27n">
+      <td data-page-node-id="muG16aYDrm02taBHbgHkbD">Aqua Voice</td>
+      <td data-page-node-id="RBprhI6D3amiB5gCHHWGj7">面向开发者、医生等专业词汇密集人群，支持用语音修改刚说过的内容</td>
+      <td data-page-node-id="AhBArj0x5uTDwWtT9uCBvC">Starter 免费（1000 词），Pro 8 美元/月。垂直场景付费意愿被验证</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout blue" data-page-node-id="YxNuKojFBnbQCbvfGoUctE">
+  <span class="tag" data-page-node-id="YGWx2Ri6ZPurCxVfy0zuTz">关键差异</span>
+  <p data-page-node-id="axcCf0rOdPHKW5kkrszX1f">海外走"<strong data-page-node-id="XD1B3DzoAbTXlKYsEDwpaj">垂直场景 + 订阅制</strong>"，国内走"<strong data-page-node-id="uyfY3jIPVjIAqxYHZfGZXU">全场景免费 + 生态变现</strong>"。海外市场 AI 语音转文字 2025 年约 33 亿美元，2026 年有望突破 38.7 亿美元，预计 2035 年达 164 亿美元。这个规模说明：语音输入不是伪需求，只是国内玩家选择了不向用户收费的路径。</p>
+</div>
+
+<h2 data-page-node-id="3rXuNQnMyayuyHBNVFu7Or">四、竞品能力对比矩阵</h2>
+
+<p data-page-node-id="dTyZCJrF8DdU79Pcj8v7xm">评级标准：<span class="rate r-lead" data-page-node-id="k3Z24gBBEItDODCz0YrOYN">领先</span> 市场最佳 · <span class="rate r-ok" data-page-node-id="v1N4zpPDNn69dNZiV4XJIq">可用</span> 达标但无差异 · <span class="rate r-mid" data-page-node-id="ERPrqq0iT2nMth75gziU67">有限</span> 存在明显缺口 · <span class="rate r-weak" data-page-node-id="QbyXOTb3Y7AevSEOMN0blW">薄弱</span> 有明显短板 · <span class="rate r-none" data-page-node-id="kgkCxEAOLvoDqWHnI0UXkl">缺失</span> 不具备</p>
+
+<table data-page-node-id="AHds3pjamQIdPMD0EeN4z4">
+  <colgroup data-page-node-id="T4CbH1efXkoDQUsiFsc1Cy"><col style="width:26%" data-page-node-id="W33Aa3xrGOPqlsie36ZpgW"><col style="width:12%" data-page-node-id="5DZ6UE1h32HOiKCxqrx4JI"><col style="width:12%" data-page-node-id="dJzhZKVZPPLxYr9NVt4IVL"><col style="width:12%" data-page-node-id="D6de1KbpDC6htHDr2AYWFU"><col style="width:13%" data-page-node-id="qsaDkdYwwoDNPfxvaQJEXQ"><col style="width:12%" data-page-node-id="J42dRnYEnWfxqsj7rg6Ty2"><col style="width:13%" data-page-node-id="HkyJQHWlEOJHIfjZEEpU3V"></colgroup>
+  <thead data-page-node-id="TwzdTFRcC6EWLC0SJGqTFp"><tr data-page-node-id="n9yuA9E4P24ZHhIcIijg7o"><th data-page-node-id="TpDb8z8IUeDeCmcBA5qBu5">能力领域</th><th data-page-node-id="l17eybjuSYXI7O3BNh823J">搜狗</th><th data-page-node-id="TgcqznBUoQ4l2Kv7wQPOV6">百度</th><th data-page-node-id="41kp0xD3bwAcD4XbBr3ug0">讯飞</th><th data-page-node-id="e14Cbrvp6MOSlNcXvhUAHG">微信</th><th data-page-node-id="GxiTwVOhUSTthawim1XSX3">豆包</th><th data-page-node-id="HMfwmD0UMxT8tDiJvkGnSA">手心</th></tr></thead>
+  <tbody data-page-node-id="bY3nIu0Gt7SBc80yBrfaB3">
+    <tr class="grp" data-page-node-id="fJxygJ5Smq9mu5fASy1A8T"><td colspan="7" data-page-node-id="Zaz9MbZXZkH2Q3gWCeu9WJ">L1 输入层</td></tr>
+    <tr data-page-node-id="NisztPGxIhenDf5AgBK5KP"><td data-page-node-id="k0GtyG3Ou0lwIoxyOrYQuz">拼音引擎与词库</td><td data-page-node-id="K1gvbeuaGqGpMAfMaVZZtk"><span class="rate r-lead" data-page-node-id="F8XnACTlQL8299bBPrNFRg">领先</span></td><td data-page-node-id="UZzC7M2G1Tw0cUhVg7aQ6K"><span class="rate r-ok" data-page-node-id="7Rk0VYTee95kEtYgsmZ1mR">可用</span></td><td data-page-node-id="MZIy4OZAebKxKs8sKXsXcQ"><span class="rate r-ok" data-page-node-id="f3WlCOYNgc5LLVccqraZJT">可用</span></td><td data-page-node-id="Viq2ddzTqznNNwpsqrtpfQ"><span class="rate r-mid" data-page-node-id="vywOQQYC64LzbAzL5emeJL">有限</span></td><td data-page-node-id="5mchTvlg96EXnVSkPkN8sD"><span class="rate r-mid" data-page-node-id="RJbqjIdPFcTXi6u6aq0sRd">有限</span></td><td data-page-node-id="h4MxLMFxG8eYNYYrPTB00c"><span class="rate r-ok" data-page-node-id="g1LwelAaRMLxP9z7gCsZue">可用</span></td></tr>
+    <tr data-page-node-id="BqDNMHfYdwUvYHAFl2kiSF"><td data-page-node-id="FklcvmwR8qRv76LFvuOJkr">语音识别准确率</td><td data-page-node-id="bZAnRE23uXkOBtJixi8UTy"><span class="rate r-ok" data-page-node-id="jYw4w3Fz45xDQBZiJMFaNJ">可用</span></td><td data-page-node-id="K7LZESfm3guB2oRIMXxKMf"><span class="rate r-ok" data-page-node-id="qgkZCZpl8h2sHx4CKOs8cc">可用</span></td><td data-page-node-id="KdUBTqHaA4AuVC9weqCXfg"><span class="rate r-lead" data-page-node-id="Xx9w0qH4dFL14rjTsKkBiH">领先</span></td><td data-page-node-id="obcsf6jBZuxPHYq881pXpW"><span class="rate r-ok" data-page-node-id="ZPR9aA0yqPF0vKnoHLwrZL">可用</span></td><td data-page-node-id="uvD9U7gJcASb0Bhi4wfDiT"><span class="rate r-lead" data-page-node-id="y8gxtzuqqUa3zlhxBTNMiJ">领先</span></td><td data-page-node-id="ChKxIHsApqevXeujQr1ymh"><span class="rate r-mid" data-page-node-id="nYCvRShsgGO9Fjpa8AMQBC">有限</span></td></tr>
+    <tr data-page-node-id="69n2drak10P3u7QOXyEumv"><td data-page-node-id="Y2d0FrwzHNxgDkRLgHhOsr">方言与多语种</td><td data-page-node-id="axGHfmxxdqkpr8OCidhR33"><span class="rate r-ok" data-page-node-id="azukH2nRgD8rm65WeGrb1G">可用</span></td><td data-page-node-id="JJ7yrq1COTm5VasVNHqz8B"><span class="rate r-ok" data-page-node-id="qEwprKfWiM9XozppAxIcxS">可用</span></td><td data-page-node-id="27BYFjwgMuD8rjLOnNUFJN"><span class="rate r-lead" data-page-node-id="OxFjV4dHomcKvG7IMGptAn">领先</span></td><td data-page-node-id="Jf6f9nDe8NpaiibPxNENPC"><span class="rate r-mid" data-page-node-id="3Muf7AVdH34JIi5VP3ASoQ">有限</span></td><td data-page-node-id="Ymix2mD5rW5yWqsRm7nGNa"><span class="rate r-ok" data-page-node-id="xf8kxB9fhEL73FPonucXD6">可用</span></td><td data-page-node-id="zKbqa85R7SiIlq6k4ThTzA"><span class="rate r-mid" data-page-node-id="17OSGcHqzYAHl4OVmnDP2d">有限</span></td></tr>
+    <tr data-page-node-id="BQx196bqyt2qcTfTxsZjE4"><td data-page-node-id="o9pO01i5BnQjAzFy2bt98h">离线能力</td><td data-page-node-id="Q2Nvh6k5VCM36TFm6tccDo"><span class="rate r-mid" data-page-node-id="RVY9YQhvLS22vwudO3Jds4">有限</span></td><td data-page-node-id="YcyZHYfedSNuFm5B4mQ0JM"><span class="rate r-mid" data-page-node-id="Nou3mgh2YzDlIYvfPSICHs">有限</span></td><td data-page-node-id="WhC2PJ6yzJtgMb9gEARDZY"><span class="rate r-lead" data-page-node-id="EzbwaLtcve68MO4no5Oyfm">领先</span></td><td data-page-node-id="7U1voYr0EDDJmVhayTVTCi"><span class="rate r-ok" data-page-node-id="8QBAgt4Qpj4rlktRaOAXCo">可用</span></td><td data-page-node-id="FOtssLLm1dHHu94yHlqdyc"><span class="rate r-ok" data-page-node-id="wfF6up1Msu0RgfPAgBPDMi">可用</span></td><td data-page-node-id="yaHkImXdF6CUsTYnoBQRbX"><span class="rate r-ok" data-page-node-id="CGRRUpXW1RKcAGn8U2m8P7">可用</span></td></tr>
+    <tr class="grp" data-page-node-id="oyNQ9RIcw7kapQPELt1Ol0"><td colspan="7" data-page-node-id="D5BncCqKe0757K2aXgOCdt">L2 理解层</td></tr>
+    <tr data-page-node-id="3JO9RLlcoqx6Ygi32A8wpf"><td data-page-node-id="gvOynDDFfRRH3bknElOyPz">上下文预测</td><td data-page-node-id="M9pCvzHI480ZCSSx0ojxud"><span class="rate r-ok" data-page-node-id="qeG1KhidBMvZ0NUqg0tx5i">可用</span></td><td data-page-node-id="GX7QW70z1KHWw7P1huteN7"><span class="rate r-ok" data-page-node-id="qiuS0WLwSW7Dt2mgE7PrO2">可用</span></td><td data-page-node-id="wpPiBSS7VLeDzTPwlIHYht"><span class="rate r-ok" data-page-node-id="aSliTIkBG49HSHfh3nrmKm">可用</span></td><td data-page-node-id="jd83qFBGsaICvK1bquS7Yv"><span class="rate r-mid" data-page-node-id="etxUlDt3J5fX3akIeC4Mrp">有限</span></td><td data-page-node-id="K0qY1TgEa55PDc7ZjkhCuJ"><span class="rate r-ok" data-page-node-id="F0NFY4o4orcdsUGOEFlL6X">可用</span></td><td data-page-node-id="f9oDINjkTq0lgUfWvzkcQy"><span class="rate r-ok" data-page-node-id="fCKM0V5EYDyro5vhCVfuZJ">可用</span></td></tr>
+    <tr data-page-node-id="LI7zxcYfH6EnO0wExELf6U"><td data-page-node-id="Du5XDDtuAnk3UgQ3ZfNkK9">基础纠错与联想稳定性</td><td data-page-node-id="kf1IykFj4NNV4W5ph27UaZ"><span class="rate r-weak" data-page-node-id="tJENpYGp8C8ihsr5BWQC9k">薄弱</span></td><td data-page-node-id="lrGOlhh28AZxyNz1iR3FFs"><span class="rate r-ok" data-page-node-id="7ClFzyxyaFd29cJL9YbDET">可用</span></td><td data-page-node-id="IGWmAwU1ZpREKdcGR6dk8g"><span class="rate r-ok" data-page-node-id="8weVPJVRuzFGKc3nXXOV35">可用</span></td><td data-page-node-id="f29vOo3sYfzRsgn1jsSJ80"><span class="rate r-ok" data-page-node-id="7L5ANtfQtEcdGvdNplEEI0">可用</span></td><td data-page-node-id="HigHNRLLPEsMsmNDsHAwMC"><span class="rate r-ok" data-page-node-id="YbQa9lO4NH5CeMTcvsmEEz">可用</span></td><td data-page-node-id="dJAxSz5biqlzuMQw9DJPh3"><span class="rate r-ok" data-page-node-id="9GqS9BE7P8Oj582XXMMWGy">可用</span></td></tr>
+    <tr class="grp" data-page-node-id="1h5XkvFbNZxGtcISe7zz8W"><td colspan="7" data-page-node-id="ROBKPfmQYSKvWESZKv9xDV">L3 生成层</td></tr>
+    <tr data-page-node-id="d8eN1NtN4otCWZkonCeagR"><td data-page-node-id="yv83QUYOyQuynSVyKzsLYF">AI 润色与帮写</td><td data-page-node-id="xmW7gAG4X0RCK8e0e1dOZ8"><span class="rate r-ok" data-page-node-id="UCIzpyM8tYk0AVuY0SXllr">可用</span></td><td data-page-node-id="Ea36jjiLSX5LWHMP4oN20A"><span class="rate r-ok" data-page-node-id="3xMxY8HXkXb7IfQ5azt3Cc">可用</span></td><td data-page-node-id="5soFb235WvUpLSRgfDD1p7"><span class="rate r-ok" data-page-node-id="8sCiph6oOeaKGRsAwqlLvK">可用</span></td><td data-page-node-id="SKIQCp0d2trppV1LRlpAk5"><span class="rate r-mid" data-page-node-id="HZBePGOEu2N4R4W9ES2eB9">有限</span></td><td data-page-node-id="z1lbYhBhBYgiWf6GZlI5Ms"><span class="rate r-lead" data-page-node-id="J29LWsOWH2hOrAZZDpibqj">领先</span></td><td data-page-node-id="AEtm6aVLSbIaQkv2l5QZwr"><span class="rate r-none" data-page-node-id="KBrWbjZevG84ZSX87GDFaG">缺失</span></td></tr>
+    <tr data-page-node-id="dBUUpkmoOZ7s3kIZlydNkI"><td data-page-node-id="QYLNOGrS7hm8LWaH0D63od">实时翻译</td><td data-page-node-id="N4ZCMZU8oSdDVTAYMs4EpK"><span class="rate r-ok" data-page-node-id="kU6SIvKvdNTfhpkBHph5lO">可用</span></td><td data-page-node-id="cFxbaI9FpJiJcwY5atKHSl"><span class="rate r-ok" data-page-node-id="0Q6oEEArL4ObTfMmxkj9HP">可用</span></td><td data-page-node-id="VbAbSArxYnxLKI6VHsJfJ9"><span class="rate r-ok" data-page-node-id="F0Nb5HcyBBHqq2AIuqsnra">可用</span></td><td data-page-node-id="T7ugqZNqb2gUUtl0GVM0Kj"><span class="rate r-ok" data-page-node-id="SfNfdiekNryhVkzKmGwTuW">可用</span></td><td data-page-node-id="RitexhkiVm4ZQMUq5ABpT9"><span class="rate r-ok" data-page-node-id="KiL4OCyoJPAZ2a74RCu0MQ">可用</span></td><td data-page-node-id="iuSlhW0nsy9cz5pZsTLLJ7"><span class="rate r-none" data-page-node-id="7oRF7z4795rGt5EmMaTQIg">缺失</span></td></tr>
+    <tr class="grp" data-page-node-id="sT9m9E9bN2yFXELjfPAq4J"><td colspan="7" data-page-node-id="9Q9OsLnqhjTrrOtQvDDipM">生态与体验</td></tr>
+    <tr data-page-node-id="CYvZHxUgZYzHAypRX1aO4d"><td data-page-node-id="RVWkcDlGM8nkJDAK39vIXI">跨设备同步</td><td data-page-node-id="SBp4FIFIGKc4Gffd6BLcMC"><span class="rate r-ok" data-page-node-id="LClDLJFI09pNTaV5rdeKcX">可用</span></td><td data-page-node-id="vzcWNrHMbxUCJhAR5BOyZW"><span class="rate r-ok" data-page-node-id="Wq9JKL6DMeiFlTLCG9yHRr">可用</span></td><td data-page-node-id="pYPOZHIdWNKEsBhMlmdT07"><span class="rate r-ok" data-page-node-id="LRwqRFPrCCZv3wev45OfDG">可用</span></td><td data-page-node-id="q0HgCIwci4JTK1o5XBEfYl"><span class="rate r-lead" data-page-node-id="AeF9wHiwB9JezuLB5GzGZO">领先</span></td><td data-page-node-id="EFeIY0sTUzWXmT4pAADM2L"><span class="rate r-ok" data-page-node-id="EjXTI9RFTJ4olhi6Ez2rHk">可用</span></td><td data-page-node-id="pKx3bBe4Gu48L1qIB8XBGj"><span class="rate r-mid" data-page-node-id="iGLtPHrHEg4DSTgc1HqILB">有限</span></td></tr>
+    <tr data-page-node-id="h0EUxmBItgefmvSRnux9KD"><td data-page-node-id="LlyMNBA0OLtBrxkjCekFgA">无广告 / 纯净度</td><td data-page-node-id="NG6I6I3BqeqHVu1NaJEHdv"><span class="rate r-weak" data-page-node-id="FjlmmcLOkZO3V0oc9v7Klk">薄弱</span></td><td data-page-node-id="9PJYwHM6aDH3AfehevWw62"><span class="rate r-mid" data-page-node-id="bCPcrnQMFLRQbh3QjfEe1M">有限</span></td><td data-page-node-id="eYEDGVlBlh3kuSnDwomHUx"><span class="rate r-mid" data-page-node-id="zqRBzFWqOmVzuHOy3dNs51">有限</span></td><td data-page-node-id="GY3JZ7CJFIH1zCF4AC37wf"><span class="rate r-lead" data-page-node-id="h85VXarmjwNIfiVAQNczgO">领先</span></td><td data-page-node-id="AMpxo8HJJQ1HN2Sx08Wuz5"><span class="rate r-lead" data-page-node-id="BtKJAM010fO0QXY5nuaCok">领先</span></td><td data-page-node-id="mGAIFZRfnMHkcwt62gxo72"><span class="rate r-lead" data-page-node-id="JIlYMppaI2pjayA74fAchS">领先</span></td></tr>
+    <tr data-page-node-id="x4bO2yAM0hNBEO1yNy3v4T"><td data-page-node-id="VttLCG0sUfUCq90hEEIrOG">隐私保护叙事</td><td data-page-node-id="w2oG6U2r0RVY99wxrx6s5O"><span class="rate r-mid" data-page-node-id="g9Y7xrF0ERtU6tB7GaH559">有限</span></td><td data-page-node-id="wxz2L7SWE8XAgfI8D9I9kM"><span class="rate r-mid" data-page-node-id="PKa2BE1q4j8eHf0m0BasfC">有限</span></td><td data-page-node-id="f2E0ysiXFfAUynZhYhGm8i"><span class="rate r-ok" data-page-node-id="1My6u7lqOcMXvma3MMzfq6">可用</span></td><td data-page-node-id="zWApAKbzEK6axGlSi7hXgM"><span class="rate r-lead" data-page-node-id="oUf2JmyHirLDWCTBpFBm4G">领先</span></td><td data-page-node-id="xFRfBV09swvNO8lUQcef6l"><span class="rate r-ok" data-page-node-id="eguf5HKxhxeXJHS5nyj7wK">可用</span></td><td data-page-node-id="YV4hGz8AlGD3vfLUTBOcOr"><span class="rate r-ok" data-page-node-id="FxmbhzJBZnlhGmTzGMb1PD">可用</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout amber" data-page-node-id="6ajndlS77Wo7RATU1kYDec">
+  <span class="tag" data-page-node-id="jwCOsmMvyD4GSvyKCIzsaG">矩阵读数：三处异常指向同一个结论</span>
+  <p data-page-node-id="VnqaXcH6Y9cIqi8dbcsU3v"><strong data-page-node-id="MuTs2rI4nkqlmFLR4iny89">异常一：</strong>搜狗在"拼音与词库"上领先，却在"基础纠错与联想稳定性"上薄弱——这不是能力问题，是资源分配问题。<strong data-page-node-id="Xr4zH9mBJ9uDLHwgHaFLv0">异常二：</strong>微信输入法在"拼音与词库"上有限，却在纯净度与隐私上领先——这是主动选择用能力换信任。</p>
+  <p data-page-node-id="tOOqqvzL11eMBWnlRj2QHx"><strong data-page-node-id="wjaAIjmi9XJTbN1bfufBMF">异常三，也是手心输入法带来的最重要发现：</strong>手心在纯净度与隐私两项上与微信输入法并列<strong data-page-node-id="1UDciHWW8CCsTqwcX0YPci">领先</strong>，在基础纠错上甚至是<strong data-page-node-id="AbTsZLJTD4tfavCbQvY6M7">可用</strong>水平，但这两项优势没有转化成任何市场地位。对比之下，微信输入法坐在同一个位置上拿到了最高忠诚度。</p>
+  <p style="margin-bottom:0;" data-page-node-id="fFvmGOz3qGzgCVNola0ONs"><strong data-page-node-id="v5XxATqTbPviKMHNn78jD5">结论：产品能力决定不了结果，产品能力 × 分发能力才决定结果。</strong>手心输入法是一份活的证据——它的能力矩阵并不难看，难看的只是它背后没有 13 亿月活。</p>
+</div>
+
+<h2 data-page-node-id="1iopAy6Aq9cvmbRzVV2Cdn">五、用户分层与场景映射</h2>
+
+<table data-page-node-id="ktsUjRJ3oCTJO0ggiKtIRd">
+  <colgroup data-page-node-id="8sOMXyJiyRZ7dZqxsGXAlH"><col style="width:19%" data-page-node-id="LE3lC121LNPIdnROttOTXk"><col style="width:30%" data-page-node-id="JKD8CRiRI2pibgJEMJjb18"><col style="width:22%" data-page-node-id="QSLflMS90D46D0yeU7uA09"><col style="width:29%" data-page-node-id="JL5NQJ5udmAkURaFtbCGoe"></colgroup>
+  <thead data-page-node-id="1GJbuWR7KKPuFsvfRArbft"><tr data-page-node-id="GdWhlGAjh1bowAhfiDXUJu"><th data-page-node-id="otZ1GbNGfxYOKlwHfBPwjN">人群</th><th data-page-node-id="OHCAVtYpc2M5ZBUhuE0Kte">核心待办任务</th><th data-page-node-id="YUEJxkopivw1Ol6NiLPt84">最看重的指标</th><th data-page-node-id="N3awybGZsffOxZ1vAdiwKz">当前最优匹配</th></tr></thead>
+  <tbody data-page-node-id="EBHINpDQK9oAfEBlzKdNG9">
+    <tr data-page-node-id="tEYEvKxsMRyhDrKS6g5DGW">
+      <td data-page-node-id="n7EGkuEULZ7O5YGnhMycur">Z 世代 / 移动原住民</td>
+      <td data-page-node-id="qt18vtSNL7XfegZNX73Pmf">用最少的操作把想说的话发出去，不追求文字精确度</td>
+      <td data-page-node-id="GderzGVKWTtgYIrqFpZKLf">语音识别速度、嘈杂环境准确率、无广告</td>
+      <td data-page-node-id="66FOUTyE5oDiscCPpME4Ja">豆包输入法</td>
+    </tr>
+    <tr data-page-node-id="czWjGrBH5Cg9cjEO018Puh">
+      <td data-page-node-id="MhNetbURUVZRgbVT63s2sf">职场办公人群</td>
+      <td data-page-node-id="fp89joHvcZ374DWWCT01AA">会议录音转纪要、客户沟通话术、长文初稿</td>
+      <td data-page-node-id="VQKYgb3zdmHRJU9ZpzX6vp">长文本转写质量、结构化整理、响应时延</td>
+      <td data-page-node-id="XbjTjOa5HVt3ysbKjSGgZL">千问输入法（PC 端）/ 讯飞</td>
+    </tr>
+    <tr data-page-node-id="DsDsQzHJfqrJl1LZLTXWlT">
+      <td data-page-node-id="V4DWVDBUCrAfmUxV8FmJjq">内容创作者</td>
+      <td data-page-node-id="glLVkLaNggZDcxlTi1UiFB">快速产出短视频文案、种草文、评论互动话术</td>
+      <td data-page-node-id="UlEinZ5kHj0lBtnPFP9U6G">风格模板丰富度、生成速度、改稿成本</td>
+      <td data-page-node-id="mdhATzZS9zJRUKVhnPcaV4">搜狗（有短视频/种草专属模板）/ 豆包</td>
+    </tr>
+    <tr data-page-node-id="vXEVITDENtIVXPIAK4Aw1y">
+      <td data-page-node-id="ommBBiJQje2RlgH04Zubju">中老年 / 低打字效率人群</td>
+      <td data-page-node-id="r84ryBjnmrLznvqhZX4bYt">不用学打字就能发消息；看得清、说得准</td>
+      <td data-page-node-id="fqC9cLMOHwQg9XavL8YWfH">方言识别、大字体、语音朗读、入口简单</td>
+      <td data-page-node-id="BASAoWQkD0fCqzPFnpa14b">讯飞（方言能力最强，但入口偏深）</td>
+    </tr>
+    <tr data-page-node-id="v3TqGBa2zR5gimO0FW6Dvp">
+      <td data-page-node-id="XvDRc4f4u308ASNgdEDd6j">学生 / 外语学习者</td>
+      <td data-page-node-id="TQypz1ZY1shQ71K4sPzSWB">写作框架梳理、外文作业、跨语种沟通</td>
+      <td data-page-node-id="7YCGL0Hvq5hwqene7m5EjN">语种覆盖、实时翻译、语法纠错</td>
+      <td data-page-node-id="bmieeTkQhwEZtNNxaMMDbB">百度（90+ 语种）/ 讯飞</td>
+    </tr>
+    <tr data-page-node-id="Kc4qAxeO9VN0BMGZN26i7O">
+      <td data-page-node-id="ZWlsaIyyaX52KjigXAIZQ8">极简主义者 / 老设备用户 / 广告厌恶者</td>
+      <td data-page-node-id="iFhEzrr4ChEnFGtzARWH7f">安静地打字，不要被打扰；在老机器上也要流畅</td>
+      <td data-page-node-id="OLGU5wLFtLHugNtuGXqap4">零广告零推送、内存占用、权限克制、无强制账号</td>
+      <td data-page-node-id="2eLHFAHMvHnk1QwsMUBuRl"><strong data-page-node-id="wXIOLflKFVof6sS2arJceM">手心输入法</strong>（该需求的唯一专业供给方）</td>
+    </tr>
+    <tr data-page-node-id="jLqqkNb3QS0V37pJR6zV9G">
+      <td data-page-node-id="7MMZxNCzUw9NNojBHYLJAp">极客 / 隐私敏感 / 政企信创</td>
+      <td data-page-node-id="wJxBgXYzsQ5cbfLsW1fZej">完全可控的输入环境，数据不出本机</td>
+      <td data-page-node-id="gNig6TcmVVpsH9LaAR6uR0">离线可用、可定制、开源或私有部署</td>
+      <td data-page-node-id="4ee9G0KD7EQCICrptTXOz5">Rime / 讯飞（信创场景）/ 微信输入法（隐私）</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout" data-page-node-id="XLKqRBTQHDZRClNASfmJH1">
+  <span class="tag" data-page-node-id="LSNDHam6omb7kqfnFnJgCf">两个被低估的细分</span>
+  <p data-page-node-id="pdT9zWqrYcKMD0tLlJXUqE"><strong data-page-node-id="xfsIHEmqk48c8ajUWACYSC">中老年与方言人群</strong>是唯一既刚需、又愿意付费的群体（子女代付、老年机预装），但全行业的产品设计都在向"功能更多"跑，没有人愿意为这个群体做减法。讯飞手握最强的方言技术，产品却把它埋在三级菜单里。</p>
+  <p style="margin-bottom:0;" data-page-node-id="2KHUvJTms0qvenCaZllyb9"><strong data-page-node-id="cGvpPhDO08yySxb4G9ddUt">极简主义者与广告厌恶者</strong>是另一个被验证过存在、却无人认真服务的人群——手心输入法用十二年时间证明了这群人真实存在，也证明了仅靠一家小团队无法把他们变成一门生意。这恰好是手握分发能力的大厂可以捡起来的位置。</p>
+</div>
+
+<h2 data-page-node-id="gVK2d3ADXE4VvKK3Hqq3MH">六、商业模式解剖</h2>
+
+<h3 data-page-node-id="f8npVlFQE2R5eiBieOBlWN">五条变现路径及其真实处境</h3>
+<table data-page-node-id="BrTCjotOlIpWExzcrHp1z8">
+  <colgroup data-page-node-id="LahmwB418qQ0z6KYh2h5xH"><col style="width:24%" data-page-node-id="yGNBmwnz6HwBdS98kaqYGJ"><col style="width:34%" data-page-node-id="uex57ZnOFmh05V9M7Myazq"><col style="width:42%" data-page-node-id="q0YobU3nAKBq1k1nZxBSCU"></colgroup>
+  <thead data-page-node-id="zOF1TlpuIKJgGztG7qTxKf"><tr data-page-node-id="Yuatf6A6FkmW9PaXPKDrFj"><th data-page-node-id="pdPLcmpic3ve1pOi8uBncV">模式</th><th data-page-node-id="CZhBl3rL9HqZUepEiAE1Ox">代表玩家</th><th data-page-node-id="YZrSsMVgBpDtXqjPYHBr7w">真实处境</th></tr></thead>
+  <tbody data-page-node-id="MG8zhPmpECFE2AVYCXNR9l">
+    <tr data-page-node-id="3Qr4CjGDkEkwdPnxRnpKab">
+      <td data-page-node-id="50Lt2oXOW5puPzZHP9RjbM">广告</td>
+      <td data-page-node-id="iiKVQvz8eA77xDt87A2oRi">搜狗、百度</td>
+      <td data-page-node-id="WGPPauTPeQC7ZmkHwTbmAU">唯一被验证过的大规模收入来源，但正在从资产变成负债。用户投诉集中在弹窗、候选栏广告与资讯推送。搜狗已提出在 2026 年一季度上线去广告版本——说明这个抵押品快耗尽了</td>
+    </tr>
+    <tr data-page-node-id="BjD3OfJcYsfXkXcL0UAuEG">
+      <td data-page-node-id="pxarFVsLXPDHxMDwIcnUF6">装扮与会员</td>
+      <td data-page-node-id="4K4ppk2zfLNDR3LaHxrGXA">搜狗（皮肤、字体、套装）、手心（皮肤，未规模化）</td>
+      <td data-page-node-id="9b1Ve5x7AAjgiWHsaEAw7Z">长尾收入，规模化困难。但验证了"个性化"存在付费意愿</td>
+    </tr>
+    <tr data-page-node-id="XUc8FS7JTPa5rhxSQdmlQc">
+      <td data-page-node-id="v7kqLFUbb4cftwMwNVMGOl">OEM 预装分成</td>
+      <td data-page-node-id="7dZlxN02lliAvxF4MWMl7X">百度、讯飞</td>
+      <td data-page-node-id="VfnTFsmS6FUzDKZj1Y1dcN">主要获客渠道，但也是份额数据虚高的来源。预装用户不等于活跃用户，更是"租来的用户"</td>
+    </tr>
+    <tr data-page-node-id="R337CFYNCiFGs8wYmksXEO">
+      <td data-page-node-id="CjsBlqadtQBqE5UVl4RFmv">订阅制</td>
+      <td data-page-node-id="Oiac097xlIAUOLwVXDemqD">Wispr Flow、Aqua Voice、Typeless、智谱</td>
+      <td data-page-node-id="o2vECPRVlZSmAtaL6IVTFR">海外已跑通。国内尚在实验阶段，是行业最值得跟踪的商业变量</td>
+    </tr>
+    <tr data-page-node-id="25GnXHUDpmpLC2TQvzXT5t">
+      <td data-page-node-id="D68RzC8Owas4CMKAduyAbC">战略价值变现</td>
+      <td data-page-node-id="sJqOBVFm6VpyCoFwYkepJX">微信输入法、豆包、千问</td>
+      <td data-page-node-id="hNa1Sd2LIZgMXDSTyEGgKt">不直接赚钱，赚数据、入口与生态锁定。腾讯财报中只能看到"AI 用户规模行业第一"这类表述，看不到营收数字</td>
+    </tr>
+    <tr data-page-node-id="HTuJM0yWkB844m1gsu69Tk">
+      <td data-page-node-id="FwT6scXkLATAppJKcViGE2">无商业模式</td>
+      <td data-page-node-id="wjDCzoITTegqG5pG5oc1yb"><strong data-page-node-id="uVGh3imKjhqO72gH13nIny">手心输入法（唯一的纯样本）</strong></td>
+      <td data-page-node-id="rVWqoivk0wO2CUXrMyT73Y">不是"选择了不赚钱"，而是"没有能力赚钱"。结果是维护投入持续萎缩（Mac 端停更十一年）。<strong data-page-node-id="fnAvMsDrN3sZZnaAIkfJFD">它是本行业唯一一份完整的对照实验：一款不赚钱的输入法，最终会变成什么样</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout coral" data-page-node-id="PepYFw4BrsrZO7K9oQSQam">
+  <span class="tag" data-page-node-id="w34CNTRwMGPuxe9fqTBNpX">商业模型的核心矛盾</span>
+  <p data-page-node-id="xDlTZlm2TepnSLd99TZNet">输入法长期困在"高流量、低价值"的变现怪圈里。而在 AI 时代，这个矛盾被放大了：<strong data-page-node-id="CH4nHTe8f01aimM3RLzaNQ">大模型推理成本极高，产品却完全免费且不敢收费</strong>。厂商的选择是弱化商业化能力——从业者透露，这是因为输入法直接涉及用户安全隐私，商业化太激进会触线。</p>
+  <p style="margin-top:12px;" data-page-node-id="28Vd8NmGvXQCjDbdsuZ9RO">结果是产品处在一个奇特的状态：<strong data-page-node-id="SFocfV3XEUeEYMKoXfCqg1">用最贵的推理成本，做一个不敢赚钱的产品，还要承担最严的合规约束。</strong>任何一份输入法的商业计划书，都必须先回答这个问题。</p>
+  <p style="margin-top:12px; margin-bottom:0;" data-page-node-id="USw6ZgTmiyOLLmVDKLqeiK">手心输入法把这个问题推到了极限：它把商业化降到了零，结果不是"赢得了用户信任"，而是"失去了维护产品的能力"。<strong data-page-node-id="6Eng67aLtRR5d5FAc2hG2H">这说明问题不在于"要不要赚钱"，而在于"用什么方式赚钱才不伤害体验"。</strong>这是微信输入法和豆包正在回答的题目。</p>
+</div>
+
+<h2 data-page-node-id="WG9ik6GbUMcxHzYkpMbU1a">七、核心矛盾与风险</h2>
+
+<h3 data-page-node-id="3sc30CibnBAjtjf3d8fHqC">1. 效率悖论（本赛道最重要的产品洞察）</h3>
+<p data-page-node-id="8h0TT9O4p3VoHiNqrQE07t">输入法越"聪明"地预测用户意图，就越"笨拙"地处理用户的直接指令。大量用户反馈：输入 <code data-page-node-id="SmDtIWUhTo2JFLJR9CgH9T">nanyong</code>（难用）首先联想出"男用"；输入 <code data-page-node-id="W4kJkgnhtQQCtONgYwhLVi">congyoudaozuo</code>（从右到左）第一个出现的是"葱油刀座"；想要输入"是"字，却频繁推荐"事"，需要翻页。</p>
+<p data-page-node-id="uLsbmajUIHN1EhXdSteQFa"><strong data-page-node-id="BbC6DqA6IjNwO4mvF4oTji">根因诊断：</strong>AI 功能抢占了候选排序权重和端侧计算资源，基础词频模型被相对弱化。厂商在追求"生成能力"的军备竞赛中，忽视了用户对基础输入体验的需求。一位使用搜狗 17 年的资深文字工作者在 2025 年底卸载了它——不是因为 AI 不够强，而是因为"打字变慢了"。</p>
+<p data-page-node-id="LCSGvZq8NPjjbIAojjfvjH"><strong data-page-node-id="8Zas6RgRmjq2NxetxlWjtg">手心输入法的存在让这个悖论变得可测量：</strong>它的基础纠错能力被普遍评价为"稳定、温和、不擅自篡改用户输入的文字"，而这正是搜狗当前最受诟病的环节。<strong data-page-node-id="VwhnTQVIZBsWCIXfqyj5Bf">一家没有大模型的小团队，在"把字打对"这件事上不输给投入数十亿的对手</strong>——这本身就是对行业资源分配方式的质问。</p>
+
+<h3 data-page-node-id="zXTUWpjEtUItJTp9WoRgTd">2. 成本悖论</h3>
+<p data-page-node-id="4aCqjRUQSHOxSEO5Tvywj7">AI 能力的边际成本随使用量递增，而收入不随使用量递增。这意味着一款成功的免费 AI 输入法，<strong data-page-node-id="Dhvicu879Ges8lgS8FrXRO">用户越多，亏损越大</strong>。唯一的解法是端侧推理与场景裁剪，而不是继续堆功能。</p>
+
+<h3 data-page-node-id="zVn3iFmlo7RDnIlDMWHrzX">3. 信任悖论</h3>
+<p data-page-node-id="nhfqfgjExiVZts9Wex41kN">智能联想强依赖对用户输入数据的分析与学习，但输入法恰恰是用户最敏感的数据通道。技术博主抓包分析发现，部分输入法会将输入内容以明文形式传输到服务器，经"广告联盟"的设备 ID 共享机制传递给关联 App——这正是"刚打完字就收到推送"的原因。2021 年 5 月，国家网信办曾通报讯飞、搜狗、QQ 输入法存在"违反必要原则收集与服务无关个人信息"问题，多款产品随后被下架整改。这是必须时刻记住的历史教训。</p>
+
+<h3 data-page-node-id="YeuPsKV20VRYlQdSj1AnO4">4. 入口悖论</h3>
+<p data-page-node-id="HMr9TOwWXn9biEsnceqX63">输入法想做 AI Agent 的入口，但系统级权限正在被 OS 厂商收回。iOS 对键盘沙箱有严格限制（键盘无法访问除剪贴板外的系统能力），小米已推出自研系统级输入法。第三方输入法的 "Agent 入口" 雄心，可能被操作系统层直接截断。</p>
+
+<h3 data-page-node-id="erdjFYPACWEmQZnRkCGC4m">5. 同质化风险</h3>
+<p data-page-node-id="YlENNYnthJS40LfFD7M7QL">行业经验表明，只要给产品足够长的时间，各家在语音识别准确率上会趋于接近。这意味着 L1/L2 层最终没有持久壁垒，竞争会全部压到 L3/L4——而那里的胜负取决于大模型能力，输入法团队反而失去了主导权。</p>
+
+<h3 data-page-node-id="YoVODagPQgfQ8YGA48pvDl">6. 幸存者偏差风险（新增）</h3>
+<p data-page-node-id="hjoxLpG2SAtBLw3VaUHzhD">手心输入法的案例提醒一件容易被忽略的事：<strong data-page-node-id="ucF3a1HtWSk11IJiNoDzsG">行业里大部分关于"纯净定位有效"的论证，都来自微信输入法这个成功样本。</strong>但我们不应该忘记，在它之前已经有产品做过同样的尝试并失败了。如果一个 PM 只看到微信输入法的成功，就容易得出"只要做减法就能赢"的错误结论。真实的因果是：<strong data-page-node-id="hcd7Umb6NQHC4hs89JP8Ex">减法 + 微信生态 = 成功；减法 + 无分发 = 手心。</strong></p>
+
+<h2 data-page-node-id="tzKWxOCdSeBMMbtSfmcCaQ">八、被忽视的产品机会</h2>
+
+<p data-page-node-id="QIEDIVPIArOmTikXMGBGoD">当前全行业在做同一件事：AI 能力的军备竞赛。但厂商自己都承认，用户真正想要的是"更准"。这个认知差异，就是机会所在。</p>
+
+<div class="opp" data-page-node-id="HdTKqLr798HVgZ6cu7qbHt">
+  <h3 data-page-node-id="q5ykjigbTFXx6FXh9ip7X3"><span class="num" data-page-node-id="YplGRYpuuG5e2Ed1YISmht">1</span>把"本分"做成差异化定位</h3>
+  <p data-page-node-id="iIGSARgJ2BzCew9MBun88G">明确对外承诺：首屏候选命中率、Top-1 上屏率、常用字永不翻页，并把这三项做成可公示的产品指标。同时提供一个"纯净模式"开关——关掉所有 AI 功能后，它仍然是市面上最好的输入法。</p>
+  <p class="why" data-page-node-id="PKbFJ2wbAjhIFuXC0yA5Cr"><b data-page-node-id="CrruxWpBHVMAeKlZW2RPZQ">为什么成立：</b>所有玩家都在做加法，做减法无人防守。微信输入法已经验证过，"极简 + 可信"可以用 5% 的份额换来最高的用户忠诚度。</p>
+</div>
+
+<div class="callout amber" style="margin-top:-6px;" data-page-node-id="W1Vfp7DxbbzgAxPEpVqjz8">
+  <span class="tag" data-page-node-id="V9DMtmcxvUsyxh2ReHH8yW">但手心输入法给出了这个机会的边界条件——必须读</span>
+  <p data-page-node-id="W6BYrymfnd691iiihUES1A">手心输入法早在 2014 年就在做这件事，做了十二年，至今没有走出小众。它证明了<strong data-page-node-id="Y08PBT9kRsO5WYgy732ez5">"纯净定位"本身不是一个足够强的商业答案</strong>，有三个前提缺一不可：</p>
+  <p data-page-node-id="TMhzfd9f3ZpsoBQo5irOO5"><strong data-page-node-id="lsZe69NbBVn550x1Y5XfHc">第一，时机。</strong>2014 年用户还没被广告折磨到愿意为"没有广告"迁移；2026 年广告已成行业公敌，条件具备了。<strong data-page-node-id="Mx8gnHbj7PI6CSEjeN5HHA">第二，商业闭环。</strong>无广告不等于无收入，否则连维护产品的能力都会失去（手心 Mac 端停更十一年）。<strong data-page-node-id="pDLmFU9txvW4taDhzYLoeP">第三，也是最关键的，分发能力。</strong>同一个位置，微信输入法因为有 13 亿月活而成功，手心因为没有而失败。</p>
+  <p style="margin-bottom:0;" data-page-node-id="wwpFfYnF8N7F9D32qvNpZ8"><strong data-page-node-id="fJShhT6a0o2aqtN4mwAvbQ">给 PM 的操作结论：</strong>如果你没有微信级别的分发能力，就不要把"纯净"当作唯一卖点。正确的做法是把"纯净"当作<strong data-page-node-id="hbznJJDxUBGgPgv4IumtT5">产品底线</strong>，把差异化押在一个更具体、更可被感知的点上——比如专业场景的准确率，或某个细分人群的专属体验。</p>
+</div>
+
+<div class="opp" data-page-node-id="BGmyzgYPbwf3tAkHr9Imlo">
+  <h3 data-page-node-id="xBVBhL8CkN29yFz2pI244G"><span class="num" data-page-node-id="978CRzHkzDzPIbAQc11xAv">2</span>从"全场景 AI"转向"场景化 AI"</h3>
+  <p data-page-node-id="Q529BuNypDMVQxOCbRPlRu">现在的 AI 功能是"任何输入框都能调"，这本身就是干扰源。改为按 App 与场景自动切换策略：微信/IM 场景只做纠错不做生成；文档编辑器才开放帮写与改写；代码编辑器只做变量名与 API 补全；搜索框只做意图纠错。</p>
+  <p class="why" data-page-node-id="8yEyZvILTacATHjAWRQXlZ"><b data-page-node-id="nKZJoxTRzaVYBVjD8R33AX">为什么成立：</b>一举解决两个问题——降低用户干扰（当前最大痛点），以及显著削减推理成本（成本悖论）。这是唯一同时改善体验和财务表现的方案。</p>
+</div>
+
+<div class="opp" data-page-node-id="9drgYEffQWUGwWz7lECQuo">
+  <h3 data-page-node-id="bZMUWkuaLhoEaF6KWDEUuz"><span class="num" data-page-node-id="aqawtiF43DWKv2a8F8CeoS">3</span>端侧优先的混合架构</h3>
+  <p data-page-node-id="hHl9T4r2u70wkuaKi1jRmF">把高频、短耗时的能力（拼音纠错、短语音、常用词预测）全部放端侧；只有长文本生成、跨语种翻译等低频重任务才走云端。</p>
+  <p class="why" data-page-node-id="KNQILdY0gFW34w98lVPhzv"><b data-page-node-id="lrrtpTqaYlNYmFQu50vSiR">为什么成立：</b>同时解决成本悖论与信任悖论。讯飞已经在离线语音上证明了技术可行，手心输入法十二年的本地词库实践也证明了"不联网也能好好打字"完全做得到，微信输入法则证明了"不上传"是最好的市场话术。把三者结合并做成默认行为，是一个无人占据的位置。</p>
+</div>
+
+<div class="opp" data-page-node-id="2wXBuFczImXyWRmnNqyyGV">
+  <h3 data-page-node-id="mYUa7TTgQj2FNOVaLp0Qb3"><span class="num" data-page-node-id="tLYhx8HTx2bc1kR8HmgMrt">4</span>接住"手心输入法们"的用户</h3>
+  <p data-page-node-id="zs26R4RUd6DTCb2uU9g7BS">手心输入法的用户是一个已被验证存在、且极度忠诚的人群：广告厌恶者、极简主义者、老设备用户、无账号主义者。他们选择手心不是因为它更好用，而是因为<strong data-page-node-id="iexW3anMq7Y4x501UARYBP">没有别的选择</strong>——手心是唯一认真服务他们的产品。而手心的维护投入正在萎缩。</p>
+  <p class="why" data-page-node-id="RuliqsKkbuDBD80Suk4LnH"><b data-page-node-id="NRSyJoyrlePCgkmIDWBNOc">为什么成立：</b>这是一个接收成本极低的存量用户池，不需要教育市场。方案不是"再做一款手心"，而是在主流产品里提供一个<strong data-page-node-id="yTD56Rm6sXJ1eodi3xgQCp">真正彻底的纯净模式</strong>（不是藏在三级菜单里的开关），并明确承诺无账号可用、可离线、不上传。同时要正面回答手心没有回答的问题——<strong data-page-node-id="ABoRSjQAsTFvwvggOaxsAE">用什么样的商业模式支撑这个模式的长期维护</strong>。这一点想不清楚，就只是重走一遍手心的路。</p>
+</div>
+
+<div class="opp" data-page-node-id="UaPig9WUBjxFyZb8wTnM4N">
+  <h3 data-page-node-id="uhAruG1L6HqJGoi5j5XzL9"><span class="num" data-page-node-id="53QmErF5Jaw0EqVwIt2mWg">5</span>重新做中老年与方言市场</h3>
+  <p data-page-node-id="RiWHXjExvWksXcmeh63TKH">不是加一个"长辈模式"就完事，而是做一款真正为这个群体设计的产品：默认方言语音、默认大字体、默认语音朗读、默认隐藏所有 AI 入口、家人可远程配置。</p>
+  <p class="why" data-page-node-id="gVEnxQIDLSD2efHoO0gXah"><b data-page-node-id="enf9OqzpIc8sQ73IX1wHuJ">为什么成立：</b>这是唯一既刚需又愿意付费的人群（子女代付、老年机与运营商渠道预装）。技术供给已经存在（讯飞 202 种方言），缺的是产品设计意愿。</p>
+</div>
+
+<div class="opp" data-page-node-id="9rZ2PiVk6haWXCVb9MR2rx">
+  <h3 data-page-node-id="XaCQjwfTXguvF86Jd9rYVu"><span class="num" data-page-node-id="bCXkhFa6dzJGkO1D2G5uVJ">6</span>垂直专业场景（海外模式的中国版本）</h3>
+  <p data-page-node-id="1EDPsS3afBFCA4XUinaIGH">医疗（病历口述）、法律（文书起草）、客服（工单与话术）、无障碍（视障/肢体障碍用户）。这些场景对准确率要求高、对隐私敏感、且<strong data-page-node-id="ckTKe00ceS7JH05FuekVWO">愿意付费</strong>。</p>
+  <p class="why" data-page-node-id="AmeveXp50C7E6tbFYsGqAU"><b data-page-node-id="Q39n2DCzZuVMV3DtuTMMNu">为什么成立：</b>Aqua Voice 用 8 美元/月的订阅证明了这个模式可行。国内因为缺少为工具付费的习惯而无人尝试，但 B 端采购逻辑完全不同——这是被结构性忽视的市场。<strong data-page-node-id="godAghCfG14MyPLzyQvzJQ">手心输入法的教训也在这里显出价值：垂直场景是少数能同时做到"纯净"和"有收入"的位置。</strong></p>
+</div>
+
+<div class="opp" data-page-node-id="GZ9wH4RZdT9HVvwSW8WNCx">
+  <h3 data-page-node-id="orgUFwkh8HtLl6f5dIH3Mh"><span class="num" data-page-node-id="KJeX8Ms7I8LCbTcckBWwyd">7</span>为 AI 生成内容设计"可逆性"</h3>
+  <p data-page-node-id="pAi1DXzIs7GZZS0kmTjOyg">当前 AI 帮写最大的信任障碍是：生成的内容一旦上屏，撤销困难，用户无法局部采纳。设计一个"AI 草稿层"——先生成但不上屏，用户可以看到原文与改写版本的对照，逐句采纳或拒绝。</p>
+  <p class="why" data-page-node-id="X9LIvF4YY6r6FEuXxeiNjF"><b data-page-node-id="qrxbL0lYsTPQmGanyNiuJL">为什么成立：</b>这是"AI 帮写"从"新鲜功能"变成"日常习惯"的必经之路。目前没有任何一家做对了这件事。</p>
+</div>
+
+<div class="opp" data-page-node-id="dHjJfjR2WjBd5P6PhsgXDj">
+  <h3 data-page-node-id="vgq2g2UNZ8xDijKXZurO96"><span class="num" data-page-node-id="56tuuADH32cvaGdSbL8AkE">8</span>把词库与语气风格做成"个人表达资产"</h3>
+  <p data-page-node-id="JFxcI4GjGPFZKaeP0rkOE5">用户迁移输入法的真实阻力来自词库、常用语、输入习惯的沉淀。但至今没有一家把它认真做成可迁移、可导出、可继承的"资产"（如个人语气档案、专业术语库、常用语模板集）。</p>
+  <p class="why" data-page-node-id="tVSDw1CCHLgNihVMkzJ4Vw"><b data-page-node-id="F2YUpiJlN0pRnhk2iM3zTb">为什么成立：</b>这是提高切换成本最有效的方式，也是唯一能让用户对输入法产生情感依附的路径。搜狗有最好的词库基础，但把它当成技术资产而不是用户资产。手心输入法反而在"常用语可导出可导入"这类功能上做得更早——小产品在用户资产上的敏感度，常常高于大产品。</p>
+</div>
+
+<h2 data-page-node-id="JDgpVSdmkiz4qwGzESLIlu">九、Non-goals：明确不做什么</h2>
+<p data-page-node-id="NtwqhEEFoUTCJW91LUac4U">按产品经理的惯例，一个负责任的赛道分析必须明确列出应该被拒绝的需求。以下方向建议直接否决：</p>
+<ul data-page-node-id="uKTX34fXWDqnDaEHZ57jp2">
+  <li data-page-node-id="G3OlZZQnpoWeo7jiIWuFcf"><strong data-page-node-id="7Hwtr0sZHDH7Cq7IrACTMH">不做资讯流与内容推荐。</strong>这是搜狗最大的口碑失分项。资讯弹窗带来的短期收入，远不足以抵消它对用户信任的侵蚀。</li>
+  <li data-page-node-id="op2sE39RUTRlThuidtHPIz"><strong data-page-node-id="ngfZ1uW4ABAxAdfg3laEww">不做内置浏览器、PDF 工具、磁盘管理、壁纸等扩展组件。</strong>历史已经给出了答案（手心输入法 2024 年主动移除三年前添加的无关功能，就是这个判断的有力背书）。输入法越像"全家桶"，被卸载的概率越高。</li>
+  <li data-page-node-id="BkyRfBO8DYLDTKmxKGCYSV"><strong data-page-node-id="diLVlTorom8SB18DvK3I5Z">不做通用 AI 助手。</strong>那是大模型 App 的战场。输入法做通用助手只会在有限的键盘空间里制造臃肿。</li>
+  <li data-page-node-id="RD4uAQGwqeCFRMtewBiS23"><strong data-page-node-id="g5VOWDt3ZRKlabUPkZKuf5">不把"AI 功能数量"当作团队 KPI。</strong>它天然鼓励做加法，与用户真正需要的"更准"背道而驰。</li>
+  <li data-page-node-id="VLRzURSpUMRy10GdxRODGo"><strong data-page-node-id="7dFquvL8pvJcHHcpR14rnm">不把"完全免费无广告"当作唯一的差异化卖点。</strong>手心输入法用十二年证明了单一维度的纯净不足以支撑一门生意。纯净应该是底线，不是全部。</li>
+</ul>
+
+<h2 data-page-node-id="DntzHLXtNj2Lh148eWW9ar">十、指标体系</h2>
+
+<p data-page-node-id="0GtPGD1Z02L7Fak7oeaawr">评审任何输入法需求时，用这套体系做判断标尺。</p>
+
+<h3 data-page-node-id="U6MtemzSOX7UPwo0H3GX79">北极星指标</h3>
+<p data-page-node-id="WJ7b82OcB3yCWhVaAX05lC"><strong data-page-node-id="i8pppMSRNvnV9Eh5J2S6rc">人均日有效输入次数</strong>——用户成功表达一次完整意图记 1 次，不区分拼音、语音或 AI 生成。选择它的理由：它不奖励功能堆砌，只奖励"用户把话说出来了"这一件事。相比之下，DAU 和份额都是结果指标，无法指导日常决策。</p>
+
+<h3 data-page-node-id="DQBnYIDjB2XULwCYIgCje2">驱动指标（拆解北极星，定位杠杆点）</h3>
+<ul data-page-node-id="qqkD1BLdJH3PlDHxAyzAzj">
+  <li data-page-node-id="cZyCQFD52GR8vpBtrMlKdQ"><strong data-page-node-id="8LFwqHUxahQM5q8vGnsHYc">语音输入使用率</strong>——语音用户是人效天花板最高的群体，其占比决定长期空间。</li>
+  <li data-page-node-id="U6NYBBgkMqYE1SX7f1aPgg"><strong data-page-node-id="me7aYf6FDeqwHR6GFoV0vi">AI 功能周渗透率</strong>——7 日内至少触发 1 次的用户占比，用于区分"上线了"与"用起来了"。</li>
+  <li data-page-node-id="hzzpGb4YMESaSNEKUXgyB1"><strong data-page-node-id="gS5GmHpbKd2XxbEnCSc5Ag">首屏候选命中率</strong>——用户不翻页即上屏的比例，是理解层能力的直接读数。</li>
+</ul>
+
+<h3 data-page-node-id="Zw1gjM9kTs7E2CFU775mWF">护栏指标（防止 AI 加法反噬基础体验）</h3>
+<ul data-page-node-id="SCTYos7ylbzrqkDxBxlu7V">
+  <li data-page-node-id="BxWwtnwWrGX4msHAq5kxB2"><strong data-page-node-id="rcJCxzEIY7jHoCpOEb3dJC">Top-1 上屏率</strong>——常用字不得下沉到第二页。这是绝对的底线。</li>
+  <li data-page-node-id="BiOlWAzCvHk7JEaKhpBCv4"><strong data-page-node-id="EzIFeQ6hiMJGQDZLFMlvQE">单条输入平均修正次数</strong>——若修正耗时超过直接打字，该 AI 功能即为负收益，应当下线。</li>
+  <li data-page-node-id="ZsjhBe1CGeu7oeVuarkiky"><strong data-page-node-id="VHWth3apio5FwgNJ5oyTdm">AI 响应 P95 时延</strong>——键盘场景的用户容忍度以秒计，超过即失去意义。</li>
+  <li data-page-node-id="3cjGM0mu0A4CvNZYiG4iwi"><strong data-page-node-id="RSBj95XB4jD1DDbdy8YsSE">隐私相关投诉率</strong>——输入法是合规红线最密集的产品形态，必须常设监测。</li>
+  <li data-page-node-id="OKC3dGErbBEO2NgVbDiTx7"><strong data-page-node-id="KDRlw8Txavy1BTmbWjWGjW">纯净模式留存率（新增）</strong>——开启纯净模式后 30 日留存若高于大盘，说明"减法"是真实需求；这条指标是为"机会 1"设计的验证手段，可以帮助团队在不牺牲主流体验的前提下验证纯净定位的价值。</li>
+</ul>
+
+<h2 data-page-node-id="mgJL9Rryd4m6O7YPyaWi0t">十一、数据口径与不确定性说明</h2>
+<div class="callout" data-page-node-id="Bur5kGDjT0R71ybQMIH9lJ">
+  <span class="tag" data-page-node-id="dg9fkcRTxXTxsJyLjFCB4J">阅读本报告时请注意</span>
+  <ul style="margin-bottom:0;" data-page-node-id="PoZZMEBgX0PGYI7KaG0qoH">
+    <li data-page-node-id="9AXjFk16cVijChNJepI9wF"><strong data-page-node-id="cF2MEHEJMAkLnQ5B3JoMlP">份额数据分歧显著。</strong>同一时间点上，不同机构给出搜狗 38%–41.8%、百度 27%–31.5%、讯飞 12.8%–21% 等多个区间。差异源于"活跃用户 / 装机量 / 预装量"三种口径的分母不同。建议在使用这些数字时保留区间表述，不要取单一值。</li>
+    <li data-page-node-id="vYSsucZ6SzBeE9hB4cjtMa"><strong data-page-node-id="uTlI0zL4RB3TTcv5lytVYD">手心输入法的资料存在多处矛盾。</strong>开发商信息以"北京欣乐道科技"为主流口径，但也存在"起源于 360 内部纯净软件计划"的说法，归属线索不一致；上线时间有 2014 年 5 月与 2015 年两种表述；本地词库规模有 24 万与 50 万两种说法；安装包体积在 35MB–75MB 之间。本报告在涉及这些点处已作区间或说明处理，如用于正式决策请以官网与工商信息核实为准。</li>
+    <li data-page-node-id="LrIwa7c29k50iyd0dWbDtE"><strong data-page-node-id="1nHhAgUOX0EsygTT8ZISim">部分关键数据来自厂商自述。</strong>如"搜狗 AI 用户规模破亿""日均语音使用次数接近 20 亿次"均出自腾讯方面披露，未经第三方审计，需谨慎对待。</li>
+    <li data-page-node-id="onnCdmcum1gzB5PdVwisVt"><strong data-page-node-id="3ycbIKE9CmjGFh9rcIchwu">本报告为公开信息综合整理</strong>，用于建立赛道认知框架与竞争判断，不宜作为投资决策的唯一依据。涉及具体数字的决策场景，建议以一手用户调研与内部数据复核为准。</li>
+  </ul>
+</div>
+
+<h2 data-page-node-id="7ep84VtYg3oRTNEiAzbArw">十二、按角色划分的行动建议</h2>
+<table data-page-node-id="MPExKpifJcvn8YEgg5Umn0">
+  <colgroup data-page-node-id="UN4u33m3GF4itHobtTTgMh"><col style="width:28%" data-page-node-id="7GD79Zjsz1HjK1IWhHNF38"><col style="width:72%" data-page-node-id="YwPEvH0WmDDGSf1xiAsaJP"></colgroup>
+  <thead data-page-node-id="jNPfanw5Utswbw7JFjuRXk"><tr data-page-node-id="hhBCWH0YsOA0JIEBBIHeAN"><th data-page-node-id="acuCTRtjIkzHDoEHLtbGVn">你的处境</th><th data-page-node-id="KHl63cnIpNh664cGFkBK8i">建议动作</th></tr></thead>
+  <tbody data-page-node-id="Vwo6pctE9gYzWfYgU2mDOG">
+    <tr data-page-node-id="vQV3TkVHH4lL42HWcXuX1Y">
+      <td data-page-node-id="cHox4Afk8hUx1DX3Q1Fy8c">要在存量市场里做新品</td>
+      <td data-page-node-id="OspbAne2a9cB5FeoDbaCeZ">不要正面比 AI 能力。选择"修复基础体验"或"垂直专业场景"或"中老年与方言"三个方向之一，并接受较小的初期市场规模。特别注意：不要重走手心输入法的路——把"纯净无广告"当成唯一卖点，而没有回答商业闭环与分发来源</td>
+    </tr>
+    <tr data-page-node-id="fznCXG63WW4CGIXnOgCBoi">
+      <td data-page-node-id="riQMGc8MGnyB35gVrUYNxl">在搜狗 / 百度做存量优化</td>
+      <td data-page-node-id="YO8gBxRaSYB8igkdMGS3Fr">立刻把 Top-1 上屏率设为一级指标，广告减量优先于 AI 增量。真诚地去广告比再增加一个 AI 功能更能挽回口碑。同时警惕：手心输入法正在免费接收你们流失的广告厌恶型用户，而这个数字不会出现在你们的报表里</td>
+    </tr>
+    <tr data-page-node-id="vWstwkYg8olG3XqBjG2Ajj">
+      <td data-page-node-id="b7CUKTF3HX4UUWddkwDQG4">在微信输入法 / 豆包做增长</td>
+      <td data-page-node-id="YObQqV0kjs9VJkOjYnPoeo">守住差异化（隐私 / 语音原生），不要被拖入功能军备竞赛。豆包尤其要警惕"AI 强但词库浅"这个短板——语音用户的第二痛点就是改错字。微信输入法可以认真考虑接收手心输入法的用户群，这是一个零教育成本的存量池</td>
+    </tr>
+    <tr data-page-node-id="BT3zIHN7iob2gGMHBz5sJw">
+      <td data-page-node-id="cXHFrY5CHCHQv3sNBhVDNv">在讯飞做生态扩展</td>
+      <td data-page-node-id="sAoEbgTfDAIckSSz9j7zpv">把方言与离线能力从技术优势转化为产品表达优势。目前这些能力藏在三层菜单里，普通用户感知不到</td>
+    </tr>
+    <tr data-page-node-id="fAR9vDBrYzPipynBFEet26">
+      <td data-page-node-id="9uuxu7HQ3BcXLvs2NDzApB">在做小众纯净型产品（手心同路人）</td>
+      <td data-page-node-id="7JkQwGfOWHTJtmmrpTAXwL">手心输入法的教训不是"不该做纯净"，而是"要想清楚靠什么活下去"。三个必要动作：找到愿意付费的垂直场景、明确一个可被感知的差异化点（而非只有"没有广告"）、尽早建立分发渠道（预装、企业采购、垂直社区）。否则最好的结果也只是长期半维护状态</td>
+    </tr>
+    <tr data-page-node-id="2Jjbj4jibcFCl79HN6I2x8">
+      <td data-page-node-id="T9FdftHbkmuqH0WzPxAc97">评估投资标的</td>
+      <td data-page-node-id="odTyQaVol9Ek84barZPY2X">关注四个信号：订阅制的国内验证结果（智谱）、OS 厂商自研输入法的推进速度（小米）、语音输入在年轻用户中的默认化程度、以及广告厌恶型用户是否正在向纯净型产品迁移（手心输入法的活跃度是一个便宜的前置指标）。这四者共同决定赛道终局</td>
+    </tr>
+  </tbody>
+</table>
+
+<footer data-page-node-id="xcXucaNvg0xGQpyUiM1Obw">
+  <p data-page-node-id="uiz9PgX5rwlzA1PorThohO">本报告基于 2026 年 9 月前的公开报道、第三方机构行业报告与产品实测信息综合整理。所有竞品评价力求客观，如有与实际情况不符之处，请以一手调研数据为准。手心输入法的产品状态核实于 2026 年 9 月，其官网版本信息与第三方资料存在不一致，已在正文与说明中标注。</p>
+</footer>
+
+</div>
+</body>
+</html>
