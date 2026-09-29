@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>扫描全能王（CamScanner）单品深度分析 · PM 视角</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --ink:#14181f; --ink2:#4a5464; --ink3:#8a94a3;
+    --line:#e6e9ef; --brand:#1f5fd6; --brandsoft:#eaf1fe;
+    --red:#d92b2b; --redsoft:#fdecec; --green:#0f9d6e; --greensoft:#e8f7f1;
+    --amber:#c47d00; --ambersoft:#fdf3e2; --purple:#6a4fd6; --purplesoft:#f0edfd;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 24px 80px;}
+  header.hero{background:linear-gradient(135deg,#1f5fd6 0%,#2b3fa8 55%,#4a2f9e 100%);color:#fff;border-radius:18px;padding:38px 40px;margin-bottom:26px;}
+  header.hero .tag{display:inline-block;font-size:12px;letter-spacing:.12em;background:rgba(255,255,255,.16);padding:5px 12px;border-radius:999px;margin-bottom:14px;}
+  header.hero h1{margin:0 0 10px;font-size:32px;letter-spacing:-.5px;line-height:1.3;}
+  header.hero p{margin:0;font-size:14.5px;opacity:.9;max-width:820px;}
+  header.hero .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px;}
+  header.hero .kpi{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:14px 16px;}
+  header.hero .kpi b{display:block;font-size:24px;font-weight:700;letter-spacing:-.5px;}
+  header.hero .kpi span{font-size:12px;opacity:.85;}
+
+  section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 30px;margin-bottom:22px;box-shadow:0 1px 3px rgba(20,24,31,.04);}
+  h2{font-size:20px;margin:0 0 6px;display:flex;align-items:center;gap:10px;letter-spacing:-.2px;}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--brandsoft);color:var(--brand);font-size:13px;font-weight:700;flex:none;}
+  .sub{color:var(--ink3);font-size:13px;margin:0 0 18px;}
+  h3{font-size:15px;margin:26px 0 10px;color:var(--ink);}
+  h3:first-of-type{margin-top:8px;}
+  p{margin:0 0 12px;font-size:14.5px;color:var(--ink2);}
+  strong{color:var(--ink);font-weight:600;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0 4px;}
+  th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{background:#fafbfd;color:var(--ink2);font-weight:600;font-size:12.5px;letter-spacing:.02em;white-space:nowrap;}
+  td strong{color:var(--ink);}
+  tr:last-child td{border-bottom:none;}
+  .num{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .r{color:var(--red);font-weight:600;}
+  .g{color:var(--green);font-weight:600;}
+  .a{color:var(--amber);font-weight:600;}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--brandsoft);color:var(--brand);font-weight:600;white-space:nowrap;}
+  .pill.r{background:var(--redsoft);color:var(--red);}
+  .pill.g{background:var(--greensoft);color:var(--green);}
+  .pill.a{background:var(--ambersoft);color:var(--amber);}
+  .pill.p{background:var(--purplesoft);color:var(--purple);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .box{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fcfdff;}
+  .box h4{margin:0 0 8px;font-size:14px;display:flex;align-items:center;gap:8px;}
+  .box ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink2);}
+  .box li{margin-bottom:5px;}
+  .callout{border-left:3px solid var(--brand);background:var(--brandsoft);border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0;font-size:14px;color:#1a3d7a;}
+  .callout.warn{border-color:var(--red);background:var(--redsoft);color:#8a1f1f;}
+  .callout.good{border-color:var(--green);background:var(--greensoft);color:#0a6749;}
+  .callout b{color:inherit;}
+  .chartbox{margin:14px 0 6px;height:300px;position:relative;}
+  .chartbox.sm{height:260px;}
+  .legend{font-size:12px;color:var(--ink3);margin-top:6px;}
+  .tl{position:relative;margin:18px 0 6px;padding-left:20px;border-left:2px solid var(--line);}
+  .tl .it{position:relative;padding:0 0 16px 16px;}
+  .tl .it:last-child{padding-bottom:0;}
+  .tl .it::before{content:'';position:absolute;left:-27px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--brand);border:2px solid #fff;box-shadow:0 0 0 2px var(--brandsoft);}
+  .tl .dt{font-size:12px;color:var(--brand);font-weight:700;letter-spacing:.03em;}
+  .tl .tx{font-size:13.5px;color:var(--ink2);}
+  footer{text-align:center;color:var(--ink3);font-size:12.5px;padding:24px 0 0;}
+  @media(max-width:820px){
+    header.hero .kpis{grid-template-columns:repeat(2,1fr);}
+    .grid2{grid-template-columns:1fr;}
+    .wrap{padding:20px 14px 60px;}
+    section{padding:20px 16px;}
+    header.hero{padding:26px 22px;}
+    header.hero h1{font-size:24px;}
+    table{font-size:12.5px;}
+    th,td{padding:7px 8px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <span class="tag">PM 视角 · 单品深度分析 · 数据截至 2026 年 9 月</span>
+  <h1>扫描全能王（CamScanner）<br>一台「免费用户 → 水印驱动付费」的转化机器</h1>
+  <p>合合信息（688615.SH）旗下核心单品。它的护城河不在 OCR 精度，而在 16 年沉淀的用户习惯 + 41 种语言的全球化分发 + 「扫描之后」那一整套可交付物。</p>
+  <div class="kpis">
+    <div class="kpi"><b>¥14.5 亿</b><span>2025 单品收入（推算）</span></div>
+    <div class="kpi"><b>80.1%</b><span>占公司总营收</span></div>
+    <div class="kpi"><b>1.99 亿</b><span>C 端月活（2026H1）</span></div>
+    <div class="kpi"><b>¥7.66</b><span>ARPU / MAU / 年</span></div>
+  </div>
+</header>
+
+<section>
+  <h2><span class="n">★</span>结论先行（TL;DR）</h2>
+  <p class="sub">十条核心判断，全部附实测数据。</p>
+  <div class="callout good"><b>一句话总判断：</b>扫描全能王不是一款「扫描工具」，而是一台「免费用户 → 水印驱动付费」的转化机器。它卖的不是「能不能扫描」，而是「交付出去的文件够不够专业、够不够安全、够不够完整」。</div>
+  <table>
+    <thead><tr><th>#</th><th>结论</th><th>关键数字</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>单品即公司</strong>：扫描全能王吃掉公司 80% 营收、93.9% 的 C 端收入</td><td class="num">2025 约 <span class="r">¥14.5 亿</span>，占 80.1%</td></tr>
+      <tr><td>2</td><td><strong>付费驱动靠「水印」</strong>：免费版强制水印 → 为「正式文件不出水印」付费</td><td>免费版导出全带 CamScanner 水印</td></tr>
+      <tr><td>3</td><td><strong>极低 ARPU × 极大基数</strong>：1.9 亿月活只产出 8 元/年人均产值</td><td class="num">ARPU <span class="a">¥7.66</span> / ARPPU <span class="g">¥147.3</span></td></tr>
+      <tr><td>4</td><td><strong>付费率 5.20% 是「12 个月内付过费」口径</strong>，≠ 年度新增转化率</td><td class="num">4.05% → 5.20% → <span class="g">5.61%</span></td></tr>
+      <tr><td>5</td><td><strong>唯一打赢「免费通道包围战」的扫描 App</strong>（七路围剿未打死）</td><td class="num">下载 <span class="g">17 亿+</span>，覆盖 200+ 国家</td></tr>
+      <tr><td>6</td><td><strong>被封装进大模型生态</strong>：以 30+ 文档原子能力接入千问办公连接器</td><td>PDF 转 Word 效率提升十几倍</td></tr>
+      <tr><td>7</td><td><strong>教育是第一大场景，也最容易被白嫖</strong>（师生认证免费领 1 年会员）</td><td class="num">教育合计 <span class="a">35%</span></td></tr>
+      <tr><td>8</td><td><strong>AI 教育已找到 B 端变现路径</strong>：蜜蜂 AI 一体机进校园采购</td><td>百余所学校，批改 12 亿题次</td></tr>
+      <tr><td>9</td><td><strong>海外是唯一确定增长引擎</strong>，但新兴市场付费率极低</td><td class="num">印尼 <span class="r">0.08%</span> vs 中国 0.53%</td></tr>
+      <tr><td>10</td><td><strong>全球 C 端效率 AI 市场仅 2.5% 份额</strong>，第一名 26.8%</td><td class="num">中国第一、全球第五</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><b>三个还没被回答的胜负手：</b>① 新兴市场付费率能否从 0.08% 提到 1%？② 水印驱动付费还能撑几年？③ AI 功能（去反光/鉴伪/大尺寸）是提 ARPU 的杠杆，还是研发成本黑洞？</div>
+</section>
+
+<section>
+  <h2><span class="n">1</span>市场分析</h2>
+  <p class="sub">它横跨四个性质完全不同的市场，混谈必错。</p>
+
+  <h3>1.1 四层市场分层</h3>
+  <table>
+    <thead><tr><th>层级</th><th>市场定义</th><th>它在该层的位置</th><th>护城河类型</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill r">L1 免费替代</span></td><td>系统相机/备忘录、微信、QQ、Office Lens</td><td><strong>正面竞争，且是真实对手</strong></td><td>无（靠生态绑定）</td></tr>
+      <tr><td><span class="pill g">L2 扫描工具</span></td><td>Adobe Scan、白描、夸克扫描王、vFlat</td><td><strong>绝对领先</strong>（收入 5–6 倍于 Adobe Scan）</td><td>用户习惯 + 全球化分发</td></tr>
+      <tr><td><span class="pill">L3 文档生产力</span></td><td>PDF 编辑转换、电子签名、云存储、协作</td><td>正在扩张的第二战场</td><td>「扫描之后」的连续体验</td></tr>
+      <tr><td><span class="pill p">L4 图像可信/AI</span></td><td>去反光、AIGC 鉴伪、PS 检测、老照片修复</td><td>刚开战，无对标收入</td><td>技术（国际竞赛冠军级）</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><b>PM 判断：</b>L1 是利润杀手，L2 是现金牛，L3 是提 ARPU 的杠杆，L4 是未来叙事但不能收钱。公司过去把 87% 资源投在 L2 这条低 ARPU 腿上，L3/L4 的定价能力尚未释放。</div>
+
+  <h3>1.2 市场规模（两个口径差 5 倍，必须切层引用）</h3>
+  <table>
+    <thead><tr><th>市场</th><th>规模</th><th>增速</th><th>与单品关系</th></tr></thead>
+    <tbody>
+      <tr><td>中国智能文字识别（OCR）</td><td class="num"><strong>2027E ¥168.9 亿</strong></td><td class="num">CAGR 27.3%</td><td>直接相关（主场）</td></tr>
+      <tr><td>中国商业大数据服务</td><td class="num">2025 ¥873.7 亿</td><td class="num">CAGR 25.2%</td><td>无关（启信宝主场）</td></tr>
+      <tr><td><strong>全球 C 端效率类 AI 产品</strong></td><td class="num">合合份额 <span class="r">2.5%</span></td><td>—</td><td><strong>这才是它真正的池子</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><b>口径警告：</b>中文互联网上「扫描 App 市场规模」说法从 30 亿到 400 亿都有，差异全在「是否含系统内置功能 / 是否含企业级 OCR / 是否含海外」。引用前必须先确认分层。</div>
+
+  <h3>1.3 全球竞争格局：它赢在「腰部市场」</h3>
+  <div class="chartbox"><canvas id="cShare"></canvas></div>
+  <p class="legend">数据来源：灼识咨询（2024 年全球 C 端效率类 AI 产品，月活上亿企业按收入计）</p>
+  <p>前四名全为美国跨国科技公司，份额是它的 <strong>10.7 倍 / 8.1 倍</strong>。它在「扫描工具」这个窄赛道是第一名，但在更大的「效率类 AI 产品」盘子里只是腰部选手——<strong>这就是它必须做 AI 叙事的原因：光靠扫描，天花板已可见。</strong></p>
+
+  <h3>1.4 区域格局：收入与用户「金字塔倒挂」</h3>
+  <table>
+    <thead><tr><th>区域</th><th>用户地位</th><th>收入地位</th><th>付费率</th><th>判断</th></tr></thead>
+    <tbody>
+      <tr><td>中国内地</td><td>核心</td><td><strong>最大单一收入国</strong>（App Store 收入占 24.8%）</td><td class="num"><span class="g">~0.53%</span></td><td>存量深耕，ARPU 天花板已现</td></tr>
+      <tr><td>印度</td><td>下载量前列（封禁前 1 亿+）</td><td>低</td><td>低</td><td><span class="pill r">政策风险最大</span></td></tr>
+      <tr><td>印尼 / 巴西</td><td>下载量前列</td><td>低</td><td class="num"><span class="r">0.08% / 0.11%</span></td><td>用户多，几乎不付费</td></tr>
+      <tr><td>墨西哥</td><td>下载量前列</td><td>低</td><td class="num"><span class="r">0.07%</span></td><td>同上</td></tr>
+      <tr><td>美国 / 日本 / 德国</td><td>中等</td><td><strong>高</strong></td><td>高</td><td>少量高价值用户</td></tr>
+    </tbody>
+  </table>
+  <div class="box" style="margin-top:14px"><h4>📌 PM 洞察：规模幻觉</h4>
+    <ul>
+      <li>下载量集中在付不起费的地区，收入集中在下载量不大的地区</li>
+      <li>中国单款 App 月收入 <strong>$98,939（占 24.8%）</strong>，是美国（$17,278）的 5.7 倍</li>
+      <li>这是未来 3 年最大的结构性难题，也是最大的机会窗口</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">2</span>竞品与功能差异</h2>
+  <p class="sub">12 款直接竞品 + 4 类免费通道，其中七条免费通道是真正的威胁。</p>
+
+  <h3>2.1 七条免费通道（PM 必看）</h3>
+  <div class="grid2">
+    <div class="box"><h4>⚠️ 免费替代清单</h4><ul>
+      <li>iOS 备忘录 / 安卓相机文档模式（零成本、系统兜底）</li>
+      <li>微信 / QQ 扫描（植入社交动线）</li>
+      <li>Microsoft Lens（完全免费无广告无会员）</li>
+      <li>Adobe Scan（免费无水印）</li>
+      <li>白描（买断制 ~¥98/年）</li>
+      <li>天若 OCR / Umi-OCR（PC 开源）</li>
+      <li>FairScan（安卓开源离线、不上传云端）</li>
+    </ul></div>
+    <div class="box"><h4>✅ 为什么它没被打死</h4><ul>
+      <li>四项独占能力 —— <strong>大尺寸扫描</strong>、<strong>跨模态鉴伪</strong>、<strong>学习场景工具</strong>、<strong>200+ 国家覆盖</strong></li>
+      <li>没有一项是「扫描本身」，<strong>全部是「扫描之后」</strong></li>
+      <li>免费通道能满足「拍清 + 取字」，但无法满足「去反光 + 鉴伪 + 去手写 + 无水印交付 + 多端归档」</li>
+    </ul></div>
+  </div>
+
+  <h3>2.2 单款 App 收入对比（Sensor Tower，2025.5–2026.5 月收入区间）</h3>
+  <div class="chartbox sm"><canvas id="cRev"></canvas></div>
+  <p class="legend">扫描全能王月收入多数月份 >$600 万，为 Adobe Scan 的 5–6 倍</p>
+
+  <h3>2.3 功能 × 竞品覆盖矩阵</h3>
+  <table>
+    <thead><tr><th>功能</th><th>扫描全能王</th><th>Adobe Scan</th><th>MS Lens</th><th>白描</th><th>夸克</th><th>系统内置</th></tr></thead>
+    <tbody>
+      <tr><td>自动切边/透视矫正</td><td class="g">✅ 顶级</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+      <tr><td>印刷体 OCR</td><td class="g">✅ 99.77%</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+      <tr><td><strong>手写体 OCR</strong></td><td class="g">✅ 97.00%</td><td>弱</td><td>弱</td><td>✅</td><td>一般</td><td class="r">❌</td></tr>
+      <tr><td><strong>大尺寸/巨幅拼接</strong></td><td class="g">✅ 独占</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td></tr>
+      <tr><td><strong>去反光（CVPR 冠军）</strong></td><td class="g">✅ 独占</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td></tr>
+      <tr><td><strong>AIGC / PS 鉴伪</strong></td><td class="g">✅ 独占</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td></tr>
+      <tr><td><strong>试卷去手写（免费）</strong></td><td class="g">✅ 独占</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td><td>✅</td><td class="r">❌</td></tr>
+      <tr><td>表格转 Excel</td><td>✅</td><td>一般</td><td>✅ 强</td><td>✅ 强</td><td class="g">✅ 最强</td><td class="r">❌</td></tr>
+      <tr><td>PDF 编辑/签名/水印</td><td class="g">✅ 强</td><td>✅</td><td>弱</td><td>弱</td><td>✅</td><td class="r">❌</td></tr>
+      <tr><td>全球传真</td><td class="g">✅ 独占</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td></tr>
+      <tr><td>价格</td><td class="num a">¥258–300/年</td><td class="g">免费</td><td class="g">免费</td><td class="num">~¥98/年</td><td class="g">免费/低价</td><td class="g">免费</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><b>最大风险不是某个竞品，而是：没有任何一个对手需要跟它打价格战——对手全部是免费或买断制。</b></div>
+</section>
+
+<section>
+  <h2><span class="n">3</span>主要能力与主要营收点</h2>
+  <p class="sub">它的营收点本质是「交付质量税」，而非「功能税」。</p>
+
+  <h3>3.1 能力 → 营收点映射</h3>
+  <table>
+    <thead><tr><th>能力</th><th>是否收费</th><th>付费动机强度</th><th>真实驱动</th></tr></thead>
+    <tbody>
+      <tr><td>高清扫描 + 自动切边</td><td><span class="pill g">免费</span></td><td>—</td><td>获客用，不驱动付费</td></tr>
+      <tr><td><strong>去水印</strong></td><td><span class="pill r">付费</span></td><td>★★★★★</td><td><strong>最强付费驱动</strong>（正式文件不能有水印）</td></tr>
+      <tr><td>OCR 批量导出</td><td><span class="pill r">付费</span></td><td>★★★★</td><td>1000 次/月，学生/办公刚需</td></tr>
+      <tr><td>云存储扩容（1GB→10GB）</td><td><span class="pill r">付费</span></td><td>★★★★</td><td>有持续成本，防丢文件</td></tr>
+      <tr><td>PDF 编辑/签名/加密</td><td><span class="pill r">付费</span></td><td>★★★</td><td>商务/合同场景</td></tr>
+      <tr><td>格式转换 PDF↔Word/Excel</td><td><span class="pill r">付费</span></td><td>★★★</td><td>办公刚需</td></tr>
+      <tr><td>大尺寸扫描 / 去反光 / 鉴伪</td><td><span class="pill r">付费</span></td><td>★★</td><td>差异化强，用户感知弱</td></tr>
+      <tr><td>团队文件夹/权限管理</td><td><span class="pill r">企业版</span></td><td>★★★</td><td>¥400/账号/年</td></tr>
+      <tr><td>试卷去手写 / 错题重组</td><td><span class="pill g">免费</span></td><td>—</td><td><strong>主动免费（教育引流）</strong></td></tr>
+      <tr><td>广告</td><td>免费版保留</td><td>—</td><td>免费用户价值回收</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3.2 定价体系（⚠️ 口径极乱，共 7 档）</h3>
+  <table>
+    <thead><tr><th>档位</th><th>价格</th><th>关键权益</th></tr></thead>
+    <tbody>
+      <tr><td>普通用户（免费）</td><td class="num">¥0</td><td>1GB 云空间、9 文件夹、回收站 7 天、OCR 3 次体验、带水印、有广告</td></tr>
+      <tr><td>高级会员（月）</td><td class="num">¥30/月 · 连续包月 <strong>¥25</strong></td><td>10GB、文件夹无限、回收站 30 天、OCR 1000 次/月、免水印免广告</td></tr>
+      <tr><td>高级会员（年）</td><td class="num">¥300/年 · 连续包年 <strong>¥258</strong></td><td>同上</td></tr>
+      <tr><td>新用户首年</td><td class="num"><strong>¥99 / ¥138</strong></td><td>次年恢复 ¥258（首年低价拉新）</td></tr>
+      <tr><td>1 元试用</td><td class="num">¥1 / 7 天 → ¥129/半年</td><td><span class="pill r">投诉高发区</span></td></tr>
+      <tr><td>企业版</td><td class="num"><strong>¥400 / 账号 / 年</strong></td><td>20GB/人、OCR 9999 次/人/月、组织架构、离职交接</td></tr>
+      <tr><td>空间扩容</td><td class="num">¥100 / 年 / 50GB</td><td>加购项</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><b>价格口径冲突（必须内部对齐）：</b>官网标价 ¥300/年 vs App Store 续费 ¥258/年 vs iOS 内购列表 ¥98/¥168/¥258/¥30 并存；企业版官网 ¥400/账号/年 vs 第三方渠道写 ¥40–60/月。建议以官网 + App Store 内购页为准。</div>
+
+  <h3>3.3 海外分层定价 —— 真正的 ARPU 杠杆</h3>
+  <div class="grid2">
+    <div class="box"><h4>美区 App Store 内购档位</h4><ul>
+      <li>Premium Yearly <strong>$59.99</strong></li>
+      <li>Family Annual $119.99</li>
+      <li>Pro Monthly $9.99 / Premium Monthly $12.99</li>
+      <li>Pro Quarterly $24.99 / Plus 6 Months $34.99</li>
+      <li>Unlimited Weekly $4.99</li>
+      <li>Lifetime Unlock $29.99 / Remove Ads $6.99</li>
+      <li>总区间 <strong>$0.49 – $399.99</strong></li>
+    </ul></div>
+    <div class="box"><h4>为什么海外毛利更高</h4><ul>
+      <li>中国 ¥258/年 ≈ <strong>$36</strong>；美区 <strong>$59.99</strong></li>
+      <li>同一产品、不同市场、不同价格</li>
+      <li>海外毛利率 <strong>88.78%</strong> vs 境内 <strong>85.77%</strong>，高 3.01pt</li>
+      <li>海外收入增速 <strong>+34.11%</strong> vs 境内 +21.88%</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">4</span>解决了用户的哪些痛点</h2>
+  <p class="sub">能收到钱的痛点有三个共同特征，收不到钱的全是「一次性动作 + 结果可自验」。</p>
+  <div class="grid2">
+    <div class="box"><h4>💰 能收到钱的痛点</h4><ul>
+      <li><strong>交付件不专业</strong> ★★★★★ — 免费版带水印，无法用于正式场合</li>
+      <li><strong>资料会丢</strong> ★★★★★ — 云备份是刚需，后果不可逆</li>
+      <li><strong>重复劳动不可量化</strong> ★★★★ — 批量 OCR/转换/重命名</li>
+      <li><strong>合规/风控</strong> ★★★★ — 加密、签名、权限、审计</li>
+      <li><strong>图像被篡改无法识别</strong> ★★★ — AIGC 假图、PS 痕迹</li>
+      <li><strong>特殊画幅无法留存</strong> ★★ — 工程图纸、巨幅画作、古籍</li>
+    </ul></div>
+    <div class="box"><h4>🆓 收不到钱的痛点</h4><ul>
+      <li>拍图取字 — 一次性动作、结果可自验、免费通道太多</li>
+      <li>基础切边/调色 — 系统相机已内置</li>
+      <li>单次扫描 — 低频，用户不认为值得订阅</li>
+      <li>试卷去手写 — <strong>公司主动免费</strong>（教育引流策略）</li>
+    </ul></div>
+  </div>
+
+  <h3>痛点 → 付费转化的因果链</h3>
+  <div class="callout"><b>付费公式：</b>① 后果不可逆（文件丢了 / 水印去不掉 / 图像被篡改）＋ ② 时间成本可量化（100 页合同 OCR 从 3 小时 → 30 秒）＋ ③ 有持续成本（云存储 / 风险监控 / 持续同步）⇒ <strong>用户愿意为「确定性」付年费</strong></div>
+
+  <div class="callout good"><b>🔑 最深刻的 PM 洞察：水印不是限制，是增长引擎。</b><br>
+  免费版强制水印让 17 亿+ 次下载分发出的文件上持续出现 "Scanned with CamScanner"，这是一次零成本的全球品牌曝光。最戏剧性的证据：印度 2020 年封禁它之后，印度财政部、地方政府、德里警察局的文件上 4 年间不断出现它的水印（Rest of World 查出 30 份政府文件）——<strong>水印同时是付费驱动 + 病毒式分发 + 政治豁免</strong>，这是扫描全能王最被低估的商业设计。</div>
+</section>
+
+<section>
+  <h2><span class="n">5</span>用户量、用户活跃与重点场景</h2>
+  <p class="sub">多口径并列，切勿混用。</p>
+
+  <h3>5.1 用户规模（⚠️ 跨度 5.7 倍）</h3>
+  <table>
+    <thead><tr><th>口径</th><th>数字</th><th>来源</th><th>口径说明</th></tr></thead>
+    <tbody>
+      <tr><td>全球累计下载量</td><td class="num"><strong>17 亿+</strong></td><td>官网（部分称 20 亿）</td><td>含所有平台、历史累计、含重复下载</td></tr>
+      <tr><td>全球用户数</td><td class="num"><strong>3 亿+</strong></td><td>官网</td><td>注册用户累计</td></tr>
+      <tr><td>全球用户数（另一口径）</td><td class="num">4 亿</td><td>买购网</td><td>口径不明</td></tr>
+      <tr><td>全球用户数（西语版描述）</td><td class="num">7.5 亿</td><td>Sensor Tower 应用页</td><td>更新滞后 / 含轻应用</td></tr>
+      <tr><td>Google Play 安装区间</td><td class="num">5 亿 – 10 亿</td><td>Sensor Tower</td><td>仅 Google Play</td></tr>
+      <tr><td>覆盖国家/地区</td><td class="num">200+</td><td>官网</td><td>有下载即计入</td></tr>
+      <tr><td>效率类下载榜第一</td><td class="num">84–86 个国家</td><td>data.ai</td><td>App Store 免费效率类</td></tr>
+      <tr><td>支持语言</td><td class="num">41 种（OCR）/ 50+ 种（文档识别）</td><td>官网</td><td>两个口径并存</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><b>口径警告：</b>从 3 亿到 7.5 亿，跨度 2.5 倍；从 17 亿下载到 3 亿用户，跨度 5.7 倍。「用户量」这个词在它的对外材料里几乎不可用，<strong>对外引用必须写明口径</strong>。</div>
+
+  <h3>5.2 活跃与付费（真实可用的核心指标）</h3>
+  <div class="chartbox"><canvas id="cPay"></canvas></div>
+  <table>
+    <thead><tr><th>指标</th><th>2025</th><th>2026Q1</th><th>2026H1</th></tr></thead>
+    <tbody>
+      <tr><td>主要 C 端产品 MAU</td><td class="num">1.90 亿（+11.11%）</td><td class="num">1.83 亿</td><td class="num"><strong>1.99 亿</strong>（+9.94%）</td></tr>
+      <tr><td>累计付费用户数</td><td class="num">987.76 万（+32.78%）</td><td class="num">1,026.59 万（+30.66%）</td><td class="num"><strong>1,020.34 万</strong>（+19.68%）</td></tr>
+      <tr><td>付费转化率</td><td class="num">5.20%</td><td class="num"><strong>5.61%</strong></td><td>—</td></tr>
+      <tr><td>月均单用户使用时长</td><td class="num">13–15 分钟</td><td>—</td><td>—</td></tr>
+      <tr><td>月 VIP 续费率</td><td class="num">>80%</td><td>—</td><td>—</td></tr>
+      <tr><td>AI 功能日调用</td><td>—</td><td>—</td><td class="num">1.5 亿次</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><b>口径说明（极其重要）：</b>
+  <ul style="margin:6px 0 0;padding-left:18px;font-size:13.5px">
+    <li>表中 MAU 是<strong>合合信息口径</strong>，含扫描全能王 + 名片全能王 + 启信宝 <strong>三款产品合计</strong>；</li>
+    <li>Sensor Tower 口径下 CamScanner <strong>单款 App</strong> 的 MAU 区间为 <strong>1.27 亿 – 1.38 亿</strong>——<strong>两个数字不可比</strong>；</li>
+    <li>「累计付费用户数」= 过去 12 个自然月内付过费的用户数（去重、扣除活动/试用账户），<strong>不等于年度新增付费转化率</strong>，真实年度新增转化远低于此。</li>
+  </ul></div>
+
+  <h3>5.3 重点使用场景（教育是第一大群体）</h3>
+  <div class="grid2">
+    <div class="box"><h4>📊 场景分布</h4>
+      <div class="chartbox sm" style="height:220px"><canvas id="cScene"></canvas></div>
+    </div>
+    <div class="box"><h4>🎯 官方四大场景分类</h4><ul>
+      <li><strong>学习与笔记归档</strong> — 扫笔记、白板/PPT、试卷去手写、错题重组、公式识别</li>
+      <li><strong>报销与办公效率</strong> — 合同、发票、报销、名片、电子签名、图纸</li>
+      <li><strong>生活与个人文书</strong> — 证件、签证、账单、老照片修复、收藏数字化</li>
+      <li><strong>证照与商业备案</strong> — 营业执照、法律函件、税务财报、ICP 备案</li>
+    </ul></div>
+  </div>
+  <div class="callout"><b>🔑 教育场景是双刃剑：</b><br>
+  <b>优势</b>：天然入口（教材/试卷/作业都是纸质），口碑传播最强（教师主动推荐）；<br>
+  <b>陷阱</b>：这恰恰是最容易被白嫖的场景——学生/教师认证可免费领 <strong>1 整年</strong>高级会员，且「试卷去手写」「错题重组」「公式识别」被主动设为免费；<br>
+  <b>解法</b>：用「蜜蜂 AI」把它从 C 端免费场景，转向 <strong>B 端校园采购</strong>（蜜蜂智阅一体机）——近年最聪明的一次场景变现改造。</div>
+</section>
+
+<section>
+  <h2><span class="n">6</span>收入、商业模式与整体市场</h2>
+  <p class="sub">公司从不单独披露单品收入，本篇用招股书占比反推 + C 端分产品交叉验证。</p>
+
+  <h3>6.1 单品收入还原（本报告最关键的一张表）</h3>
+  <div class="chartbox"><canvas id="cRevTrend"></canvas></div>
+  <table>
+    <thead><tr><th>年份</th><th>公司总营收</th><th>单品占比</th><th>推算单品收入</th><th>同比</th></tr></thead>
+    <tbody>
+      <tr><td>2022</td><td class="num">¥9.88 亿</td><td class="num">72.3%</td><td class="num"><strong>¥7.15 亿</strong></td><td>—</td></tr>
+      <tr><td>2023</td><td class="num">¥11.87 亿</td><td class="num">76.2%</td><td class="num"><strong>¥9.05 亿</strong></td><td class="num g">+26.6%</td></tr>
+      <tr><td>2024</td><td class="num">¥14.38 亿</td><td class="num">77.3%</td><td class="num"><strong>¥11.12 亿</strong></td><td class="num g">+22.9%</td></tr>
+      <tr><td>2025 前三季</td><td class="num">¥13.03 亿</td><td class="num">80.6%</td><td class="num"><strong>¥10.51 亿</strong></td><td>—</td></tr>
+      <tr><td><strong>2025 全年（推算）</strong></td><td class="num">¥18.10 亿</td><td class="num">~<strong>80%</strong></td><td class="num r"><strong>约 ¥14.5 亿</strong></td><td class="num g">约 +30%</td></tr>
+    </tbody>
+  </table>
+  <div class="callout good"><b>交叉验证：</b>2025 年智能文字识别 C 端 ¥14.86 亿（含扫描全能王 + 名片全能王），减去名片全能王（占比 1.7% → ¥0.31 亿）⇒ 扫描全能王 ≈ <strong>¥14.55 亿</strong>，与推算一致 ✅</div>
+  <div class="callout warn"><b>结论：</b>2025 年扫描全能王单品收入约 <strong>¥14.5 亿，占公司营收 80.1%，占公司 C 端收入 93.9%</strong>。所谓「B+C 双轮」「多产品矩阵」在财务报表上并不成立——这是一家「单产品公司 + 若干个故事」。<br>
+  <span style="font-size:12.5px;opacity:.85">⚠️ 另有信源称「2024 年单品占比 68.47%」，与招股书 77.3% 冲突，建议以招股书为准并内部标注。</span></div>
+
+  <h3>6.2 公司层面财务全景（2022–2026H1）</h3>
+  <table>
+    <thead><tr><th>指标</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>2026H1</th></tr></thead>
+    <tbody>
+      <tr><td>营业收入</td><td class="num">¥9.88 亿</td><td class="num">¥11.87 亿</td><td class="num">¥14.38 亿</td><td class="num"><strong>¥18.10 亿</strong> <span class="g">+25.83%</span></td><td class="num"><strong>¥10.31 亿</strong> <span class="g">+22.28%</span></td></tr>
+      <tr><td>归母净利润</td><td class="num">¥2.84 亿</td><td class="num">¥3.23 亿</td><td class="num">¥4.01 亿</td><td class="num"><strong>¥4.54 亿</strong> <span class="g">+13.39%</span></td><td class="num"><strong>¥2.47 亿</strong> <span class="a">+4.81%</span></td></tr>
+      <tr><td>扣非归母净利润</td><td>—</td><td>—</td><td>—</td><td class="num">¥4.02 亿 <span class="g">+9.60%</span></td><td class="num"><span class="r">¥2.09 亿（−1.43%）</span></td></tr>
+      <tr><td>毛利率</td><td class="num">>84%</td><td class="num">>84%</td><td class="num">~84%</td><td class="num"><strong>86.70%</strong></td><td class="num"><strong>86.95%</strong></td></tr>
+      <tr><td>净利率</td><td>—</td><td>—</td><td>—</td><td class="num">25.08% <span class="r">−2.77pt</span></td><td>—</td></tr>
+      <tr><td>销售费用率</td><td class="num">27.2%</td><td>—</td><td>—</td><td class="num a">32.7%</td><td>—</td></tr>
+      <tr><td>研发费用率</td><td class="num">28.3%</td><td>—</td><td>—</td><td class="num">26.2%</td><td>—</td></tr>
+      <tr><td>经营现金流</td><td>—</td><td>—</td><td>—</td><td class="num">¥6.06 亿 <span class="g">+33.10%</span></td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.3 单位经济（本报告新测算指标）</h3>
+  <table>
+    <thead><tr><th>派生指标</th><th>计算</th><th>结果</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td>C 端 ARPU</td><td class="num">15.44 亿 ÷ 1.90 亿</td><td class="num"><strong>¥8.13</strong> / MAU / 年</td><td>每个活跃用户一年只值 8 元</td></tr>
+      <tr><td><strong>扫描全能王 ARPU</strong></td><td class="num">14.55 亿 ÷ 1.90 亿</td><td class="num a"><strong>¥7.66</strong> / MAU / 年</td><td>单品口径</td></tr>
+      <tr><td><strong>ARPPU</strong></td><td class="num">14.55 亿 ÷ 987.76 万</td><td class="num g"><strong>¥147.3</strong> / 付费用户 / 年</td><td>付费用户价值不低</td></tr>
+      <tr><td>付费 / 免费用户比</td><td class="num">987.76 万 ÷ 1.90 亿</td><td class="num">1 : 19.2</td><td>每 20 个活跃用户养 1 个付费用户</td></tr>
+      <tr><td>企业版 ARPU</td><td class="num">¥400 / 账号 / 年</td><td class="num">—</td><td><strong>是 C 端 ARPU 的 52 倍</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><b>两个致命洞察：</b><br>
+  ① <b>ARPU 仅 ¥7.66/MAU/年</b>——MAU 每下滑 1%，收入要下滑约 1%（但营销费用刚性），<strong>MAU 波动会被放大到利润端</strong>；<br>
+  ② <b>同一家公司内部存在 10–50 倍的 ARPU 落差，而公司把 87% 的资源投在最低 ARPU 的那条腿上</b>。提价空间被新兴市场（印尼 0.08%）锁死，这是商业模式的天花板。</div>
+
+  <h3>6.4 商业模式四层拆解</h3>
+  <table>
+    <thead><tr><th>层</th><th>模式</th><th>收入占比</th><th>毛利率</th><th>可持续性</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill g">L1 C 端订阅</span>（主引擎）</td><td>会员订阅（月/季/年/终身/家庭/团队）</td><td class="num"><strong>~84%</strong></td><td class="num">89.78%</td><td>极高（续费 >80%）</td></tr>
+      <tr><td><span class="pill">L2 C 端广告</span></td><td>免费版广告</td><td>含在 C 端，未单独披露</td><td>极高</td><td>中（体验负债）</td></tr>
+      <tr><td><span class="pill a">L3 B 端标准化</span></td><td>TextIn / 启信慧眼</td><td class="num">~12.7%</td><td class="num">68–72%</td><td>中（增速快但体量小）</td></tr>
+      <tr><td><span class="pill p">L4 新业务</span></td><td>蜜蜂 AI / Appediet / Quiz AI</td><td>未披露（推测 &lt;1%）</td><td>—</td><td>待验证</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><b>关键判断：</b>它的商业模式本质是「高毛利订阅 + 免费用户水印转化 + 全球化区域定价」，而不是「AI 能力变现」。<strong>AI 大模型能力 100% 被打包进现有产品做功能升级，没有任何独立 AI 收入</strong>。</div>
+
+  <h3>6.5 风险清单</h3>
+  <table>
+    <thead><tr><th>风险</th><th>具体内容</th><th>等级</th></tr></thead>
+    <tbody>
+      <tr><td>单一产品依赖</td><td>单品占 80.1%，招股书明言「占比可能继续提升」</td><td><span class="pill r">极高</span></td></tr>
+      <tr><td>免费通道挤压</td><td>系统相机/微信/Office Lens/Adobe Scan 全部免费，价格战无解</td><td><span class="pill r">高</span></td></tr>
+      <tr><td>自动续费投诉</td><td>「1 元 7 天 → 连扣 4 年 ¥731」被媒体曝光；律师称小字提示不合法</td><td><span class="pill a">中高</span></td></tr>
+      <tr><td>安全事件历史</td><td>2019 年卡巴斯基发现恶意广告库（Trojan Dropper）→ Google Play 下架</td><td><span class="pill a">中</span></td></tr>
+      <tr><td>地缘政治</td><td>2020 印度封禁；2021 特朗普 EO 13971 曾点名 CamScanner</td><td><span class="pill a">中高</span></td></tr>
+      <tr><td>隐私顾虑</td><td>海外 IT 部门对中国总部 + 自有云存储存疑；权限清单极长</td><td><span class="pill a">中</span></td></tr>
+      <tr><td>新兴市场付费率</td><td>印尼 0.08%、巴西 0.11%、墨西哥 0.07%</td><td><span class="pill a">中</span></td></tr>
+      <tr><td>MAU 增速放缓</td><td>2025Q4 MAU 增速较 Q3 放缓（被投资者追问）</td><td><span class="pill">中</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.6 整体市场判断（一句话收敛）</h3>
+  <div class="callout good">扫描全能王处在一个「<strong>规模巨大但收费能力被免费通道封顶</strong>」的市场里：它已拿下全球扫描 App 的王座（收入是第二名 Adobe Scan 的 5–6 倍），但整个「C 端效率类 AI 产品」市场它只有 <strong>2.5%</strong> 份额，前四名全是美国公司。它的未来不在于把扫描做得更好，而在于能否把「扫描之后的文档智能」卖出第二个价格——对内是 L3（PDF/签名/协作）和 L4（鉴伪/可信 AI），对外是 B 端（企业版 ¥400 vs C 端 ¥7.66）和教育（蜜蜂 AI 进校）。<strong>这两个方向目前在公司收入表里都还只是零头。</strong></div>
+</section>
+
+<section>
+  <h2><span class="n">7</span>机会点与产品建议（PM 行动清单）</h2>
+  <table>
+    <thead><tr><th>优先级</th><th>建议</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill r">P0</span></td><td><strong>把 ARPU 从 ¥7.66 往上抬，而不是继续堆 MAU</strong>。1.99 亿 MAU 已近极限，边际获客成本高（销售费用率 32.7%）</td><td>单位经济测算</td></tr>
+      <tr><td><span class="pill r">P0</span></td><td><strong>新兴市场「轻会员」分层</strong>：印尼/巴西/墨西哥推 ¥10–30/年本地化低价档，0.08% → 0.5% 就够再造一个中国区</td><td>付费率差 6–7 倍</td></tr>
+      <tr><td><span class="pill a">P1</span></td><td><strong>教育从「免费场景」转为「B 端收入」</strong>：加速复制蜜蜂 AI 一体机的校园采购模式</td><td>教育占 35% 但几乎不付费</td></tr>
+      <tr><td><span class="pill a">P1</span></td><td><strong>合规与信任资产化</strong>：ISO 27001/27701/20000 + 公安部三级等保 + 未保案例集做成海外企业版卖点</td><td>隐私是海外企业版唯一拦路虎</td></tr>
+      <tr><td><span class="pill">P2</span></td><td><strong>L3 独立定价</strong>：PDF 编辑/电子签名/团队协作单独出订阅包，不再打包进 ¥258/年</td><td>企业版 ARPU 是 C 端 52 倍</td></tr>
+      <tr><td><span class="pill">P2</span></td><td><strong>修复自动续费体验</strong>：改为「到期前 7 天强制弹窗 + 双通道确认」</td><td>媒体已点名、律师已定性</td></tr>
+      <tr><td><span class="pill p">P3</span></td><td><strong>AI 鉴伪做成独立信任产品</strong>：海外电商/媒体/保险已有付费意愿，且无对标竞品收入</td><td>独占能力，但当前无定价</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="n">8</span>关键节点时间线</h2>
+  <div class="tl">
+    <div class="it"><div class="dt">2010 / 2011</div><div class="tx">扫描全能王发布（合合信息 2009 年先推名片全能王），10 月 30 日全球上线</div></div>
+    <div class="it"><div class="dt">2013</div><div class="tx">被《TIME》评为「手机上最好的 50 个软件之一」；App Store Best of 2014</div></div>
+    <div class="it"><div class="dt">2019.08</div><div class="tx">卡巴斯基发现恶意广告库（Trojan Dropper）→ Google Play 下架；9 月 5 日恢复，归因第三方 SDK AdHub</div></div>
+    <div class="it"><div class="dt">2019</div><div class="tx">ICDAR 表格识别竞赛冠军</div></div>
+    <div class="it"><div class="dt">2020.06</div><div class="tx">印度以「国家安全」为由封禁（59/118 款中国 App）——但其水印在此后 4 年持续出现在印度政府部门文件上</div></div>
+    <div class="it"><div class="dt">2020</div><div class="tx">ICPR 信息图表识别 14 个子任务拿下 11 项第一；疫情期间免费开放教育功能</div></div>
+    <div class="it"><div class="dt">2021.01</div><div class="tx">特朗普 EO 13971 点名 CamScanner → 2021.06 被拜登政府撤销</div></div>
+    <div class="it"><div class="dt">2023</div><div class="tx">ICDAR 文本图像篡改检测竞赛冠军；付费率 4.05%</div></div>
+    <div class="it"><div class="dt">2025.09</div><div class="tx">「翻页自动拍」上线（97% 准确，省 20% 时间）</div></div>
+    <div class="it"><div class="dt">2025.11</div><div class="tx">入围 Apple 2025 年度应用</div></div>
+    <div class="it"><div class="dt">2026.02</div><div class="tx">发起「国漫记忆守护计划」，用 AI 扫描记录中式美学</div></div>
+    <div class="it"><div class="dt">2026.06</div><div class="tx"><strong>CVPR 2026 NTIRE「去反光」赛道全球冠军</strong>；发布 AI 教育品牌「蜜蜂 AI」</div></div>
+    <div class="it"><div class="dt">2026.07</div><div class="tx">大尺寸扫描、AI 跨模态鉴伪、AI 图片检测（Gemini/GPT-Image）、智能命名上线</div></div>
+    <div class="it"><div class="dt">2026.09</div><div class="tx"><strong>云栖大会</strong>：以 30+ 文档原子能力接入千问办公技能与连接器市场，PDF 转 Word 效率提升十几倍</div></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">※</span>数据来源与口径说明</h2>
+  <div class="grid2">
+    <div class="box"><h4>一类来源（法定披露）</h4><ul>
+      <li>合合信息 2025 年年度报告</li>
+      <li>2026 年半年度报告（cninfo / 上交所）</li>
+      <li>港股招股书（2025.06 首次递表、2026.01 二度递表）</li>
+      <li>投资者关系交流记录</li>
+    </ul></div>
+    <div class="box"><h4>二类来源（第三方监测）</h4><ul>
+      <li>Sensor Tower（收入/下载/MAU）</li>
+      <li>data.ai（榜单排名）</li>
+      <li>AppCurrents / AppPricer（内购档位、国家收入拆分）</li>
+      <li>灼识咨询（市场规模与份额）</li>
+    </ul></div>
+    <div class="box"><h4>三类来源（券商研究）</h4><ul>
+      <li>华泰证券《大模型时代重估文档智能底座价值》</li>
+      <li>华鑫证券 / 银河证券 / 海通国际</li>
+    </ul></div>
+    <div class="box"><h4>四类来源（产品与媒体）</h4><ul>
+      <li>camscanner.com 官网 · App Store 内购页</li>
+      <li>印度 PIB 公告 · Kaspersky 2019 报告</li>
+      <li>Rest of World 2024 调查</li>
+      <li>搜狐/网易/新黄河（自动续费投诉）</li>
+      <li>机器之心 / 新快报（云栖大会）</li>
+    </ul></div>
+  </div>
+
+  <h3>必须标注的口径冲突（5 处）</h3>
+  <table>
+    <thead><tr><th>#</th><th>冲突项</th><th>口径 A</th><th>口径 B</th><th>建议</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>用户量</td><td class="num">3 亿（官网）</td><td class="num">4 亿 / 7.5 亿（ST 描述）</td><td>跨度 5.7 倍，必须写明口径</td></tr>
+      <tr><td>2</td><td>MAU</td><td class="num">1.99 亿（公司，三产品）</td><td class="num">1.27–1.38 亿（ST，单 App）</td><td>不可比</td></tr>
+      <tr><td>3</td><td>2024 单品占比</td><td class="num">77.3%（招股书）</td><td class="num">68.47%（另有信源）</td><td>以招股书为准</td></tr>
+      <tr><td>4</td><td>免费云空间</td><td class="num">1GB（中文官网）</td><td class="num">200MB（英文版）</td><td>区域/版本差异</td></tr>
+      <tr><td>5</td><td>企业版价格</td><td class="num">¥400/账号/年（官网）</td><td class="num">¥40–60/月（第三方）</td><td>以官网为准</td></tr>
+    </tbody>
+  </table>
+
+  <h3>本报告自主测算并首次提出的指标（可复用）</h3>
+  <div class="box"><ul>
+    <li><strong>扫描全能王单品收入还原法</strong>：用招股书占比 × 公司总营收，再用 C 端分产品交叉验证</li>
+    <li><strong>单品 ARPU ¥7.66 / MAU / 年</strong>、<strong>ARPPU ¥147.3 / 付费用户 / 年</strong></li>
+    <li><strong>付费率口径辨析</strong>：「累计付费用户 / MAU」≠ 年度新增付费转化率</li>
+    <li><strong>水印双引擎模型</strong>：付费驱动 + 病毒式分发 + 政治豁免</li>
+  </ul></div>
+</section>
+
+<footer>
+  扫描全能王（CamScanner）单品深度分析与商业化调研 · PM 视角 · 数据截至 2026 年 9 月<br>
+  所有数字均标注口径；未标注推算的部分均为公开披露原文
+</footer>
+
+</div>
+
+<script>
+Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif';
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#4a5464';
+const NAVY='#1f5fd6', RED='#d92b2b', GREEN='#0f9d6e', AMBER='#c47d00', PURPLE='#6a4fd6', GREY='#c3cad6';
+
+// 1. 全球份额
+new Chart(document.getElementById('cShare'), {
+  type:'bar',
+  data:{ labels:['公司A（美国）','公司B（美国）','扫描全能王（合合信息）'],
+    datasets:[{ data:[26.8,20.2,2.5],
+      backgroundColor:[GREY,GREY,NAVY], borderRadius:6, barThickness:38 }]},
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false},
+      tooltip:{callbacks:{label:c=>'市场份额 '+c.parsed.x+'%'}},
+      title:{display:true,text:'全球 C 端效率类 AI 产品市场份额（2024，按收入）',font:{size:13,weight:'600'},color:'#14181f',padding:{bottom:12}}},
+    scales:{ x:{beginAtZero:true, max:30, grid:{color:'#eef1f6'}, ticks:{callback:v=>v+'%'}},
+      y:{grid:{display:false}}}}
+});
+
+// 2. 收入对比
+new Chart(document.getElementById('cRev'), {
+  type:'bar',
+  data:{ labels:['扫描全能王','Adobe Scan'],
+    datasets:[
+      { label:'月收入下限（万美元）', data:[480,89], backgroundColor:NAVY, borderRadius:6, barThickness:56 },
+      { label:'月收入上限（万美元）', data:[1049,178], backgroundColor:'#9fbbf5', borderRadius:6, barThickness:56 }
+    ]},
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{position:'bottom', labels:{boxWidth:12,padding:14}},
+      title:{display:true,text:'单款 App 月收入区间对比（2025.5–2026.5，万美元）',font:{size:13,weight:'600'},color:'#14181f',padding:{bottom:12}}},
+    scales:{ y:{beginAtZero:true, grid:{color:'#eef1f6'}, ticks:{callback:v=>'$'+v+'万'}}, x:{grid:{display:false}}}}
+});
+
+// 3. 付费率趋势
+new Chart(document.getElementById('cPay'), {
+  type:'line',
+  data:{ labels:['2023','2024','2025','2026Q1'],
+    datasets:[{ label:'付费转化率（%）', data:[4.05,4.35,5.20,5.61],
+      borderColor:NAVY, backgroundColor:'rgba(31,95,214,.10)', fill:true, tension:.35,
+      pointRadius:5, pointBackgroundColor:'#fff', pointBorderColor:NAVY, pointBorderWidth:2.5 }]},
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false},
+      tooltip:{callbacks:{label:c=>'付费率 '+c.parsed.y+'%'}},
+      title:{display:true,text:'付费转化率演进（累计付费用户 / MAU 口径）',font:{size:13,weight:'600'},color:'#14181f',padding:{bottom:12}}},
+    scales:{ y:{beginAtZero:false, min:3.5, max:6, grid:{color:'#eef1f6'}, ticks:{callback:v=>v+'%'}}, x:{grid:{display:false}}}}
+});
+
+// 4. 场景分布
+new Chart(document.getElementById('cScene'), {
+  type:'doughnut',
+  data:{ labels:['学生 24%','教育科研 11%','其他场景 65%'],
+    datasets:[{ data:[24,11,65], backgroundColor:[NAVY,'#9fbbf5','#e8ecf4'], borderWidth:2, borderColor:'#fff' }]},
+  options:{ responsive:true, maintainAspectRatio:false, cutout:'58%',
+    plugins:{ legend:{position:'bottom', labels:{boxWidth:12,padding:10}},
+      tooltip:{callbacks:{label:c=>c.label}}}}
+});
+
+// 5. 单品收入趋势
+new Chart(document.getElementById('cRevTrend'), {
+  type:'bar',
+  data:{ labels:['2022','2023','2024','2025 前三季','2025 全年*'],
+    datasets:[
+      { type:'bar', label:'公司总营收（亿元）', data:[9.88,11.87,14.38,13.03,18.10],
+        backgroundColor:'#e8ecf4', borderRadius:5, barThickness:30 },
+      { type:'bar', label:'扫描全能王单品（亿元）', data:[7.15,9.05,11.12,10.51,14.50],
+        backgroundColor:NAVY, borderRadius:5, barThickness:30 },
+      { type:'line', label:'单品占比（%）', data:[72.3,76.2,77.3,80.6,80.1],
+        borderColor:RED, backgroundColor:RED, tension:.3, yAxisID:'y1',
+        pointRadius:5, pointBackgroundColor:'#fff', pointBorderColor:RED, pointBorderWidth:2.5 }
+    ]},
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{position:'bottom', labels:{boxWidth:12,padding:14}},
+      title:{display:true,text:'扫描全能王单品收入还原（*2025 全年为推算值）',font:{size:13,weight:'600'},color:'#14181f',padding:{bottom:12}}},
+    scales:{
+      y:{beginAtZero:true, grid:{color:'#eef1f6'}, ticks:{callback:v=>v+'亿'}, title:{display:true,text:'收入（亿元）',color:'#8a94a3'}},
+      y1:{position:'right', beginAtZero:true, max:100, grid:{display:false}, ticks:{callback:v=>v+'%'}, title:{display:true,text:'单品占比',color:RED}},
+      x:{grid:{display:false}}}}
+});
+</script>
+</body>
+</html>

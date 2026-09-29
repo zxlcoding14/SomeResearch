@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>扫描全能王｜功能与入口级数据可得性核查</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#16202f; --ink2:#42536b; --ink3:#7a8aa0;
+    --line:#e2e8f0; --line2:#eef2f7;
+    --red:#c8322b; --red-bg:#fdf0ef;
+    --blue:#1d4ed8; --blue-bg:#eff4fe;
+    --green:#15803d; --green-bg:#eefaf1;
+    --amber:#b45309; --amber-bg:#fef7e8;
+    --gray:#64748b; --gray-bg:#f1f5f9;
+  }
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;padding:32px 20px 60px}
+  .wrap{max-width:1120px;margin:0 auto}
+
+  header{margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.14em;color:var(--ink3);text-transform:uppercase;font-weight:600;margin-bottom:10px}
+  h1{font-size:27px;font-weight:700;letter-spacing:-.01em;line-height:1.35}
+  h1 span{color:var(--ink3);font-weight:500}
+  .meta{margin-top:12px;font-size:13px;color:var(--ink3)}
+  .verdict{margin-top:20px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--red);
+    border-radius:10px;padding:18px 22px}
+  .verdict b{color:var(--red)}
+  .verdict p{font-size:14.5px;color:var(--ink2)}
+  .verdict p+p{margin-top:8px}
+
+  section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px 28px;margin-top:20px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+  .sec-num{font-size:12px;font-weight:700;color:#fff;background:var(--ink);border-radius:5px;padding:2px 8px;letter-spacing:.05em}
+  h2{font-size:18.5px;font-weight:700;letter-spacing:-.005em}
+  .sec-sub{font-size:13px;color:var(--ink3);margin-bottom:20px}
+
+  table{width:100%;border-collapse:collapse;font-size:13.2px}
+  th{text-align:left;font-weight:600;color:var(--ink2);background:var(--gray-bg);
+    padding:9px 11px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:9px 11px;border-bottom:1px solid var(--line2);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .mono{font-variant-numeric:tabular-nums}
+
+  .pill{display:inline-block;font-size:11px;font-weight:700;border-radius:20px;padding:2px 9px;white-space:nowrap;letter-spacing:.02em}
+  .p-yes{background:var(--green-bg);color:var(--green);border:1px solid #c7ebd3}
+  .p-part{background:var(--amber-bg);color:var(--amber);border:1px solid #f4dfb4}
+  .p-no{background:var(--red-bg);color:var(--red);border:1px solid #f6d2cf}
+
+  .rail{display:flex;align-items:center;gap:10px}
+  .rail i{display:block;height:8px;border-radius:4px;background:var(--red);flex:0 0 auto}
+  .rail i.g{background:var(--green)} .rail i.a{background:#d99a1e}
+
+  /* waterfall */
+  .wf{display:flex;flex-direction:column;gap:12px;margin-top:4px}
+  .wf-row{display:grid;grid-template-columns:210px 1fr 118px;align-items:center;gap:14px}
+  .wf-lab{font-size:13px;color:var(--ink2);text-align:right;line-height:1.35}
+  .wf-lab b{display:block;color:var(--ink);font-weight:600}
+  .wf-track{background:var(--gray-bg);border-radius:6px;height:30px;position:relative;overflow:hidden}
+  .wf-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:10px;
+    font-size:12px;font-weight:700;color:#fff;white-space:nowrap}
+  .f-red{background:linear-gradient(90deg,#d9483b,#c8322b)}
+  .f-blue{background:linear-gradient(90deg,#3b82f6,#1d4ed8)}
+  .f-gray{background:linear-gradient(90deg,#94a3b8,#64748b)}
+  .f-amber{background:linear-gradient(90deg,#e5a52b,#b45309)}
+  .f-teal{background:linear-gradient(90deg,#2fa3a3,#0f7a7a)}
+  .wf-val{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+  .wf-val small{display:block;font-size:11.5px;color:var(--ink3);font-weight:500}
+
+  /* stacked */
+  .stack{display:flex;gap:18px;margin-top:10px;align-items:flex-end;height:230px;padding:0 6px}
+  .st-col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative}
+  .st-bar{width:100%;border-radius:5px 5px 0 0;overflow:hidden;display:flex;flex-direction:column-reverse}
+  .st-seg{width:100%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+  .s1{background:#1d4ed8}.s2{background:#c8322b}.s3{background:#e0a52c}.s4{background:#94a3b8}
+  .st-cap{text-align:center;font-size:12px;color:var(--ink3);margin-top:8px;font-variant-numeric:tabular-nums}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--ink2)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .legend em{width:11px;height:11px;border-radius:3px;display:block}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+  .kpi{background:var(--gray-bg);border-radius:9px;padding:14px 15px}
+  .kpi .k{font-size:11.5px;color:var(--ink3);font-weight:600;letter-spacing:.03em}
+  .kpi .v{font-size:21px;font-weight:700;margin-top:5px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .kpi .d{font-size:11.5px;color:var(--ink3);margin-top:3px}
+  .v-red{color:var(--red)} .v-green{color:var(--green)} .v-blue{color:var(--blue)}
+
+  ul.notes{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:9px}
+  ul.notes li{font-size:13.3px;color:var(--ink2);padding-left:20px;position:relative}
+  ul.notes li::before{content:"";position:absolute;left:4px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--red)}
+  ul.notes li b{color:var(--ink);font-weight:600}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .arrow{color:var(--red);font-weight:700}
+
+  .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+  .flow .step{background:var(--gray-bg);border-radius:9px;padding:14px 15px;border-top:3px solid var(--gray)}
+  .flow .step.on{background:var(--red-bg);border-top-color:var(--red)}
+  .flow .step .t{font-size:12.5px;font-weight:700;color:var(--ink3);letter-spacing:.04em}
+  .flow .step.on .t{color:var(--red)}
+  .flow .step .n{font-size:24px;font-weight:700;margin:6px 0 4px;font-variant-numeric:tabular-nums}
+  .flow .step .d{font-size:12.3px;color:var(--ink2);line-height:1.5}
+
+  .warn{margin-top:18px;background:var(--amber-bg);border:1px solid #f4dfb4;border-radius:9px;padding:14px 17px;font-size:13.2px;color:#7c4a08}
+  .warn b{color:#6b3f06}
+
+  footer{margin-top:26px;font-size:12px;color:var(--ink3);text-align:center;line-height:1.8}
+
+  @media (max-width:820px){
+    .grid2,.kpis{grid-template-columns:1fr 1fr}
+    .wf-row{grid-template-columns:1fr;gap:5px}
+    .wf-lab{text-align:left} .wf-val{text-align:left}
+    .flow{grid-template-columns:1fr}
+    .stack{height:190px;gap:9px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Data Availability Audit · CamScanner</div>
+    <h1>扫描全能王 · 功能与入口级数据可得性核查 <span>／ 营收结构还原</span></h1>
+    <div class="meta">核查日期 2026-09-29 ｜ 来源：A 股年报与半年报、港股招股书（H0255）、机构调研纪要、券商研报、Sensor Tower、官网与官方 FAQ</div>
+    <div class="verdict">
+      <p><b>一句话结论：功能级、入口级的收入与使用量分布 —— 公开渠道为零。</b>不存在"去水印贡献 X% 收入""相机入口贡献 Y% 流量"这类数据。</p>
+      <p>更关键的是：<b>公司不是没统计，而是主动不披露，且披露颗粒度在三年内收窄了两次、维度从 8 条降到 4 条。</b>公司的口径变更，本身就是最值得读的一个风险信号。</p>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>数据可得性光谱：七档颗粒度，只有五档拿得到</h2></div>
+    <div class="sec-sub">用户的提问正好落在唯一没有数据的那一档上</div>
+    <table>
+      <thead><tr><th style="width:60px">层级</th><th>内容</th><th style="width:104px">可得性</th><th style="width:230px">来源 / 覆盖期</th></tr></thead>
+      <tbody>
+        <tr><td class="mono"><b>L0</b></td><td>公司整体营收 / 净利 / 毛利率</td><td><span class="pill p-yes">有 · 完整</span></td><td>A 股年报｜2018–2026H1</td></tr>
+        <tr><td class="mono"><b>L1</b></td><td>业务线（智能文字识别 / 商业大数据 × C/B）</td><td><span class="pill p-yes">有 · 完整</span></td><td>A 股年报｜2018–2026H1</td></tr>
+        <tr><td class="mono"><b>L2</b></td><td>单品（扫描全能王 / 名片全能王 / 启信宝 / TextIn / 启信慧眼）</td><td><span class="pill p-part">仅单品 1 款</span></td><td>港股招股书｜2022–2025Q3</td></tr>
+        <tr><td class="mono"><b>L3</b></td><td>收入类型（会员 / 单次付费 / 广告 / 技术授权）</td><td><span class="pill p-part">2024 起被并入</span></td><td>招股书 + 调研｜2018–2024</td></tr>
+        <tr><td class="mono"><b>L4</b></td><td>付费结构（月 / 半年 / 年费订单占比、续购率、ARPPU）</td><td><span class="pill p-yes">有 · 逐期更新</span></td><td>港股招股书｜2022–2025Q3</td></tr>
+        <tr style="background:var(--red-bg)">
+          <td class="mono"><b>L5</b></td><td><b>功能级</b>（去水印 / OCR / 云存储 / 证件 / 拼图 / 签名 / 拍题 / 鉴伪…）</td>
+          <td><span class="pill p-no">零</span></td><td>—</td></tr>
+        <tr style="background:var(--red-bg)">
+          <td class="mono"><b>L5</b></td><td><b>入口级</b>（首页相机 / 相册导入 / PC 端 / 微信导入 / 子扫描模式…）</td>
+          <td><span class="pill p-no">零</span></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <ul class="notes">
+      <li><b>L0–L1 是"财报级"，L2–L4 是"招股书级"，L5 是"商业机密级"。</b>越接近"公司整体"，数据越完整；一旦下探到"功能"和"入口"，直接断崖归零。</li>
+      <li>遇到声称有功能级占比的第三方报告，先检查其口径说明 —— <b>大概率是推算冒充披露。</b></li>
+    </ul>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>披露颗粒度的三次收窄</h2></div>
+    <div class="sec-sub">每一次收窄，都削弱一次外部对"变现质量"的判断能力</div>
+    <div class="flow">
+      <div class="step">
+        <div class="t">2018 – 2022 ｜ 科创板招股书</div>
+        <div class="n">8 <span style="font-size:13px;font-weight:600;color:var(--ink3)">条维度</span></div>
+        <div class="d">业务线 + 变现方式双维度，<b>"互联网广告推广""手机厂商技术授权"单列</b></div>
+      </div>
+      <div class="step">
+        <div class="t">2023 – 2024 ｜ A 股上市后</div>
+        <div class="n">6 <span style="font-size:13px;font-weight:600;color:var(--ink3)">条维度</span></div>
+        <div class="d">广告并入"智能文字识别 C 端"，技术授权并入"其他"，<b>变现方式维度消失</b></div>
+      </div>
+      <div class="step on">
+        <div class="t">2024 年报起 ｜ 现行口径</div>
+        <div class="n">4 <span style="font-size:13px;font-weight:600;color:var(--ink3)">条维度</span></div>
+        <div class="d">变成"赛道 × 客户类型"矩阵，2026 中报进一步合并，<b>信息量持续缩水</b></div>
+      </div>
+    </div>
+    <div class="warn">
+      <b>公司原话（2025-04-18 · 32 家机构调研 · 问题 13）：</b>"广告收入均为 C 端产品产生，为更清楚体现收入与产品的相关性……并且广告收入并非主要盈利来源，公司 2024 年主营业务收入分类口径将 APP 互联网广告收入合并至 APP 收入中进行披露，将收入占比较低的手机厂商技术授权合并至其他。"
+      <br><br><b>PM 视角读法：</b>这是典型的"会计口径服务于叙事"。合并后，外部再也看不出"广告变现是在增强还是衰减"；而"广告并入 APP 收入"会让单品收入看起来更"产品驱动"，同时掩盖"付费转化吃力、只能靠广告补量"这一信号。
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>三层营收还原：能拆到"会员 vs 广告"这一层</h2></div>
+    <div class="sec-sub">把公司口径与券商口径对齐后，扫描全能王可拆到第二层，交叉校验误差为 0</div>
+    <div class="wf">
+      <div class="wf-row">
+        <div class="wf-lab"><b>公司总营收</b>2025 全年</div>
+        <div class="wf-track"><div class="wf-fill f-gray" style="width:100%">¥18.10 亿</div></div>
+        <div class="wf-val">¥18.10 亿<small>100%</small></div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-lab"><b>智能文字识别：C 端</b>扫描全能王 + 名片全能王</div>
+        <div class="wf-track"><div class="wf-fill f-red" style="width:82.12%">82.12%</div></div>
+        <div class="wf-val">¥14.86 亿<small>毛利率 89.78%</small></div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-lab"><b>扫描全能王</b>招股书口径（含广告）</div>
+        <div class="wf-track"><div class="wf-fill f-red" style="width:80.1%">≈80.1%</div></div>
+        <div class="wf-val">≈¥14.5 亿<small>推算 · 两法一致</small></div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-lab"><b>↳ 会员订阅</b>VIP / 付费版</div>
+        <div class="wf-track"><div class="wf-fill f-teal" style="width:70.7%">≈88%</div></div>
+        <div class="wf-val">≈¥12.8 亿<small>估算</small></div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-lab"><b>↳ 互联网广告</b>并入 APP 收入中</div>
+        <div class="wf-track"><div class="wf-fill f-amber" style="width:9.4%">≈12%</div></div>
+        <div class="wf-val">≈¥1.7 亿<small>估算</small></div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:30px"><span class="sec-num" style="background:var(--red)">口径</span><h2 style="font-size:16px">破解一个没人指出过的口径陷阱</h2></div>
+    <p style="font-size:13.3px;color:var(--ink2);margin-bottom:14px">
+      <b>招股书口径</b>的"扫描全能王"＝ 会员收入 ＋ 分配给它的互联网广告收入；<b>A 股年报 / 券商口径</b>的"扫描全能王"＝ 仅会员收入。三年数据全部严丝合缝：
+    </p>
+    <table>
+      <thead><tr><th>年份</th><th class="num">招股书口径 A</th><th class="num">券商口径 · 会员 B</th><th class="num">广告 C</th><th class="num">校验 A = B + C</th></tr></thead>
+      <tbody>
+        <tr><td>2022</td><td class="num">¥7.15 亿</td><td class="num">¥6.33 亿</td><td class="num">¥0.82 亿</td><td class="num" style="color:var(--green);font-weight:700">7.15 ✓</td></tr>
+        <tr><td>2023</td><td class="num">¥9.05 亿</td><td class="num">¥8.09 亿</td><td class="num">¥0.96 亿</td><td class="num" style="color:var(--green);font-weight:700">9.05 ✓</td></tr>
+        <tr><td>2024</td><td class="num">¥11.12 亿</td><td class="num">¥9.82 亿</td><td class="num">¥1.30 亿</td><td class="num" style="color:var(--green);font-weight:700">11.12 ✓</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <b>⚠️ 引用警告：</b>2024 年起广告已并入 APP 收入，所以现在看到的"扫描全能王 ¥14.5 亿"里<b>已含约 12% 的广告收入</b>，不再近似等于"订阅收入"。任何拿"扫描全能王收入 ÷ 付费用户数"算 ARPPU 的做法，从 2024 年起都会系统性偏高超 10%。
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>唯一现成的"结构分布"：付费订单结构比率</h2></div>
+    <div class="sec-sub">来自港股招股书，按订单笔数计（非金额）· 三款 C 端产品加总口径</div>
+
+    <div class="stack">
+      <div class="st-col">
+        <div class="st-bar" style="height:100%">
+          <div class="st-seg s1" style="height:58.9%">58.9%</div>
+          <div class="st-seg s3" style="height:1.1%;color:#7c4a08">1</div>
+          <div class="st-seg s2" style="height:38.6%">38.6%</div>
+          <div class="st-seg s4" style="height:1.4%"></div>
+        </div>
+        <div class="st-cap"><b>2022</b></div>
+      </div>
+      <div class="st-col">
+        <div class="st-bar" style="height:100%">
+          <div class="st-seg s1" style="height:44.4%">44.4%</div>
+          <div class="st-seg s3" style="height:5.3%;color:#7c4a08">5</div>
+          <div class="st-seg s2" style="height:47.5%">47.5%</div>
+          <div class="st-seg s4" style="height:2.8%"></div>
+        </div>
+        <div class="st-cap"><b>2023</b></div>
+      </div>
+      <div class="st-col">
+        <div class="st-bar" style="height:100%">
+          <div class="st-seg s1" style="height:40.4%">40.4%</div>
+          <div class="st-seg s3" style="height:21.9%;color:#7c4a08">21.9%</div>
+          <div class="st-seg s2" style="height:35.5%">35.5%</div>
+          <div class="st-seg s4" style="height:2.2%"></div>
+        </div>
+        <div class="st-cap"><b>2024</b></div>
+      </div>
+      <div class="st-col">
+        <div class="st-bar" style="height:100%">
+          <div class="st-seg s1" style="height:33.1%">33.1%</div>
+          <div class="st-seg s3" style="height:31.2%;color:#7c4a08">31.2%</div>
+          <div class="st-seg s2" style="height:29.1%">29.1%</div>
+          <div class="st-seg s4" style="height:6.6%;font-size:10px">6.6%</div>
+        </div>
+        <div class="st-cap"><b>2025 LTM(9M)</b></div>
+      </div>
+    </div>
+    <div class="legend">
+      <span><em class="s1"></em>月费会员订单</span>
+      <span><em class="s3"></em>半年费会员订单</span>
+      <span><em class="s2"></em>年费会员订单</span>
+      <span><em class="s4"></em>其他购买订单</span>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="k">月费订单占比变化</div><div class="v v-blue">58.9% <span class="arrow">→</span> 33.1%</div><div class="d">三年 −25.8 pct</div></div>
+      <div class="kpi"><div class="k">半年费订单占比变化</div><div class="v v-red">1.1% <span class="arrow">→</span> 31.2%</div><div class="d">三年 +30.1 pct · 最大迁移</div></div>
+      <div class="kpi"><div class="k">ARPPU（元/付费用户/年）</div><div class="v">185.7 <span class="arrow">→</span> 178.0</div><div class="d">客单价在降，付费人数在涨</div></div>
+      <div class="kpi"><div class="k">其他购买订单占比</div><div class="v v-green">1.4% <span class="arrow">→</span> 6.6%</div><div class="d">相对增幅 4.7 倍 · 轻付费探路</div></div>
+    </div>
+
+    <ul class="notes">
+      <li><b>这不是产品创新，是被动的政策工程。</b>公司为响应连续续费标准化、降低用户单次支付金额，把部分年费用户的扣费节奏从"一次性扣费"改为"年度内多次扣费"—— <b>直接伤到了 2024 年现金流</b>（经营性现金流增速与归母净利增速出现明显背离）。</li>
+      <li><b>"薄利多销式增长"：</b>ARPPU 从 185.7 降到 178.0 元，付费用户从 530 万涨到 930 万。这解释了为什么付费用户增速（+19.68%）能持续跑赢 MAU 增速（+9.94%）。</li>
+      <li><b>唯一一条观察"功能级变现"的间接线索：</b>"其他购买订单"从 1.4% 升到 6.6%——单次付费 / 轻付费产品（付费报告、单次传真、单次证件照）正在被当作新探路品。</li>
+    </ul>
+
+    <div class="sec-head" style="margin-top:30px"><span class="sec-num" style="background:var(--gray)">补</span><h2 style="font-size:16px">为什么"按功能拆收入"在结构上就不成立</h2></div>
+    <table>
+      <thead><tr><th>维度</th><th>事实</th><th>含义</th></tr></thead>
+      <tbody>
+        <tr><td>销售单元</td><td>用户买的是一次性打包的 VIP，不是"去水印 ×1 次 + OCR ×1000 次"</td><td>没有按功能收费的收入流</td></tr>
+        <tr><td>单次付费占比</td><td>VIP 会员收费占 C 端收入 <b>&gt;80%</b>；iOS 9 个内购项中 7 个是订阅，仅 1 个一次性（$0.99）</td><td>单次付费是长尾，&lt;20%</td></tr>
+        <tr><td>链路归因</td><td>一份文档经「相机→增强→OCR→转 Word→签名→存储→分享」</td><td>收入无法切分到任一环节</td></tr>
+        <tr><td>入口角色</td><td>7 类入口 100% 免费；收费动作全在<b>输出侧</b>（导出/转格式/去水印/传真）</td><td><b>入口是获客成本中心，不是收入中心</b></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>替代方案：付费墙倍数差 = 功能价值权重</h2></div>
+    <div class="sec-sub">拿不到直接的，就用间接的。免费版 vs 会员版的限额倍数，直接反映公司的定价自信度</div>
+    <table>
+      <thead><tr><th>功能</th><th>免费版额度</th><th>会员 / 付费版额度</th><th class="num">倍数</th><th style="width:96px">墙体类型</th></tr></thead>
+      <tbody>
+        <tr><td>高级提取文字（云端精准 OCR）</td><td>体验 3 次</td><td>1,000 次/月</td><td class="num" style="color:var(--red);font-weight:700">≈333×</td><td><span class="pill p-part">配额墙</span></td></tr>
+        <tr><td>在线 OCR</td><td>10 次/月</td><td>1,000 次/月</td><td class="num" style="color:var(--red);font-weight:700">100×</td><td><span class="pill p-part">配额墙</span></td></tr>
+        <tr><td>拍题识别 / PDF 转 Excel / 书籍模式</td><td>3 次 / 1 次每月 / 10 页每天</td><td>不限次数</td><td class="num" style="color:var(--red);font-weight:700">∞</td><td><span class="pill p-part">配额墙</span></td></tr>
+        <tr><td>PDF 转 Word / 转 PPT</td><td>0（仅限时体验）</td><td>会员可用</td><td class="num" style="font-weight:700">独占</td><td><span class="pill p-no">独占墙</span></td></tr>
+        <tr><td>证件模式 / 拼图 / 电子签名</td><td>0</td><td>会员可用</td><td class="num" style="font-weight:700">独占</td><td><span class="pill p-no">独占墙</span></td></tr>
+        <tr><td>免广告 + 去水印 / 防盗用水印</td><td>0</td><td>会员可用</td><td class="num" style="font-weight:700">独占</td><td><span class="pill p-no">独占墙</span></td></tr>
+        <tr><td>PDF 加密 / 长图 / 证件照</td><td>0</td><td>会员可用 / 10 次每月</td><td class="num" style="font-weight:700">独占</td><td><span class="pill p-no">独占墙</span></td></tr>
+        <tr><td>云空间 / 回收站 / 文件夹数</td><td>1 GB / 7 天 / 8 个</td><td>10 GB / 30 天 / 不限</td><td class="num">10× / 4.3× / ∞</td><td><span class="pill p-yes">容量·时长墙</span></td></tr>
+        <tr><td>照片修复</td><td>10 次/天</td><td>1,000 次/月</td><td class="num">≈3.3×</td><td><span class="pill p-part">配额墙</span></td></tr>
+      </tbody>
+    </table>
+    <ul class="notes">
+      <li><b>"独占墙"功能才是定价骨架</b>（转 Word / 转 PPT / 证件模式 / 拼图 / 电子签名 / 去水印 / 防盗水印 / 加密 / 长图）—— 免费版完全没有，用户只有买或不买。</li>
+      <li><b>"配额墙"功能是诱饵</b>（OCR 100×、拍题 ∞、转 Excel ∞）—— 免费给一点、用一次就卡住。<b>倍数越大的功能，越不是靠它赚钱，而是靠它促转化。</b></li>
+      <li><b>⚠️ 这是推断，不是披露。</b>它给的是"排序"，不是"百分比"。报告引用时必须标注为代理指标。</li>
+    </ul>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>入口地图 · 可枚举，但无流量占比</h2></div>
+    <div class="sec-sub">7 类入口可以完整列出，但没有任何公开数据给出各入口的流量或收入占比</div>
+    <div class="grid2">
+      <table>
+        <thead><tr><th>入口类别</th><th>具体入口</th></tr></thead>
+        <tbody>
+          <tr><td><b>主入口</b></td><td>首页中央「＋」/ 相机按钮</td></tr>
+          <tr><td><b>本地导入</b></td><td>相册 / PDF / 文件导入</td></tr>
+          <tr><td><b>子扫描模式</b></td><td>文档 / 证件 / 书籍 / 拍题 / 名片 / 白板 / PPT / 表格 / 电子证据</td></tr>
+          <tr><td><b>跨端入口</b></td><td>PC 端 / Web 端上传（Web 端转 Word 免费）</td></tr>
+          <tr><td><b>外部导入</b></td><td>微信 / QQ / 钉钉 / 邮件 / 云盘双向</td></tr>
+          <tr><td><b>协作入口</b></td><td>团队文件夹 / 邀请协作 / 评论</td></tr>
+          <tr><td><b>输出侧</b></td><td>导出 PDF·JPG·Word·Excel·TXT / 打印 / 全球传真 / 加密链接 / 长图</td></tr>
+        </tbody>
+      </table>
+      <div>
+        <div class="warn" style="margin-top:0">
+          <b>结构性结论：入口 ≠ 营收点。</b><br><br>
+          入口侧（相机、相册、导入、外部分享）<b>100% 免费，且永远免费</b>。<br><br>
+          最赚钱的收费动作全在<b>输出侧</b>：导出无压缩、转 Word/Excel、去水印、传真。<br><br>
+          → 这从结构上解释了为什么"按入口拆收入"在商业上无意义：<b>入口是获客成本中心，不是收入中心。</b>
+        </div>
+        <div class="warn" style="border-left:4px solid var(--red)">
+          <b>数据缺口清单（公开渠道无解）：</b><br><br>
+          ① 各功能收入占比 ② 各入口流量占比 ③ 各功能使用频次占比 ④ 免费"卡顿点"触发分布 ⑤ 广告按广告位的拆分 ⑥ 各订阅档位的<b>金额</b>占比（只有笔数） ⑦ 境内外功能偏好差异 ⑧ 教育/商务/法律/医疗场景的收入贡献占比
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    核查范围：A 股年报与半年报 · 港股招股书（H0255）· 科创板招股说明书 · 机构调研纪要 · 券商研报（国金 / 中银 / 九方智投等）· Sensor Tower · 公司官网与官方 FAQ<br>
+    凡标注"推算 / 估算 / E"的数字均为还原结果，非公司披露，引用时须保留标注。核查基准日 2026-09-29。
+  </footer>
+
+</div>
+</body>
+</html>

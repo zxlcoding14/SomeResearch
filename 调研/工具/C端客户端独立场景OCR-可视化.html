@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C 端「客户端独立使用」场景 OCR — 市场与商业化分析</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#16181d; --ink2:#4a5058; --ink3:#828a94;
+    --line:#e3e6ea; --accent:#c0442f; --accent2:#1f6b5c; --accent3:#2a5b9a;
+    --warn:#b0761b; --free:#1f6b5c; --paid:#c0442f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.7;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:36px 24px 72px}
+  header{border-bottom:2px solid var(--ink);padding-bottom:20px;margin-bottom:32px}
+  .kicker{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:700;text-transform:uppercase}
+  h1{font-size:29px;line-height:1.3;margin:10px 0 10px;font-weight:800;letter-spacing:-.01em}
+  .meta{font-size:13px;color:var(--ink3)}
+  h2{font-size:19px;margin:44px 0 14px;padding-left:12px;border-left:4px solid var(--accent);font-weight:750}
+  h3{font-size:15px;margin:26px 0 10px;color:var(--ink2);font-weight:700}
+  p{font-size:14.5px;color:var(--ink2);margin:10px 0}
+  .lead{font-size:15px;color:var(--ink)}
+
+  /* TL;DR */
+  .tldr{display:grid;gap:12px}
+  .tl{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;
+      grid-template-columns:26px 1fr;gap:12px;align-items:start}
+  .tl .n{font-weight:800;color:var(--accent);font-size:14px}
+  .tl .t{font-size:14.5px;color:var(--ink)}
+  .tl .t b{color:var(--ink);font-weight:700}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;margin:12px 0 6px;font-size:13px;background:var(--card);
+    border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  th{background:#eef0f3;text-align:left;padding:9px 11px;font-weight:700;color:var(--ink);font-size:12.5px;
+     border-bottom:1px solid var(--line)}
+  td{padding:8px 11px;border-bottom:1px solid #f0f2f4;color:var(--ink2);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td strong{color:var(--ink)}
+  .ok{color:var(--free);font-weight:700}
+  .no{color:var(--accent);font-weight:700}
+  .mid{color:var(--warn);font-weight:700}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+
+  /* bars */
+  .chart{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:14px 0}
+  .row{display:grid;grid-template-columns:150px 1fr 76px;gap:10px;align-items:center;margin:7px 0}
+  .row .lb{font-size:12.5px;color:var(--ink2);text-align:right}
+  .row .bar{height:15px;border-radius:3px;background:#e8eaee;overflow:hidden}
+  .row .bar i{display:block;height:100%;border-radius:3px}
+  .row .vv{font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}
+  .b-zero{background:#a9b0b8}
+  .b-cheap{background:#5b8fc9}
+  .b-mid{background:#2a5b9a}
+  .b-hi{background:#c0442f}
+  .b-top{background:#8d2a1a}
+  .caption{font-size:12px;color:var(--ink3);margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+
+  /* squeeze */
+  .squeeze{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin:14px 0}
+  .sq-item{display:grid;grid-template-columns:120px 1fr 66px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dashed #eef0f3}
+  .sq-item:last-child{border-bottom:none}
+  .sq-item .k{font-size:13px;font-weight:700;color:var(--ink)}
+  .sq-item .v{font-size:13px;color:var(--ink2)}
+  .chip{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap}
+  .chip-red{background:#fbeae7;color:#a8331f}
+  .chip-green{background:#e7f3ef;color:#15604f}
+  .chip-blue{background:#e8effa;color:#204e8a}
+  .chip-gray{background:#eef0f3;color:#5b636c}
+
+  /* quotes */
+  .q{background:var(--card);border-left:3px solid var(--accent3);border-radius:0 8px 8px 0;
+     padding:11px 15px;margin:10px 0;font-size:13.5px;color:var(--ink2)}
+  .q b{color:var(--ink)}
+  .q .src{display:block;margin-top:6px;font-size:11.5px;color:var(--ink3)}
+
+  /* paths */
+  .paths{display:grid;gap:12px;margin-top:12px}
+  .path{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:8px;padding:14px 16px}
+  .path .ph{font-size:14px;font-weight:750;color:var(--ink);margin-bottom:5px}
+  .path .pd{font-size:13.5px;color:var(--ink2)}
+  .path.p0{border-left-color:#c0442f}
+  .path.p1{border-left-color:#2a5b9a}
+
+  .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+  .box.neg{border-left:5px solid var(--accent);background:#fdf6f4}
+  .box.note{border-left:5px solid var(--warn);background:#fdfaf3}
+  .box .bt{font-size:14px;font-weight:750;margin-bottom:7px}
+  .box p{margin:6px 0}
+  ul{margin:8px 0 8px 4px;padding-left:20px}
+  li{font-size:14px;color:var(--ink2);margin:5px 0}
+  footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink3)}
+  @media(max-width:720px){
+    .row{grid-template-columns:96px 1fr 62px}
+    .sq-item{grid-template-columns:1fr}
+    table{font-size:12px}
+    h1{font-size:23px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Product Research · Client-side OCR</div>
+  <h1>C 端「客户端独立使用」场景下的 OCR<br>市场与商业化分析</h1>
+  <div class="meta">分析对象：个人用户以独立桌面客户端（Windows / macOS 单机 GUI）使用的 OCR / 截图取字工具　·　视角：产品经理六维　·　数据截至 2026-09-29</div>
+</header>
+
+<h2>〇、结论先行</h2>
+<div class="tldr">
+  <div class="tl"><div class="n">01</div><div class="t"><b>能做，而且是三份报告里唯一拿到"一手用户原声"的一层——但它也是商业上最不成立的一层。</b>四重包夹：OS 内置 + 即时通讯内置 + 开源免费 + 大模型客户端。这是「被 OS 内置 = 品类死亡判决」的<b>第六次验证</b>。</div></div>
+  <div class="tl"><div class="n">02</div><div class="t"><b>「独立使用」这个词本身就指向天花板：独立 = 无账号 = 无持续交付 = 只能买断 = 收不到第二次钱。</b>国产独立客户端定价已塌到 <b>¥30–59 一次买断</b>（白描 ¥30 / 天若 ¥59 / 迅捷 ¥88 终身）。</div></div>
+  <div class="tl"><div class="n">03</div><div class="t"><b>2026 年发生了一次「形态替换」，换的是"层"不是"功能"。</b>新入局者（Cheese! OCR / ClariRec / HushSnap / ImgPeel / GhostText）全是<b>薄壳 + 系统免费引擎</b>，定价 $0–9.99；而自带引擎的大客户端要么太大、要么停更。</div></div>
+  <div class="tl"><div class="n">04</div><div class="t"><b>精度已不是差异化，且「本地模型 = 精度下降」是用户实测结论。</b>论坛原话："只要模型转为本地，识别能力就会大大下降。" →「本地 + 隐私 + 高精度」三者不可兼得。</div></div>
+  <div class="tl"><div class="n">05</div><div class="t"><b>真实付费理由只有三个，没有一个是"OCR"：</b>① 结构化交付（表格/公式/竖排）② 隐私（不出本机）③ 懒（一步到剪贴板）。而中文区事实标准是<b>微信截图 OCR</b>。</div></div>
+  <div class="tl"><div class="n">06</div><div class="t"><b>包体撕裂 120 倍，两个极端都没赢。</b>2.44MB（夸克）= 云端壳，口碑差；440MB（Umi-OCR）= 端侧引擎，收不到钱。唯一跑通的是<b>薄壳 + 系统引擎</b>——把成本转嫁给 OS 厂商。</div></div>
+  <div class="tl"><div class="n">07</div><div class="t"><b>只剩三个可进场位置，都不在"识别"上：</b>P0 「OCR 之后的交付」· P0 「大模型客户端 + 5MB 极简壳」· P1 竖排/古籍/日文。</div></div>
+</div>
+
+<h2>一、先立口径：这道题问的是什么</h2>
+<table>
+  <thead><tr><th>维度</th><th class="ok">属于本题</th><th class="no">不属于本题（前作已覆盖）</th></tr></thead>
+  <tbody>
+    <tr><td>付费主体</td><td>个人用户自费（C 端）</td><td>企业采购 / API 按量计费（B 端）</td></tr>
+    <tr><td>交付形态</td><td>独立桌面客户端（Win / macOS GUI）</td><td>云 API、网页一次性工具、移动 App、SaaS 尾巴</td></tr>
+    <tr><td>使用模式</td><td><strong>单机独立</strong>（不依赖账号/联网即可完成主任务）</td><td>账号绑定型订阅</td></tr>
+    <tr><td>任务规模</td><td>单张 / 少量（≤ 几百）</td><td>数十万至数亿页批量工程</td></tr>
+    <tr><td>价值主张</td><td>顺手、隐私、够用</td><td>确定性、字段完整率、兜底责任</td></tr>
+  </tbody>
+</table>
+<div class="box note">
+  <div class="bt">⚠️ 一个必须提前说清的口径事实</div>
+  <p><strong>"C 端桌面 OCR 客户端"这一层，全球没有任何一份市场报告单独统计它。</strong>不是没找到数据，而是这个细分小到不值得被单独建模。<strong>这本身就是第一条结论。</strong></p>
+</div>
+
+<h2>二、市场分析：四重免费包夹</h2>
+<div class="squeeze">
+  <div class="sq-item"><div class="k">OS 内置</div><div class="v">Win11 截图 Text Actions｜PowerToys <span class="mono">Win+Shift+T</span>｜macOS 实况文本（含暂停视频帧）｜Windows Recall</div><span class="chip chip-red">极强</span></div>
+  <div class="sq-item"><div class="k">IM 内置</div><div class="v">微信 / QQ / 钉钉 / 飞书截图 OCR —— <strong>中文区事实标准</strong></div><span class="chip chip-red">极强</span></div>
+  <div class="sq-item"><div class="k">开源免费</div><div class="v">Umi-OCR 47,537★｜pot 19,409★｜eSearch 7,220★｜Text-Grab 5,030★｜NAPS2 4,560★｜NormCap 2,734★</div><span class="chip chip-red">极强</span></div>
+  <div class="sq-item"><div class="k">套件内置</div><div class="v">Edge <span class="mono">Ctrl+Shift+S</span>｜WPS 图片转文字｜OneNote 复制图片文本</div><span class="chip chip-red">强</span></div>
+  <div class="sq-item"><div class="k">大模型客户端</div><div class="v">豆包 / 通义 / Cherry Studio + 视觉模型（<strong>2026 新增层</strong>）</div><span class="chip chip-red">强</span></div>
+</div>
+<p class="lead">免费替代 <strong>≥ 8 条，其中 3 条来自操作系统本身</strong>。按本项目已验证规律：免费通道 ≥ 5 条 → ARPU 结构性趋零。<strong>"独立客户端 OCR"的定价天花板 = ¥0。</strong></p>
+
+<h3>市场规模：五份报告差 4.8 倍，且没有一份对准这一层</h3>
+<table>
+  <thead><tr><th>口径</th><th>2025 / 2026 规模</th><th>CAGR</th><th>可信度</th><th>可否引用</th></tr></thead>
+  <tbody>
+    <tr><td>Document Scanner App（最窄）</td><td><strong>$7.446 亿</strong>（2026）</td><td>9.5%</td><td>★★</td><td class="ok">✅ 最佳锚点</td></tr>
+    <tr><td>Document Scanner App</td><td>$35.8 亿（2025）</td><td>4.9%</td><td>★</td><td class="no">❌ 份额数据错误（给 CamScanner 30.6%，与灼识 2.5% 矛盾）</td></tr>
+    <tr><td>Document Scanning Software</td><td>$25 亿 / $47.7 亿</td><td>12% / 6.6%</td><td>★★ / ★</td><td class="mid">⚠️ 含 B 端，且两源差 1.9 倍</td></tr>
+    <tr><td>Scanner Software（TBRC）</td><td>$56.8 亿 → $63.1 亿</td><td>11.1%</td><td>★★</td><td class="no">❌ 口径过宽（含工业/硬件）</td></tr>
+  </tbody>
+</table>
+<p class="lead">可用的最窄层（纯 C 端扫描/OCR App）≈ <strong>$7.4 亿 – $35.8 亿</strong>，而"桌面独立客户端"只是其中一个子集，<strong>最多占 5–10%</strong>。<br>
+给决策层一句话：<strong>这是一个年规模个位数亿美元以下、且被四重免费包夹的细分。它值得做产品，不值得做公司。</strong></p>
+
+<h2>三、产品池：六层分层（按「引擎归属 × 计费结构」切）</h2>
+<table>
+  <thead><tr><th>层</th><th>产品</th><th>引擎</th><th>计费</th><th>价格</th><th>真实规模</th></tr></thead>
+  <tbody>
+    <tr><td rowspan="6"><strong>A 国产<br>商业客户端</strong></td>
+        <td><strong>白描</strong></td><td>自研 + 云</td><td>买断</td><td><strong>¥30 / ¥40–50</strong></td><td><strong>1,000 万+ 用户</strong>；华为近 1,500 万次安装；4.9 分 / 4.2 万评分</td></tr>
+    <tr><td><strong>天若OCR</strong></td><td>接口聚合</td><td>买断</td><td class="mid">⚠️ ¥59 买断 vs ¥19月·¥168年（口径冲突，官网未标价）</td><td>免费版仅百度公共接口</td></tr>
+    <tr><td>迅捷OCR</td><td>云端</td><td>买断</td><td>¥88 终身</td><td class="no">🔴 联想渠道包体仅 3.65MB = 下载器壳</td></tr>
+    <tr><td>夸克扫描王 PC 版</td><td>云端（通义）</td><td>订阅</td><td>订阅制</td><td class="no">🔴 包体 2.44MB；教师用户 +121%；自动续费曾引投诉</td></tr>
+    <tr><td>扫描全能王 PC 版</td><td>端侧 + 云</td><td>订阅</td><td>¥258–300/年</td><td>149–154MB；PC 端无独立口径</td></tr>
+    <tr><td>汉王扫描王</td><td>自研</td><td>订阅</td><td>—</td><td><strong>用户数百万</strong>（上市公司问答原话）</td></tr>
+
+    <tr><td rowspan="7"><strong>B 海外<br>商业客户端</strong></td>
+        <td><strong>TextSniper</strong></td><td>Apple Vision</td><td>买断</td><td><strong>$7.99 / $11.99 无限设备</strong></td><td>未披露</td></tr>
+    <tr><td>OwlOCR</td><td>Vision + 本地 AI</td><td>免费 + 买断</td><td><strong>Core 免费；Pro $19.99/年 或 $49.99 终生</strong></td><td>未披露</td></tr>
+    <tr><td>ClariRec</td><td>Vision + GLM-OCR</td><td>免费 + 买断</td><td><strong>Pro ¥36 / $9.99</strong>（公式免费 20 次/月）</td><td>无账号、零遥测</td></tr>
+    <tr><td>ZenOCR</td><td>本地模型</td><td>买断</td><td><strong>$12.99</strong></td><td>第三方横评 2026 首选</td></tr>
+    <tr><td>ScreenSnap Pro</td><td>本地</td><td>买断</td><td>$39</td><td>—</td></tr>
+    <tr><td>ABBYY FineReader (Mac)</td><td>自研</td><td>订阅</td><td>$69/年</td><td class="mid">⚠️ Mac 版无手写识别</td></tr>
+    <tr><td>Prizmo</td><td>云端（Azure）</td><td>买断/年</td><td>$99.99 / $49.99 年</td><td class="no">🔴 必须上传云端</td></tr>
+
+    <tr><td rowspan="4"><strong>C 开源<br>免费</strong></td>
+        <td><strong>Umi-OCR</strong></td><td>PaddleOCR 离线</td><td>免费</td><td>¥0</td><td><strong>47,537★ / MIT</strong>；v2.1.5 下载 421k；<span class="mid">⚠️ 10 个月未提交</span></td></tr>
+    <tr><td>pot-desktop</td><td>多引擎</td><td>免费</td><td>¥0</td><td><strong>19,409★ / GPL-3.0 / 活跃</strong></td></tr>
+    <tr><td>eSearch</td><td>多引擎</td><td>免费</td><td>¥0</td><td>7,220★ / GPL-3.0 / 活跃</td></tr>
+    <tr><td>Text-Grab / NAPS2 / NormCap / gImageReader / 天若开源版</td><td>系统 API / Tesseract</td><td>免费</td><td>¥0</td><td>5,030★ / 4,560★ / 2,734★ / 1,997★</td></tr>
+
+    <tr><td rowspan="3"><strong>D 新形态<br>薄壳 + 系统引擎</strong></td>
+        <td><strong>Cheese! OCR</strong></td><td>Apple Vision（<strong>无网络权限</strong>）</td><td>免费</td><td><strong>$0</strong></td><td>PH 2026-04-07 上线，76 upvotes</td></tr>
+    <tr><td>ClariRec</td><td>Vision + GLM-OCR</td><td>免费 / 买断</td><td>¥36</td><td>—</td></tr>
+    <tr><td><strong>GhostText</strong></td><td>云端 API</td><td>免费 + 终身</td><td><strong>$4.99 终身</strong></td><td class="no">🔴 <strong>3 个月 $196 / 200+ 用户（唯一公开真实数字）</strong></td></tr>
+
+    <tr><td><strong>E 已死</strong></td><td>ScreenOCR（识字精灵）/ PandaOCR.Pro</td><td>本地 / 多引擎</td><td>曾收费</td><td>—</td><td class="no">🔴 停更 / 免费版砍掉大模型接口</td></tr>
+  </tbody>
+</table>
+
+<h3>最重要的结构证据：包体撕裂 120 倍</h3>
+<div class="chart">
+  <div class="row"><div class="lb">夸克扫描王 PC</div><div class="bar"><i class="b-zero" style="width:0.6%"></i></div><div class="vv">2.44 MB</div></div>
+  <div class="row"><div class="lb">迅捷OCR（联想）</div><div class="bar"><i class="b-zero" style="width:0.9%"></i></div><div class="vv">3.65 MB</div></div>
+  <div class="row"><div class="lb">FastStone Capture</div><div class="bar"><i class="b-cheap" style="width:7%"></i></div><div class="vv">~30 MB</div></div>
+  <div class="row"><div class="lb">扫描全能王 PC</div><div class="bar"><i class="b-mid" style="width:34%"></i></div><div class="vv">149 MB</div></div>
+  <div class="row"><div class="lb">Umi-OCR</div><div class="bar"><i class="b-hi" style="width:100%"></i></div><div class="vv">~440 MB</div></div>
+  <div class="caption"><strong>读法：</strong>小包 = 云端壳（有按次成本 → 必设次数限制 → 口碑风险）；大包 = 端侧引擎（无持续成本 → 只能免费或买断 → 收不到钱）。<strong>两个极端都没赢。唯一跑通的是第三种：薄壳 + 系统免费引擎</strong>（TextSniper / Cheese! / ClariRec）——把引擎成本转嫁给 OS 厂商。</div>
+</div>
+
+<h2>四、付费墙位置与 ARPU 断层</h2>
+<table>
+  <thead><tr><th>墙型</th><th>做法</th><th>本条线代表</th><th>口碑</th><th>转化</th><th>判定</th></tr></thead>
+  <tbody>
+    <tr><td>无墙</td><td>全免费换规模</td><td>Umi-OCR / Text-Grab / Cheese! / 天若开源版</td><td>★★★★★</td><td>★</td><td class="no">收不到钱</td></tr>
+    <tr><td><strong>一次性买断</strong></td><td>一次付费终身用</td><td>白描 ¥30｜天若 ¥59｜TextSniper $11.99｜OwlOCR $49.99｜ClariRec ¥36｜ZenOCR $12.99</td><td>★★★★★</td><td>★★★</td><td class="ok">✅ 与"无持续成本"结构一致，最诚实</td></tr>
+    <tr><td>用量墙</td><td>限次，完整可用</td><td>白描 5 次/天｜ClariRec 公式 20 次/月</td><td>★★★★</td><td>★★★</td><td class="ok">✅ 健康</td></tr>
+    <tr><td>功能墙</td><td>限高级能力</td><td>天若专业版（表格/竖排/公式/自定义接口）</td><td>★★★</td><td>★★</td><td class="mid">⚠️ 须讲清</td></tr>
+    <tr><td>订阅</td><td>按月/年扣</td><td>夸克 PC 版｜ABBYY Mac $69/年｜Prizmo $49.99/年</td><td>★★</td><td>★★</td><td class="mid">⚠️ 纯本地挂年费 = 自曝没交付第二次价值</td></tr>
+    <tr><td>交付墙</td><td>能识别不能导出</td><td>迅捷OCR（云端壳）</td><td>★</td><td>★★★★★</td><td class="no">🔴 禁止</td></tr>
+  </tbody>
+</table>
+
+<h3>ARPU 断层（约 70 倍，由「付费主体 × 计费结构 × 人群净值 × 计价货币」决定）</h3>
+<div class="chart">
+  <div class="row"><div class="lb">系统 / 开源 / 微信</div><div class="bar"><i class="b-zero" style="width:0.4%"></i></div><div class="vv">¥0</div></div>
+  <div class="row"><div class="lb">GhostText $4.99 终身</div><div class="bar"><i class="b-cheap" style="width:1.6%"></i></div><div class="vv">¥7</div></div>
+  <div class="row"><div class="lb">白描 ¥30 买断</div><div class="bar"><i class="b-cheap" style="width:1.4%"></i></div><div class="vv">¥6</div></div>
+  <div class="row"><div class="lb">TextSniper 无限设备</div><div class="bar"><i class="b-cheap" style="width:3.4%"></i></div><div class="vv">¥17</div></div>
+  <div class="row"><div class="lb">ClariRec ¥36</div><div class="bar"><i class="b-cheap" style="width:3.2%"></i></div><div class="vv">¥16</div></div>
+  <div class="row"><div class="lb">ZenOCR $12.99</div><div class="bar"><i class="b-cheap" style="width:3.7%"></i></div><div class="vv">¥18</div></div>
+  <div class="row"><div class="lb">OwlOCR Pro 年付</div><div class="bar"><i class="b-mid" style="width:29%"></i></div><div class="vv">¥141</div></div>
+  <div class="row"><div class="lb">扫描全能王 PC 会员</div><div class="bar"><i class="b-hi" style="width:56%"></i></div><div class="vv">¥258–300</div></div>
+  <div class="row"><div class="lb">ABBYY Mac 年费</div><div class="bar"><i class="b-top" style="width:100%"></i></div><div class="vv">¥490</div></div>
+  <div class="caption"><strong>最强单点对照：Umi-OCR（47,537★、功能最全、ARPU ¥0）vs TextSniper（菜单栏一个框、功能最少、ARPU ¥17）。</strong>在这个赛道里，<strong>星标与收入呈反比</strong>。<br>⚠️ 诚实提醒：这一层的收入量级是"个位数万美元/年"，不是"亿美元"。GhostText 是全赛道唯一公开真实数字的项目。</div>
+</div>
+
+<h2>五、痛点分层与一手用户原声</h2>
+<table>
+  <thead><tr><th>层</th><th>用户问题</th><th>可收费性</th></tr></thead>
+  <tbody>
+    <tr><td><strong>N1 抓取</strong></td><td>"截图里的字复制不了"</td><td class="no">❌ ARPU ≈ 0（8 条免费通道）</td></tr>
+    <tr><td><strong>N2 结构化</strong></td><td>表格要进 Excel、公式要进论文、竖排要能断句</td><td class="ok">✅ 强 ← 唯一能收钱的格子</td></tr>
+    <tr><td><strong>N3 批量确定性</strong></td><td>"几百张图片一口气搞定"</td><td class="mid">⚠️ 弱（开源已免费覆盖）</td></tr>
+    <tr><td><strong>N4 责任与合规</strong></td><td>"合同/证件/病历建议用本地版"</td><td class="mid">⚠️ 弱-中（免费开源已给）</td></tr>
+  </tbody>
+</table>
+<p class="lead"><strong>范式结论：厂商在 N1 投入最多功能（截图/快捷键/取色/GIF），却在 N1 收不到钱；能收钱的 N2，投入最少、做得最晚。</strong></p>
+
+<h3>论坛长帖原声（小众软件 meta.appinn.net 全楼层 JSON）</h3>
+
+<div class="q">"感觉可以转换思路，从'<b>找一款软件</b>'变成'<b>找一条工具链</b>'。用 ShareX 截图，它支持截图完毕以后执行各种自动化的动作；用胶水（Quicker，AHK 等）把上一步和下一步自动连起来……"<span class="src">T78286 · 2026 年 Windows OCR 选型求助 · 1,219 浏览 / 17 层</span></div>
+
+<div class="q">"找到了一键快速解决方案：<b>Cherry Studio</b>（免费）+ <b>智谱 glm-4.6v-flash</b>（免费）。任意图片或截图，一步/一键粘贴到对话框，回车发送；<b>1 秒不到</b>，自动给出严格按图片排版的文字，精确度非常高。"<span class="src">T78286 · 用户已自建完整大模型 OCR 链路</span></div>
+
+<div class="q">"Umi-OCR_Paddle_v2：<b>字符和换行经常不准，体积太大，AI插件不好用</b>。"<span class="src">T78286 · 对 47,537★ 开源第一名的直接否定</span></div>
+
+<div class="q">"发现还是<b>微信的截图识别文字</b>在不那么清晰的时候，效果还是相对较好的。""pixpin：多功能截图工具，<b>识别率还是比微信差一丢丢</b>。"<span class="src">T81978 · 寻求高准确率OCR软件 · 934 浏览 / 25 层</span></div>
+
+<div class="q">"FastStone Capture 竟然意外的好用，<b>识别效果竟然比微信还好</b>…速度快，体积小，识别准确。"<span class="src">T81978 · 配套对照：FastStone ~30MB vs Umi-OCR ~440MB</span></div>
+
+<div class="q">"我做过测试…对比了包括 Umi-OCR、pixpin 等等不同软件…结果发现<b>只要模型转为本地，识别能力就会大大下降</b>。"<span class="src">T81978 · 直接否定「本地 + 隐私 + 高精度」三合一叙事</span></div>
+
+<div class="q">"我刚刚试了 Umi-OCR，发现其<b>识别竖排日文的能力为零，完全不可用</b>。"　"/　"<b>白描</b>竖排断句上有一点小瑕疵，但是问题不大，<b>识别率比 ABBYY 15 要强一点</b>。"<span class="src">T62706 · 竖排日文需求 · 1,502 浏览 / 26 层 —— 唯一的"零竞争"格子</span></div>
+
+<div class="q">"win11 现在自带的截图工具就有 ocr 功能了。"　"/　"我经常用，主要<b>不用另外装</b>！"　"/　"POWER TOYS 就不用了，<b>刚卸载，太臃肿了</b>。"<span class="src">T62841 / T81978 · 系统内置的挤压与"太重"的反感</span></div>
+
+<h2>六、三条可进场路径</h2>
+<div class="paths">
+  <div class="path p0">
+    <div class="ph">P0 · 「OCR 之后的交付」</div>
+    <div class="pd">截图表格 → Excel｜公式 → LaTeX｜代码 → 保缩进｜报错码 → 检索｜多栏 → Markdown。<br><strong>全行业只做到"输出文本"，没有一家做到"输出可直接用"。</strong>需求已明确（表格是白描"最惊喜"的功能）。<br>定价建议：<strong>一次性买断 ¥39–99</strong>（对应 TextSniper / ZenOCR 的 $7.99–12.99 档）。</div>
+  </div>
+  <div class="path p0">
+    <div class="ph">P0 · 「大模型客户端 + 5MB 极简壳」</div>
+    <div class="pd">把用户已自建的那条链路（Cherry Studio + 视觉模型）压成一个应用。痛点原文：<b>"期待出现一个用大模型的极简OCR软件"、"大小：10-50MB 左右"</b>。<br>定价建议：<strong>免费 + BYOK</strong>（用户自付 token）或用 credits 计费 —— 注意 BYOK 决定"无持续成本"，也就决定收不到订阅费。</div>
+  </div>
+  <div class="path p1">
+    <div class="ph">P1 · 竖排 / 古籍 / 日文 / 漫画（本地引擎 + 断句后处理）</div>
+    <div class="pd">47,537★ 的 Umi-OCR 在这一格"能力为零"，而需求真实（1,502 + 1,045 浏览）。<br>定价建议：<strong>一次性买断</strong>（该人群愿付溢价）。风险：池子极小，只够养一个独立开发者。</div>
+  </div>
+</div>
+
+<h2>七、明令回避 · 坦率负结论 · 数据缺口</h2>
+<div class="box neg">
+  <div class="bt">❌ 明令回避</div>
+  <ul>
+    <li>又一个"能截图识字的客户端"（8 条免费通道已饱和）</li>
+    <li>把"识别更准"当卖点（开源已反超商业云；用户以微信为基准线）</li>
+    <li>纯本地客户端挂年费/订阅（无持续交付成本，用户一眼看穿）</li>
+    <li>付费墙设在"导出/复制"环节（迅捷OCR 模式：转化最优、口碑最差）</li>
+    <li>下载器壳 + 云端处理（2.44–3.65MB 那一路：必有次数限制与负毛利敞口）</li>
+    <li>翻译 / TTS / 录屏等附加功能（用户明确不要，且会把包体推回 100MB+）</li>
+  </ul>
+</div>
+<div class="box neg">
+  <div class="bt">坦率的负结论</div>
+  <p><strong>做"用户端独立客户端 OCR"的期望 ROI 结构性 &lt; 1。</strong></p>
+  <p>理由：<strong>GhostText 全赛道唯一公开真实数字——3 个月 $196、200+ 用户。</strong>这是一个人在没有融资、没有受众的情况下做出的"真实且健康"的结果，而它同时也是这个品类的<strong>天花板画像</strong>：用户愿意付费，但付得极少；产品不是玩具，但也长不成生意。</p>
+  <p>唯一例外路径：<strong>不要把它当产品，把它当分发通路</strong>——用免费 OCR 壳换装机量与品牌，在"交付层"或"B 端责任层"变现。（扫描全能王 PC 版走的就是这条路，但它有 1.99 亿 MAU 的母体支撑，单体创业者没有。）</p>
+</div>
+
+<h3>数据缺口清单</h3>
+<table>
+  <thead><tr><th>缺口</th><th>状态</th><th>影响</th></tr></thead>
+  <tbody>
+    <tr><td>C 端桌面 OCR 客户端独立市场规模</td><td class="no">不存在任何一份报告</td><td>只能用"扫描 App 层 ÷ 5–10%"粗估</td></tr>
+    <tr><td>白描真实付费用户数</td><td>未披露（仅 1,000 万总用户 + ¥30 定价）</td><td>无法算 ARPU 与转化率</td></tr>
+    <tr><td>天若OCR 专业版真实价格</td><td class="mid">官网未标价，第三方两个矛盾口径</td><td>定价锚点不可直接引用</td></tr>
+    <tr><td>桌面端用户量</td><td>所有上市公司均无独立口径</td><td>桌面 VS 移动占比无从判断</td></tr>
+    <tr><td><strong>"无人工干预可用率"</strong></td><td class="no">全行业零披露</td><td>唯一真正决定付费意愿的指标，<strong>全空白</strong></td></tr>
+    <tr><td>Apple Vision / Windows OCR 系统级使用量</td><td>未披露</td><td>无法量化"系统内置"吃掉了多少份额</td></tr>
+  </tbody>
+</table>
+
+<footer>
+  数据来源：GitHub REST API（2026-09-29 实测）｜官方定价页（白描 / 天若OCR price.php / TextSniper / OwlOCR / ClariRec）｜上市公司公告与投资者问答（汉王科技 002362）｜小众软件论坛 meta.appinn.net 全楼层 JSON（T78286 / T81978 / T62706 / T64879 / T39449 / T62841）｜Indie Hackers（GhostText）｜第三方市场报告（★–★★，口径差 4.8 倍，仅作区间）。<br>
+  ⚠️ 三条引用规则：① "用户数"与"下载量"不可混用；② 份额数据错误即整份报告作废；③ 市场规模数字必须同时给出层级与来源。
+</footer>
+
+</div>
+</body>
+</html>

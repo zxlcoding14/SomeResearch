@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纯 OCR / 批量 OCR 能力市场状况</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f4f6f9; --card:#fff; --ink:#16202f; --ink2:#42536b; --ink3:#7a8aa0;
+    --line:#e2e8f0; --line2:#eef2f7;
+    --red:#c8322b; --red-bg:#fdf0ef;
+    --blue:#1d4ed8; --blue-bg:#eff4fe;
+    --green:#15803d; --green-bg:#eefaf1;
+    --amber:#b45309; --amber-bg:#fef7e8;
+    --gray:#64748b; --gray-bg:#f1f5f9;
+    --violet:#6d28d9; --violet-bg:#f4f0fe;
+  }
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;padding:32px 20px 60px}
+  .wrap{max-width:1140px;margin:0 auto}
+
+  header{margin-bottom:26px}
+  .kicker{font-size:12px;letter-spacing:.14em;color:var(--ink3);text-transform:uppercase;font-weight:600;margin-bottom:10px}
+  h1{font-size:27px;font-weight:700;letter-spacing:-.01em;line-height:1.35}
+  h1 span{color:var(--ink3);font-weight:500}
+  .meta{margin-top:12px;font-size:13px;color:var(--ink3)}
+  .verdict{margin-top:20px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--red);
+    border-radius:10px;padding:18px 22px}
+  .verdict b{color:var(--red)}
+  .verdict p{font-size:14.5px;color:var(--ink2)}
+  .verdict p+p{margin-top:8px}
+
+  section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:26px 28px;margin-top:20px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+  .sec-num{font-size:12px;font-weight:700;color:#fff;background:var(--ink);border-radius:5px;padding:2px 8px;letter-spacing:.05em}
+  h2{font-size:18.5px;font-weight:700;letter-spacing:-.005em}
+  .sec-sub{font-size:13px;color:var(--ink3);margin-bottom:20px}
+
+  table{width:100%;border-collapse:collapse;font-size:13.1px}
+  th{text-align:left;font-weight:600;color:var(--ink2);background:var(--gray-bg);
+    padding:9px 11px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:9px 11px;border-bottom:1px solid var(--line2);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .mono{font-variant-numeric:tabular-nums}
+
+  .pill{display:inline-block;font-size:11px;font-weight:700;border-radius:20px;padding:2px 9px;white-space:nowrap}
+  .p-yes{background:var(--green-bg);color:var(--green);border:1px solid #c7ebd3}
+  .p-part{background:var(--amber-bg);color:var(--amber);border:1px solid #f4dfb4}
+  .p-no{background:var(--red-bg);color:var(--red);border:1px solid #f6d2cf}
+  .p-blue{background:var(--blue-bg);color:var(--blue);border:1px solid #c8dbfb}
+  .p-violet{background:var(--violet-bg);color:var(--violet);border:1px solid #ddd2fb}
+
+  /* layer stack */
+  .layers{display:flex;flex-direction:column;gap:11px;margin-top:6px}
+  .lay{display:grid;grid-template-columns:54px 200px 1fr 168px;align-items:center;gap:13px}
+  .lay .id{font-size:12px;font-weight:800;color:#fff;border-radius:6px;padding:4px 0;text-align:center;letter-spacing:.04em}
+  .l1 .id{background:#94a3b8}.l2 .id{background:#c8322b}.l3 .id{background:#e0a52c}
+  .l4 .id{background:#15803d}.l5 .id{background:#6d28d9}
+  .lay .nm{font-size:13.2px;font-weight:600}
+  .lay .nm small{display:block;font-weight:400;color:var(--ink3);font-size:11.5px;margin-top:1px}
+  .bar{height:26px;border-radius:6px;background:var(--gray-bg);position:relative;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:6px}
+  .l1 .bar i{background:linear-gradient(90deg,#a8b4c4,#94a3b8)}
+  .l2 .bar i{background:linear-gradient(90deg,#d9483b,#c8322b)}
+  .l3 .bar i{background:linear-gradient(90deg,#e5a52b,#b45309)}
+  .l4 .bar i{background:linear-gradient(90deg,#22a34a,#15803d)}
+  .l5 .bar i{background:linear-gradient(90deg,#8b5cf6,#6d28d9)}
+  .lay .v{font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums;line-height:1.35}
+  .lay .v b{display:block;font-size:13.5px}
+  .lay .v small{color:var(--ink3)}
+
+  /* horizontal compare */
+  .cmp{display:flex;flex-direction:column;gap:9px}
+  .cmp-row{display:grid;grid-template-columns:210px 1fr 132px;align-items:center;gap:12px}
+  .cmp-lab{font-size:12.8px;color:var(--ink2);text-align:right;line-height:1.3}
+  .cmp-lab b{display:block;color:var(--ink);font-weight:600}
+  .cmp-track{background:var(--gray-bg);border-radius:5px;height:26px;overflow:hidden}
+  .cmp-fill{height:100%;border-radius:5px;display:flex;align-items:center;padding-left:9px;
+    font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap}
+  .cf-red{background:linear-gradient(90deg,#d9483b,#c8322b)}
+  .cf-amber{background:linear-gradient(90deg,#e5a52b,#b45309)}
+  .cf-gray{background:linear-gradient(90deg,#a8b4c4,#8896a8)}
+  .cf-green{background:linear-gradient(90deg,#22a34a,#15803d)}
+  .cf-blue{background:linear-gradient(90deg,#3b82f6,#1d4ed8)}
+  .cmp-val{font-size:13px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  .cmp-val small{display:block;font-size:11px;color:var(--ink3);font-weight:500}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+  .kpi{background:var(--gray-bg);border-radius:9px;padding:14px 15px}
+  .kpi .k{font-size:11.5px;color:var(--ink3);font-weight:600;letter-spacing:.03em}
+  .kpi .v{font-size:21px;font-weight:700;margin-top:5px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .kpi .d{font-size:11.5px;color:var(--ink3);margin-top:3px}
+  .v-red{color:var(--red)} .v-green{color:var(--green)} .v-blue{color:var(--blue)} .v-violet{color:var(--violet)}
+
+  ul.notes{list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:9px}
+  ul.notes li{font-size:13.3px;color:var(--ink2);padding-left:20px;position:relative}
+  ul.notes li::before{content:"";position:absolute;left:4px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--red)}
+  ul.notes li b{color:var(--ink);font-weight:600}
+
+  /* cost collapse */
+  .collapse{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+  .col-row{display:grid;grid-template-columns:230px 1fr 150px;align-items:center;gap:14px}
+  .col-lab{font-size:13px;text-align:right;line-height:1.35}
+  .col-lab b{display:block;font-weight:600}
+  .col-lab small{color:var(--ink3);font-size:11.5px}
+  .col-track{background:var(--gray-bg);border-radius:6px;height:32px;overflow:hidden}
+  .col-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:10px;font-size:12.5px;font-weight:700;color:#fff}
+  .col-val{font-size:15px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+  .ratio{margin-top:16px;background:var(--red-bg);border:1px solid #f6d2cf;border-radius:9px;padding:14px 18px;text-align:center}
+  .ratio .n{font-size:30px;font-weight:800;color:var(--red);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  .ratio .t{font-size:12.8px;color:#8a2b25;margin-top:3px}
+
+  /* price ruler */
+  .ruler{margin-top:12px;position:relative;padding:34px 0 30px}
+  .ruler .axis{height:3px;background:linear-gradient(90deg,#3b82f6,#22a34a,#e5a52b,#d9483b);border-radius:2px}
+  .ruler .pt{position:absolute;top:0;transform:translateX(-50%);text-align:center;width:120px}
+  .ruler .pt .pv{font-size:11.5px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+  .ruler .pt .pn{font-size:10.5px;color:var(--ink3);line-height:1.25;margin-top:1px}
+  .ruler .tick{position:absolute;top:26px;transform:translateX(-50%);width:2px;height:14px;background:var(--ink3);opacity:.5}
+
+  /* stacked cost */
+  .stk{display:flex;height:64px;border-radius:9px;overflow:hidden;margin-top:14px;border:1px solid var(--line)}
+  .stk div{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:700;color:#fff;line-height:1.3}
+  .stk .a{background:linear-gradient(180deg,#3b82f6,#1d4ed8)}
+  .stk .b{background:linear-gradient(180deg,#d9483b,#a8281f)}
+  .stk small{font-weight:500;font-size:10.5px;opacity:.85}
+
+  .warn{margin-top:18px;background:var(--amber-bg);border:1px solid #f4dfb4;border-radius:9px;padding:14px 17px;font-size:13.1px;color:#7c4a08}
+  .warn b{color:#6b3f06}
+  .warn.red{background:var(--red-bg);border-color:#f6d2cf;color:#8a2b25}
+  .warn.red b{color:#7a1e19}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .quote{border-left:3px solid var(--red);padding:10px 0 10px 15px;margin:16px 0;font-size:13.4px;color:var(--ink2);font-style:italic}
+
+  footer{margin-top:26px;font-size:12px;color:var(--ink3);text-align:center;line-height:1.8}
+
+  @media (max-width:860px){
+    .grid2,.kpis{grid-template-columns:1fr 1fr}
+    .lay,.cmp-row,.col-row{grid-template-columns:1fr;gap:5px}
+    .lay .v,.cmp-lab,.col-lab,.cmp-val{text-align:left}
+    .ruler .pt{width:78px}.ruler .pt .pn{font-size:9.5px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Capability Market Analysis · Pure OCR &amp; Batch OCR</div>
+    <h1>纯 OCR / 批量 OCR 能力市场状况 <span>／ 五层结构与护城河塌方</span></h1>
+    <div class="meta">分析日期 2026-09-29 ｜ 来源：Grand View Research、Coherent MI、灼识咨询（CIC）、OmniDocBench / olmOCR-Bench / ParseBench、各厂商公开定价页、开源仓库实测、中国政府采购平台</div>
+    <div class="verdict">
+      <p><b>能分析，而且这是整条链上数据最透明的一层</b> —— 有公开单价、有统一基准、有第三方横评、有对比厂商财报。与 C 端扫描 App（财务黑箱）形成鲜明反差。</p>
+      <p><b>但"纯 OCR"在 2026 年已经失去商业含义。</b>它退化成了两种东西：<b>免费的公共品</b>，或<b>近乎零毛利的云 API 走量品</b>。能收钱的只剩两层：IDP（毛利 35–45%）与场景批量项目。</p>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>先立口径：OCR 不是"一个市场"，是五个</h2></div>
+    <div class="sec-sub">把五层混谈，任何规模数字都是错的 —— 而"纯 OCR"恰好是其中最不赚钱的两层</div>
+    <div class="layers">
+      <div class="lay l1">
+        <div class="id">L1</div>
+        <div class="nm">开源引擎<small>PaddleOCR / Surya / GLM-OCR / Tesseract</small></div>
+        <div class="bar"><i style="width:3%"></i></div>
+        <div class="v"><b>$0</b><small>免费公共品 · 精度已反超商业云</small></div>
+      </div>
+      <div class="lay l2">
+        <div class="id">L2</div>
+        <div class="nm">云厂商通用 OCR API<small>百度 / 腾讯 / 阿里 / AWS / Azure / GCP</small></div>
+        <div class="bar"><i style="width:14%"></i></div>
+        <div class="v"><b>¥0.009–0.0825/次</b><small>近零毛利 · 同能力报价差 9 倍</small></div>
+      </div>
+      <div class="lay l3">
+        <div class="id">L3</div>
+        <div class="nm">文档解析 / 版面还原 API<small>LlamaParse / Reducto / Mistral / Mathpix</small></div>
+        <div class="bar"><i style="width:44%"></i></div>
+        <div class="v"><b>$1.25–56.25/千页</b><small>中等毛利 · 档差 45×</small></div>
+      </div>
+      <div class="lay l4">
+        <div class="id">L4</div>
+        <div class="nm">IDP 智能文档处理<small>ABBYY / Tungsten / 达观 / TextIn</small></div>
+        <div class="bar"><i style="width:66%"></i></div>
+        <div class="v"><b>$0.25–0.38/页</b><small>毛利 35–45% · 唯一系统性溢价</small></div>
+      </div>
+      <div class="lay l5">
+        <div class="id">L5</div>
+        <div class="nm">场景批量工程<small>政务档案 / 银行单据 / 证照 / 票据</small></div>
+        <div class="bar"><i style="width:100%"></i></div>
+        <div class="v"><b>项目制招标</b><small>中国唯一能维持毛利的口子</small></div>
+      </div>
+    </div>
+    <ul class="notes">
+      <li><b>读法：</b>L1 免费 → L2 零毛利 → L3 靠精度分层 → L4 靠责任溢价 → L5 靠资质与交付。<b>"纯 OCR"指的是 L1–L2，而这两层恰恰都不赚钱。</b></li>
+      <li><b>灼识咨询早在 2022 年就给出了预判：</b>中国智能文字识别四个细分中，<b>"基础技术服务"（≈纯 OCR 能力）CAGR 仅 16.5%，是总增速 27.3% 的 60%</b>，四档中最低。</li>
+    </ul>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>护城河塌方：成本比 333–722 倍，且精度更高</h2></div>
+    <div class="sec-sub">2024 年及以前，像素识别是护城河；2025–2026 年，这道墙塌了</div>
+    <div class="collapse">
+      <div class="col-row">
+        <div class="col-lab"><b>自建开源方案</b><small>PaddleOCR-VL / GLM-OCR on A100</small></div>
+        <div class="col-track"><div class="col-fill" style="width:1.6%;background:linear-gradient(90deg,#22a34a,#15803d)"></div></div>
+        <div class="col-val" style="color:var(--green)">$0.04–0.09<small style="display:block;font-size:11.5px;color:var(--ink3);font-weight:500">/ 千页</small></div>
+      </div>
+      <div class="col-row">
+        <div class="col-lab"><b>Google Document AI</b><small>表单 + 表格档</small></div>
+        <div class="col-track"><div class="col-fill" style="width:100%;background:linear-gradient(90deg,#d9483b,#a8281f)">$30–65 / 千页</div></div>
+        <div class="col-val" style="color:var(--red)">$30–65<small style="display:block;font-size:11.5px;color:var(--ink3);font-weight:500">/ 千页</small></div>
+      </div>
+    </div>
+    <div class="ratio">
+      <div class="n">333 – 722 ×</div>
+      <div class="t">成本倍数（商业云的贵 / 自建的便宜）而开源方案的基准精度反而更高</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="k">GLM-OCR（开源）</div><div class="v v-green">94.62</div><div class="d">OmniDocBench</div></div>
+      <div class="kpi"><div class="k">PaddleOCR-VL（开源）</div><div class="v v-green">94.50</div><div class="d">OmniDocBench</div></div>
+      <div class="kpi"><div class="k">GPT-5</div><div class="v">≈85.80</div><div class="d">同一基准 · 已被开源反超</div></div>
+      <div class="kpi"><div class="k">Gemini 3 Pro</div><div class="v">≈84.20</div><div class="d">同一基准 · 已被开源反超</div></div>
+    </div>
+    <div class="quote">"OCR is the most commoditized AI task in 2026. For most of the last decade, document parsing was a moat… That moat collapsed in 2025–2026." — CodeSOTA, 2026</div>
+    <div class="sec-head" style="margin-top:24px"><span class="sec-num" style="background:var(--red)">后果</span><h2 style="font-size:16px">四条连锁商业后果</h2></div>
+    <table>
+      <thead><tr><th>#</th><th>后果</th><th>证据</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">①</td><td><b>被迫上移</b></td><td>ABBYY 2025 营收 $406–420M，被逼从 OCR 转向 process intelligence；SaaS 占收入 88%；毛利仅 35–45%</td></tr>
+        <tr><td class="mono">②</td><td><b>被弃用</b></td><td>UiPath 弃用 ABBYY 集成，改自研 Generative Extraction</td></tr>
+        <tr><td class="mono">③</td><td><b>客户自建</b></td><td>2025 年 <b>48% 的 Fortune 500 在内建文档 AI</b>，3 年 TCO 低 30–60%</td></tr>
+        <tr><td class="mono">④</td><td><b>被 VLM 吞</b></td><td>Claude / GPT / Gemini 一次调用完成"提取 + 理解 + 结构化"——"离删掉整个 OCR 管道只差一次 VLM 调用"</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <b>⚠️ 但有三条反向力量不能忽略：</b>① <b>存量还没吃完</b> —— 全球 OCR 需求 2025 约 <b>1.87 万亿页当量，同比 +23.4%</b>；② <b>合规与主权强制私有化</b> —— 欧盟 GDPR 下本地部署占 <b>71%</b>（云原生 OCR 增速仅 9.7%）；③ <b>长期终局风险</b> —— McKinsey 估算 2028 年前 <b>40% 的 B2B 文档流将被结构化 API 取代</b>（ISO 20022 / GS1 JSON）。
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>市场规模：六个口径差 3.8 倍，只能切层引用</h2></div>
+    <div class="sec-sub">同一赛道，"宽口径 OCR"给 12.9–16.9% CAGR，"窄口径 IDP"只给 4.9% —— 这个差就是"能力商品化"的财务证据</div>
+    <div class="cmp">
+      <div class="cmp-row">
+        <div class="cmp-lab"><b>Grand View Research</b>OCR 整体 ★★★★</div>
+        <div class="cmp-track"><div class="cmp-fill cf-blue" style="width:99%">$19.8B（2026）</div></div>
+        <div class="cmp-val">CAGR 12.9%<small>→ $46.4B (2033)</small></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-lab"><b>pmarketresearch</b>OCR 软件 ★★</div>
+        <div class="cmp-track"><div class="cmp-fill cf-blue" style="width:100%">$20.35B（2026）</div></div>
+        <div class="cmp-val">CAGR 16.85%<small>→ $52.1B (2032)</small></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-lab"><b>MarketLensIQ</b>OCR 整体 ★★</div>
+        <div class="cmp-track"><div class="cmp-fill cf-blue" style="width:80%">$16.18B（2026）</div></div>
+        <div class="cmp-val">CAGR 15.1%<small>→ $43.3B (2033)</small></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-lab"><b>pmarketresearch</b>AI OCR ★★</div>
+        <div class="cmp-track"><div class="cmp-fill cf-blue" style="width:69%">$14.12B（2026）</div></div>
+        <div class="cmp-val">CAGR 16.5%<small>→ $36.4B (2032)</small></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-lab"><b>Coherent MI</b>IDP 窄口径 ★★★</div>
+        <div class="cmp-track"><div class="cmp-fill cf-red" style="width:7%">$1.45B（2026）</div></div>
+        <div class="cmp-val v-red">CAGR 4.9%<small class="v-red">→ $2.02B (2033)</small></div>
+      </div>
+    </div>
+    <div class="warn red" style="margin-top:20px">
+      <b>⚠️ 关键差异：同一赛道，宽口径 12.9–16.9%，窄口径 IDP 仅 4.9% —— 差 3.5 倍。</b><br><br>
+      这不是数据错误，<b>是信号</b>：说明"纯 OCR 识别"这件商品本身在贬值（价格快速下行抵消了量的增长），增长全部来自把它包装成"流程 / 决策 / 交付"的那部分。
+    </div>
+    <div class="sec-head" style="margin-top:26px"><span class="sec-num" style="background:var(--violet)">中国</span><h2 style="font-size:16px">灼识咨询四细分 CAGR —— 本分析最值得记住的一组数字</h2></div>
+    <div class="cmp" style="margin-top:14px">
+      <div class="cmp-row">
+        <div class="cmp-lab"><b>场景化解决方案</b></div>
+        <div class="cmp-track"><div class="cmp-fill cf-violet" style="width:100%;background:linear-gradient(90deg,#8b5cf6,#6d28d9)">31.6%</div></div>
+        <div class="cmp-val">1.16 ×<small>vs 总增速 27.3%</small></div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-lab"><b>标准化产品（B 端）</b></div>
+        <div class="cmp-track"><div class="cmp-fill cf-violet" style="width:95%;background:linear-gradient(90deg,#8b5cf6,#6d28d9)">30.0%</div></div>
+        <div class="cmp-val">1.10 ×</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-lab"><b>标准化产品（C 端）</b></div>
+        <div class="cmp-track"><div class="cmp-fill cf-amber" style="width:71%">22.4%</div></div>
+        <div class="cmp-val">0.82 ×</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-lab"><b>基础技术服务 ≈ 纯 OCR 能力</b></div>
+        <div class="cmp-track"><div class="cmp-fill cf-red" style="width:52%">16.5%</div></div>
+        <div class="cmp-val v-red">0.60 ×<small class="v-red">四档最低</small></div>
+      </div>
+    </div>
+    <ul class="notes">
+      <li><b>"基础技术服务"只有总增速的 60%，是四档中最低。</b>灼识在 2022 年就给出了这个判断，2026 年的现实（开源反超 + 成本坍塌）完全验证了它。</li>
+      <li>中国智能文字识别整体：2022 <b>¥50.4 亿</b> → 2027E <b>¥168.9 亿</b>（CAGR 27.3%）；2021 ¥41.8 亿 → 2026E ¥151.0 亿（CAGR 29.3%）。</li>
+    </ul>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>文档解析 API：同一件事，价格跨度 45 倍</h2></div>
+    <div class="sec-sub">差价买的不是"识字"，是「版面/表格/公式保真度 + 引用定位 + 审计链 + 零样本 schema」</div>
+    <div class="ruler">
+      <div class="axis"></div>
+      <div class="pt" style="left:3%"><div class="pv">$1.25</div><div class="pn">LlamaParse<br>Fast</div></div>
+      <div class="tick" style="left:3%"></div>
+      <div class="pt" style="left:13%"><div class="pv">$4</div><div class="pn">Mistral OCR 4.1<br>（batch $1–2）</div></div>
+      <div class="tick" style="left:13%"></div>
+      <div class="pt" style="left:30%"><div class="pv">$10</div><div class="pn">Mathpix / Reducto r-1<br>Upstage $10–30</div></div>
+      <div class="tick" style="left:30%"></div>
+      <div class="pt" style="left:44%"><div class="pv">$15</div><div class="pn">Unstructured<br>（全管道）</div></div>
+      <div class="tick" style="left:44%"></div>
+      <div class="pt" style="left:58%"><div class="pv">$20–80</div><div class="pn">ABBYY Vantage<br>年度议价</div></div>
+      <div class="tick" style="left:58%"></div>
+      <div class="pt" style="left:74%"><div class="pv">$30–65</div><div class="pn">Google<br>Document AI</div></div>
+      <div class="tick" style="left:74%"></div>
+      <div class="pt" style="left:93%"><div class="pv">$56.25</div><div class="pn">LlamaParse<br>Agentic Plus</div></div>
+      <div class="tick" style="left:93%"></div>
+    </div>
+    <div class="warn">
+      <b>两个必须注意的商业陷阱：</b><br><br>
+      <b>① Marker 的权重是 RAIL-M 修改版</b> —— 年收入或融资超 <b>$5M</b> 的公司不得使用，且禁止构建竞品。代码 Apache 2.0 会让人误以为整体开源。<br><br>
+      <b>② 开源基准分不可直接横比</b> —— PaddleOCR-VL 的 94.5 来自 OmniDocBench v1.5，olmOCR-2 的 82.4 来自 olmOCR-Bench，方法论不同，不能相减。<br><br>
+      <b>③ 幻觉率是选型必看项：</b>Claude Opus 4.6 = 0.044（与专用管道同级），GPT-5.2 = 0.167，Gemini 2.5 Pro = 0.257 —— <b>同代模型间差 5.8 倍。</b>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>批量 OCR：它和"纯 OCR"的本质区别</h2></div>
+    <div class="sec-sub">批量 ≠ 一次一张，而是"一次数十万到数亿页 + 必须工程化交付"</div>
+    <table>
+      <thead><tr><th>场景</th><th>批量规模</th><th>交付物</th><th>采购方式</th><th>价格锚点（实测）</th></tr></thead>
+      <tbody>
+        <tr><td><b>政务档案数字化</b></td><td>馆藏级（百万–千万页）</td><td>双层 PDF / 双层 OFD / TXT</td><td><span class="pill p-violet">公开招标</span></td><td><b>¥80.3 万/项目</b>（北京市档案馆 2026-06）</td></tr>
+        <tr><td>金融票据（发票/结算单）</td><td>日万级–百万级</td><td>结构化字段</td><td>API 按量 + 私有化</td><td>¥0.009–0.0825/次；<b>医疗票据 ¥0.35–0.8/次</b></td></tr>
+        <tr><td>银行 / 保险单据</td><td>存量千万页</td><td>字段 + 审计链</td><td>项目制</td><td>$20–80/千页；项目 $40k–190k</td></tr>
+        <tr><td>书籍 / 古籍数字化</td><td>百万页级</td><td>结构化全文 + 版面</td><td>项目制</td><td>与档案类似</td></tr>
+        <tr><td>RAG 语料构建</td><td>千万页级</td><td>Markdown / JSON chunk</td><td>API 按量</td><td>$1.25–$56.25/千页</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sec-head" style="margin-top:26px"><span class="sec-num" style="background:var(--red)">核心</span><h2 style="font-size:16px">总成本公式不是"调用量 × 单价"</h2></div>
+    <div class="stk">
+      <div class="a" style="width:18%">¥800<small>基础调用费</small></div>
+      <div class="b" style="width:82%">¥3,600<small>QPS 叠加包 — 占 82%</small></div>
+    </div>
+    <p style="font-size:12.8px;color:var(--ink3);margin-top:8px">实测案例：某电商大促月调用 20 万次 —— 基础费仅 ¥800，但为应对瞬时并发的 QPS 叠加包花了 ¥3,600</p>
+
+    <div class="grid2" style="margin-top:22px">
+      <div>
+        <div class="warn" style="margin-top:0">
+          <b>月总成本四项公式：</b><br><br>
+          ① 基础调用费（注意：<b>失败是否计费、错误码是否计费</b>，腾讯云部分错误码也收费）<br>
+          ② <b>QPS 叠加包费用</b> ← 最容易漏，且可能占大头<br>
+          ③ 资源包过期损失 ← 强制买包、用不完作废<br>
+          ④ <b>人工校对成本</b> ← 98% 准确率 → 每万次仍有 200 张需人工修
+        </div>
+      </div>
+      <div>
+        <div class="warn red" style="margin-top:0">
+          <b>真正的付费点：</b>不是识别率，是<b>「不用人看的比例」（straight-through processing）</b>。<br><br>
+          这是 IDP 厂商的定价逻辑，也是纯 OCR 永远无法触及的定价维度。<br><br>
+          <b>而"无人工干预通过率"恰恰是所有厂商最不公开的指标。</b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>中国格局与市场状况总判断</h2></div>
+    <div class="sec-sub">垂直厂商被云厂商持续挤压，而云厂商自己在打价格战</div>
+    <div class="grid2">
+      <div>
+        <table>
+          <thead><tr><th>梯队</th><th class="num">合计份额</th><th>护城河</th></tr></thead>
+          <tbody>
+            <tr><td><b>第一 · 云厂商</b><br><small style="color:var(--ink3)">百度 / 腾讯 / 阿里 / 华为</small></td><td class="num" style="color:var(--red);font-weight:700">≈48.6%</td><td>自研大模型 + 云渠道</td></tr>
+            <tr><td><b>第二 · 垂直厂商</b><br><small style="color:var(--ink3)">合合 / 汉王 / 文通 / 达观</small></td><td class="num">≈33.1%</td><td>行业 Knowhow</td></tr>
+            <tr><td><b>第三 · 初创 + 开源集成</b></td><td class="num">≈18.3%</td><td>低成本定制<br><small style="color:var(--red)">2025 年已有 4 家被收购</small></td></tr>
+          </tbody>
+        </table>
+        <div class="warn red">
+          <b>⚠️ 可信度警告：</b>中国份额数据来自 SEO 型来源，<b>多份互相矛盾</b>（阿里云 28% vs 百度 18% vs 百度 15%）。引用时必须标注为"第三方估算，来源不一致"。
+        </div>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th>厂商</th><th class="num">通用 OCR 单价</th></tr></thead>
+          <tbody>
+            <tr><td>百度智能云</td><td class="num">≈¥0.04/次 → ¥0.025</td></tr>
+            <tr><td>腾讯云</td><td class="num">≈¥0.035/次 → ¥0.028</td></tr>
+            <tr><td>阿里云</td><td class="num">≈¥0.0825/次 → ¥0.009</td></tr>
+            <tr><td>垂直厂商（如石榴智能）</td><td class="num">¥0.015/次 → ¥0.01</td></tr>
+            <tr style="background:var(--red-bg)"><td><b>医疗票据（特殊高价）</b></td><td class="num" style="color:var(--red);font-weight:700">¥0.35–0.8/次</td></tr>
+          </tbody>
+        </table>
+        <div class="warn">
+          <b>医疗票据是通用 OCR 的 10–80 倍。</b>溢价来自"字段完整率"（漏掉"医保类型""医院等级"会导致二次人工录入），<b>不是来自识别精度</b> —— 再次验证本文核心判断：<b>溢价来自交付完整性，不是识字能力。</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:26px"><span class="sec-num" style="background:var(--ink)">收敛</span><h2 style="font-size:16px">五层漏斗：市场状况总判断</h2></div>
+    <table style="margin-top:12px">
+      <tbody>
+        <tr><td style="width:210px"><b>① 市场有多大</b></td><td>宽口径 OCR 全球 2025 <b>$12.5–17.5B</b>、2026 <b>$14–20B</b>，CAGR <b>12.9–16.9%</b>；窄口径 IDP 2026 <b>$1.45B</b>，CAGR 仅 <b>4.9%</b>。中国智能文字识别 2027E <b>¥168.9 亿</b>。</td></tr>
+        <tr><td><b>② 钱在哪一层</b></td><td><b>纯 OCR（L1–L2）不赚钱</b>；钱在 L4 IDP（毛利 35–45%）与 L5 场景批量项目。灼识数据早有预判：基础技术服务 CAGR 仅总增速的 60%。</td></tr>
+        <tr><td><b>③ 为什么</b></td><td>三重挤压同时发生：开源精度反超商业云 + VLM 单次调用替代整条管道 + 大客户自建（48% 的 Fortune 500），叠加价格战 → 能力层毛利结构性趋零。</td></tr>
+        <tr><td><b>④ 还有什么机会</b></td><td>只剩三条，且都不是"算法"：<b>数据主权与私有化</b>（欧盟 71%）、<b>存量数字化项目制预算</b>（政务档案 / 银行单据）、<b>交付完整性溢价</b>（票据 10–80 倍）。</td></tr>
+        <tr style="background:var(--violet-bg)"><td><b>⑤ 给 PM 的启示</b></td><td><b>不要做"更好的 OCR"，要做"OCR 之后的交付与责任"。</b>批量 OCR 唯一护城河是资质 + 现场交付 + 兜底责任。若留在能力层，做<b>路由层</b>而非引擎层：便宜引擎跑简单多数 + 强引擎兜难例 + confidence gate 路由；<b>接口才是产品，模型是可替换件。</b></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    数据来源：Grand View Research · Coherent MI · 灼识咨询（CIC）· Precedence Research · OmniDocBench / olmOCR-Bench / ParseBench / Dr.DocBench · 各厂商官方定价页 · GitHub 开源仓库 · 中国政府采购平台<br>
+    市场规模数字跨来源差异最大达 3.8 倍，引用时必须同时给出层级与来源。凡标注"估算 / 二手引用"的数字需保留标注。基准日 2026-09-29。
+  </footer>
+
+</div>
+</body>
+</html>
