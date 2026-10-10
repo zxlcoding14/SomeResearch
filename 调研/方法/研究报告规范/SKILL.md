@@ -36,7 +36,7 @@ agent_created: true
 | 定价与会员政策 | WebFetch 官网定价页 + 官方 Guide/QA | 如 getquicker.net/Guides、listary.net/pro、raycast.com/pricing |
 | 竞品与行业信号 | WebSearch | 中文关键词 + 年份；注意搜「官方是否在某方向发力」这类缺失信号 |
 | 外部评测 | WebSearch | 少数派、什么值得买、小众软件周榜、下载站转载 |
-| **多仓库批量指标**（开源调研必用） | WebFetch GitHub Search API | `https://api.github.com/search/repositories?q=user:A+user:B+user:C&per_page=100&sort=stars` —— `user:` 可多值 OR，一次拿几十个仓库的 stars/forks/license/pushed_at，比逐个 `/repos/*` 快一个数量级 |
+| **多仓库批量指标**（开源调研必用） | WebFetch GitHub Search API | `https://api.github.com/search/repositories?q=user:A+user:B+user:C&per_page=100&sort=stars` —— `user:` 可多值 OR，一次拿几十个仓库的 stars/forks/license/pushed_at，比逐个 `/repos/*` 快一个数量级。**`repo:` 同样可多值 OR**（2026-10-08 实测：`q=repo:a/b+repo:c/d+...` 一次取回 7 个仓库，仅 1 次请求）。⚠️ **本地 Python urllib / curl 打 api.github.com 极易 403**（匿名配额 60/h、全 IP 共享，实测已被打满）→ **必须走 WebFetch 独立出口**，不要用本地 HTTP 客户端 |
 | **npm 下载量（多包一次）** | WebFetch npm point API | `https://api.npmjs.org/downloads/point/last-month/p1,p2,p3` 支持逗号批量（上限百来个），**但不支持 scoped 包**（含 `@x/y` 会让整批报错，需剔除或单独查） |
 | **包体积与依赖数** | WebFetch Bundlephobia | `https://bundlephobia.com/api/size?package={pkg}` → size / gzip / dependencyCount；判断"轻量"定位是否成立的关键证据 |
 | Python 包下载量 | ⚠️ 受限 | pypistats.org 持续 429 限流；api.pepy.tech 需 API Key。暂无稳定免费通道，缺数据就在报告里标注缺口 |
@@ -89,8 +89,22 @@ agent_created: true
 - **Bash 可用性会变（实测会反复）**：曾出现 Git Bash shim 缺失 coreutils（`head`/`tail`/`dirname`/`ls`/`cat` command not found、`curl` exit 35）的情况；2026-09-29 复测 `ls`/`head`/`dirname` 均已正常。**先探测再决定**：若 `ls` 可用就走 Bash，不可用则退回 Glob/Read/Grep + Python `pathlib`/`shutil`（这条退路永远有效，优先保证不阻塞）。
   - **根因已定位（2026-10-08，与 `product-analysis-framework` 同步）**：不是 coreutils 真的缺失，而是 WorkBuddy 的 shell 初始化 shim 把 `PATH` 清空了 —— 报错原文是 `shell-runtime-bash-env.sh: line 3: dirname: command not found` + `cd: null directory`，紧接着才是 `bash.exe: line 1: ls: command not found`（退出码 127）。
   - **一行修复（首选，比退回 Python 快）**：命令前加 `export PATH="/usr/bin:/bin:$PATH";` —— 实测加完后 `ls -la` / `find` / `wc` / `which` 全部正常，且能处理中文路径。
+  - **2026-10-08 复测补充**：`cat` 亦不可用（`command not found`）→ **写脚本时不要用 Bash heredoc**（`cat > x.py << 'EOF'` 会直接失败，且 `/tmp` 在本机映射为不存在的 `C:\tmp`）。**正解：一律用 Write 工具把脚本落盘到工作区，再用 managed Python 执行该文件。**
   - 网络取数：WebFetch，**或 managed Python `urllib.request`**（实测可直连 appinn/GitHub，是抓 Discourse 全楼层的最优解）
   - 文件探查/复制：Glob/Read/Grep + Python `pathlib`/`shutil`
+- **⚠️ WebFetch 读不了 PDF（2026-10-08 实测）**：交易所 / 巨潮 / 港交所的公告与招股书全是 PDF，WebFetch 会返回 `non-text resource` 直接丢弃字节。**正解（也是挖一手原始披露数据的最优路径）**：`urllib` 下载 PDF → PyMuPDF 抽全文落成 `.txt` → 再用 Python 按关键词扫页定位。**实测 291 页 PDF 抽全文只需几秒，比用 Read 逐页读省几十倍上下文**：
+  ```python
+  import urllib.request, fitz   # managed python 已装 pymupdf（import fitz 会 warning，可忽略）
+  url = 'https://static.sse.com.cn/.../xxx.pdf'
+  open('q.pdf','wb').write(urllib.request.urlopen(
+      urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0'}), timeout=120).read())
+  doc = fitz.open('q.pdf')
+  open('q.txt','w',encoding='utf-8').write(
+      '\n<<<PAGE>>>\n'.join(p.get_text() for p in doc))
+  # 然后按「关键词命中密度」给页打分，只看 Top 3–5 页，不要全读
+  ```
+  **定位技巧**：先按多个关键词（如 `应用市场` + `收费渠道` + `订单金额`）统计每页命中次数并排序，只打印 Top 3–5 页——**招股书里真正的数据表往往只占其中 2–3 页**。
+  **顺手做**：抽出来的全文值得存进 `调研\{品类}\原始账目证据\`，命名 `{公司}-{文件名}(日期)-全文提取.txt`，后续复核不必重新下载。
 - Python 路径：`C:/Users/zhangxinliang1/.workbuddy/binaries/python/versions/3.13.12/python.exe`
 - ⚠️ 用 `python -c` 写中文长文本易触发 `unicodeescape` 报错 → 追加记忆/长文本一律改用 Edit 工具
 - ⚠️ 部分软件的配置文件为 **UTF-16LE + BOM**（如 PopDrop 的 `config.example.ini`），Read 工具会判定为二进制并拒绝。先转码再读：
@@ -972,11 +986,11 @@ pmarketresearch **$12.5 亿（2025，CAGR 8.85%）** ｜ Archive Market Research
 3. **单品依赖是本赛道最隐蔽的雷。** 合合财报上写着"B+C 双轮"，还原后是单品占 80.1%、C 端占 93.9%。**分析任何工具类上市公司，第一步先做单品收入还原表。**
 4. **AI 能力若 100% 打包进现有产品，就没有第二曲线。** 合合的大模型能力全部用于功能升级，**没有任何独立 AI 收入**；教育是唯一跑通"把免费场景变付费"的方向（蜜蜂 AI 用一体机进校园采购，B 端变现）。
 
-## 「披露颗粒度收窄识别法」+「口径歧义破解法」（2026-09 新增，实证：扫描全能王功能/入口级数据核查）
+## 「披露颗粒度收窄识别法」+「口径歧义破解法」+「端级拆分法」（2026-09 新增，2026-10-08 扩充端级；实证：扫描全能王功能/入口/端级数据核查）
 
-**触发场景**：用户问"某个入口/某个功能的收入占比或使用量是多少""有没有按功能拆的收入数据"。这类问题在上市公司身上 99% 的答案是"公开渠道为零"，**但直接答"没有"是浪费了一次高价值分析机会**——正确做法是给「可得性光谱 + 收窄轨迹 + 逼近代偿数据 + 代理指标」。
+**触发场景**：用户问"某个入口/某个功能的收入占比或使用量是多少""有没有按功能拆的收入数据""**能不能按 iOS / Android / Windows / macOS 拆收入**"。这类问题在上市公司身上 99% 的答案是"公开渠道为零"或"口径不对应"，**但直接答"没有"是浪费了一次高价值分析机会**——正确做法是给「可得性光谱 + 收窄轨迹 + 逼近代偿数据 + 代理指标」，**端级问题还要多做一步「把操作系统翻译成账上真实存在的维度」（见第 7 条）**。
 
-### 1. 先做「数据可得性光谱」（七档，L0–L5）
+### 1. 先做「数据可得性光谱」（九档，L0–L5）
 
 把颗粒度从上往下排，标出每档是否有数据、来源、覆盖期：
 
@@ -987,9 +1001,12 @@ pmarketresearch **$12.5 亿（2025，CAGR 8.85%）** ｜ Archive Market Research
 | L2 | 单品 | ⚠️ 仅港股招股书，且常只覆盖 1 款主力产品 |
 | L3 | 收入类型（会员/单次付费/广告/技术授权） | ⚠️ 只有招股书时代有，上市后被合并 |
 | L4 | 付费结构（月/季/半年/年费订单占比 + 续购率 + ARPPU） | ✅ **港股招股书"主要经营指标"表** |
+| **L4.5** | **端级 / 渠道级**（App Store / Google Play / 其他应用市场；单品 × 支付渠道） | ⚠️ **有，但只在 IPO 阶段**——科创板/创业板**招股说明书上会稿 + 审核问询函回复**里有；**上市后停披** |
 | L5 | 功能级 / 入口级 | ❌ **零** |
+| L5 | **操作系统级**（Windows / macOS / Linux 单独拆） | ❌ **零，且结构性不可能**（见第 7 条） |
 
 **规律（可直接复用）**：**L2–L4 只在港股招股书里存在**。A 股年报只到 L1。所以分析任何"已在港股递表 / A+H"的公司，**第一步先去翻港股招股书的"主要经营指标"表**，那里有 A 股年报永远不会给的东西（订单结构比率、分档续购率、ARPPU、B 端净收入留存率）。
+**⚠️ 补充规律（2026-10-08 新增）**：**L4.5 端级/渠道级数据只在「IPO 问询函回复」里存在，且公司一上市就停披。** 所以**要拿这类数据，必须回到 IPO 当年的问询函与上会稿**——那是披露深度的历史峰值，此后再也不会出现。**这一条几乎通用于所有已上市公司。**
 
 ### 2. 「披露颗粒度收窄识别法」（本次最有效的发现手法）
 
@@ -1037,6 +1054,37 @@ pmarketresearch **$12.5 亿（2025，CAGR 8.85%）** ｜ Archive Market Research
 ① 结论先行（明确"零"，别绕）→ ② 七档可得性光谱 → ③ 收窄轨迹 + 公司原话 → ④ **能还原到多细的替代数据**（三层还原表 + 订单结构比率 + 付费墙倍数表）→ ⑤ 数据缺口清单（逐条列"公开渠道无解"，用于防止后续被不可信来源误导）。
 
 **关键提醒**：这类问题的价值不在"回答有没有"，而在**把"没有"变成"这是我能给的最接近的东西"**。
+
+### 7. 「端级（操作系统）拆分法」+「第三方监测覆盖缺口」（2026-10-08 新增，实证：扫描全能王）
+
+**触发场景**：用户问"能不能按 iOS / Android / Windows / macOS / Linux 拆收入"。
+
+**第一步（最关键）：把"操作系统"翻译成公司账上真实存在的维度。**
+公司不会按"用户在哪个 OS 上操作"记账，只会按"**钱从哪个渠道进来**"记账（谁开票、平台是否抽佣）。所以要先把用户的目标映射到可得口径：
+
+| 目标平台 | 映射到的可得口径 | 结论 |
+|---|---|---|
+| iOS | 「Apple App Store」收入 / 「App Store」支付渠道 | ✅ 可独立成桶 |
+| Android（海外） | 「Google Play」 | ✅ 可独立成桶 |
+| Android（中国） | 「其他应用市场」桶（含国内安卓商店 + 支付宝/微信/银联直付） | ⚠️ 只能合并 |
+| **macOS** | **被并入 Apple 桶**（Mac App Store 付款计入 Apple） | ❌ 拆不出 |
+| **Windows** | **被并入「其他应用市场」桶**（官网直下 + 微软商店走支付宝/微信/银联） | ❌ 拆不出 |
+| **Linux** | 无客户端 = 无科目 | ⛔ 问题不成立 |
+
+**三条通用判据**：
+1. **"跨端通用的会员制"= 端级收入不可拆。** 只要销售单元是账号级会员（手机买、PC 用），一次付款只有一个收款方，归因到终端在会计上不可能。
+2. **看"是否合并入口"就能判断公司自己怎么看。** 扫描全能王官网把 Windows/macOS 合成**一个**"桌面版·点击下载"入口 → 与"账上不区分"互为印证。**官网的入口粒度 ≈ 公司的核算粒度。**
+3. **别把 B 端主体误算成 C 端 PC 端收入。** 企业版（PC/Web 为主）在财报里属 B 端科目，若误计入"PC 端占比"会虚高一档以上。
+
+**「第三方监测覆盖缺口」——反推总收入时必须先算这一步**
+
+Sensor Tower / data.ai 类工具**只覆盖 Apple App Store + Google Play**。**先算出这两个商店占公司该产品收入的比例，再决定能不能用它反推总量。**
+
+合合实证：2022 年这两个桶只占三款 C 端 App 应用市场收入的 **58.67%**（Apple 45.63% + Google 13.04%），**剩下 41.34% 的「其他应用市场」（国内安卓商店 + 微信/支付宝/银联直付 + PC 官网渠道）完全不在监测范围内**。
+→ **用三方数据反推公司总收入会系统性低估约 40%。**
+→ **这条用来解释"为什么三方数据和财报总是对不上"——多数情况下不是数据矛盾，是覆盖范围不同。** 凡是引用 Sensor Tower 的收入数字，必须同时说明它覆盖了哪几个商店。
+
+**渠道级 ARPPU 是端级拆分里最值得挖的一个数**：同一产品在不同渠道的 ARPPU 差异，直接反映"定价体系差异"而非"用户质量差异"（合合实证：App Store ¥226.99 vs 境内支付 ¥99.12 = **2.29×**；根因是 App Store 标准定价 $49.99/年 ≡ ¥328/年，公司为境内主动下调到 ¥258/年）。**这个倍数决定了一家公司"要不要为某个平台单独做产品"。**
 
 ## 「能力市场」五层切分法 + 「商品化塌方」检测（2026-09 新增，实证：纯 OCR / 批量 OCR）
 
