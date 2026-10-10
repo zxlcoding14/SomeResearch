@@ -373,3 +373,20 @@ agent_created: true
   | 4 | `WebSearch` 用**站点主域 + 产品名**搜，常能命中搜索引擎的已渲染快照与第三方聚合站 | 直接下载计数、版本号、媒体评测（作 ⑤ 二手交叉） |
   - **失败过的路，别再试**：`r.jina.ai/<url>` 渲染代理本机被网关拦（`Tunnel connection failed: 502 Bad Gateway`）；`agent-browser install` 下 Chromium 到 59/198 MB 即超时（npm 包能装上、浏览器二进制下不来）。**换句话说：本机目前没有可靠的「真渲染」通道，反解产物是主路径，不是退路。**
   - **一大坑**：很多包的 `main.js` 里塞了 **zxcvbn 密码字典**（几万个英文单词 + 常见密码），grep 时会产生海量假命中。**关键词要带上下文窗口打印，不要只看命中数**，否则会把字典噪声误当业务数据。
+- **⚠️ 更优先的一条（2026-10-10 新增，实测踩坑）**：**`WebFetch` 对「大文件」会静默截断，不能用来数条目或判完整性。**
+  实测：抓 `couleurapp.com/sitemap.xml` 时 WebFetch 只回 **151** 条并自报「中途截断」，而用 Python `urllib` 直取得 **428** 条且 `</urlset>` 完整闭合——**差了近 3 倍，且不主动比对根本发现不了**。
+  **口径纪律**：凡是要**数条目 / 判完整性 / 找全路由 / 拿全部 URL** 的核验，**一律用 managed Python `urllib.request` 直取原始 HTML/XML**；`WebFetch` 只用于「读单页内容 / 让模型摘要一段文本」。
+  **可复用的最小实现**（本机实测可用，不依赖 PATH、不经渲染代理）：
+  ```
+  import urllib.request, gzip, ssl, re
+  ctx = ssl.create_default_context(); ctx.check_hostname=False; ctx.verify_mode=ssl.CERT_NONE
+  req = urllib.request.Request(url, headers={
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36",
+      "Accept-Encoding": "gzip"})
+  with urllib.request.urlopen(req, timeout=45, context=ctx) as r:
+      raw = r.read()
+      if r.headers.get("Content-Encoding")=="gzip": raw = gzip.decompress(raw)
+  ```
+  三个必加项：① `Accept-Encoding: gzip` + 手动 `gzip.decompress`（否则可能拿到乱码）；② **`ssl` 关闭校验的 context**（本机偶发证书失败）；③ 浏览器 UA（部分站按 UA 返回不同内容）。
+  **这一条还能一次性拿到**：sitemap 全量路由、`robots.txt` 的 `Disallow` 列表（常暴露**未在导航里出现的隐藏路由**，如 `/subscriptions` `/updates` `/api/`，本次据此发现站点的后台与管理端形态）、内联的分析/支付/广告 SDK 指纹、`hreflang` 与 JSON-LD —— **全部是「实测·页面结构」级证据，比二手描述硬得多。**
+  **⚠️ 但注意区分两类核验**：**「结构类事实」（有多少路由、有几个条目、挂了哪些脚本）必须用直取**；**「内容类事实」（这段文案在说什么）用 WebFetch 更省**。混用会同时浪费轮次和误导结论。
