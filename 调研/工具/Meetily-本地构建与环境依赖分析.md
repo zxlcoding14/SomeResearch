@@ -5,7 +5,7 @@
 > **采集日**：2026-10-15
 > **方法**：GitHub 原始文件（README / docs/BUILDING.md / docs/building_in_linux.md / docs/architecture.md / docs/GPU_ACCELERATION.md / frontend/package.json / frontend/src-tauri/Cargo.toml）+ Release 页 + 官网 FAQ + 第三方实测文章交叉核对
 > **本文回答三个问题**：① 怎么在本地构建；② 有哪些限制；③ 是否有环境依赖
-> **姊妹文档**：商业化现状与付费产品核查见《Meetily-商业化现状与付费产品核查.md》
+> **姊妹文档**：商业化现状见《Meetily-商业化现状与付费产品核查.md》；自动下载资产的许可与商用核查见《Meetily-自动下载资产的许可与商用核查.md》
 
 ---
 
